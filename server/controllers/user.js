@@ -76,7 +76,8 @@ function getPublicUserData(userData) {
     };
 }
 
-function getMe(req, res) {
+async function getMe(req, res) {
+    await User.populate(req.user, {path: "projects"});
     res.status(200).send(req.user);
 }
 

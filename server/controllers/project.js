@@ -1,5 +1,7 @@
 const Project = require("../models/project");
 const User = require("../models/user");
+const Task = require("../models/task");
+const getTaskChildren = require("../helpers/getTaskChildren")
 
 async function createProject(req, res) {
     const project = new Project({
@@ -36,12 +38,13 @@ async function getProjectById(req, res) {
         }
 
         const project = await Project.findById(req.params.id);
-        if (!project){
-            throw "Project not found"
+        if (!project) {
+            throw "Project not found";
         }
+        await Project.populate(project, {path: "members tasks", select: "-password"});
         res.status(200).send(project);
     } catch (err) {
-        res.status(400).send({err});
+        res.status(400).send({ err });
     }
 }
 
@@ -58,7 +61,7 @@ async function updateProjectById(req, res) {
         await Project.findByIdAndUpdate(req.params.id, req.body);
         res.status(200).send({ message: "Successfully updated" });
     } catch (err) {
-        res.status(400).send({err});
+        res.status(400).send({ err });
     }
 }
 
@@ -67,11 +70,14 @@ async function removeProjectById(req, res) {
         const projectId = req.params.id;
         const project = await Project.findByIdAndDelete(projectId);
         const projectUsersIds = [...project.members, project.owner];
-
+        //remove project from users
         User.updateMany(
             { _id: { $in: projectUsersIds } },
             { $pull: { projects: projectId } }
         ).exec();
+        //remove tasks
+        const taskChildren = await getTaskChildren(project.tasks);
+        await Task.deleteMany({_id: {$in: taskChildren}});
 
         res.status(200).send({ message: "Project is successfully removed" });
     } catch (err) {
@@ -94,6 +100,11 @@ async function addMemberToProject(req, res) {
             throw "User is a member";
         }
 
+        const isMeOwner = req.project.owner.toString() === memberId.toString();
+        if(isMeOwner){
+            throw "Cant add yourself";
+        }
+
         await Project.findByIdAndUpdate(projectId, {
             $addToSet: { members: memberId }
         });
@@ -112,8 +123,8 @@ async function removeMemberFromProject(req, res) {
     try {
         const memberId = req.body.id;
         const projectId = req.params.id;
-        const isProjectAccessible = req.project.members.includes(memberId);
-        if (!isProjectAccessible) {
+        const isMemberExist = req.project.members.includes(memberId);
+        if (!isMemberExist) {
             throw "Member doesnt exist in this project";
         }
 
@@ -167,6 +178,30 @@ async function removeMyselfFromProject(req, res) {
     }
 }
 
+async function addTaskToProject(req, res) {
+    try {
+        const projectId = req.params.id;
+        const isProjectAccessible = req.user.projects.includes(projectId);
+
+        if (!isProjectAccessible) {
+            throw "Project not found";
+        }
+
+        const task = new Task({
+            ...req.body,
+            project: projectId
+        });
+        await task.save();
+        await Project.findByIdAndUpdate(projectId, {
+            $addToSet: { tasks: task._id }
+        });
+        res.status(200).send(task);
+
+    } catch (err) {
+        res.status(400).send({ err });
+    }
+}
+
 module.exports = {
     createProject,
     getProjects,
@@ -175,5 +210,6 @@ module.exports = {
     removeProjectById,
     addMemberToProject,
     removeMemberFromProject,
-    removeMyselfFromProject
+    removeMyselfFromProject,
+    addTaskToProject
 };

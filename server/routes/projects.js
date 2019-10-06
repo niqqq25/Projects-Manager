@@ -32,5 +32,6 @@ router.delete(
     authUser,
     projectController.removeMyselfFromProject
 );
+router.post("/projects/:id/tasks", authUser, projectController.addTaskToProject);
 
 module.exports = router;
