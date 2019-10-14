@@ -14,12 +14,15 @@ const Task = require("../models/task");
 //load fake data
 const data = require("./data/testData");
 const seedData = require("../helpers/seedData");
+
 async function seedUsers() {
     await seedData(db.db, "users", data.users);
 }
+
 async function seedProjects() {
     await seedData(db.db, "projects", data.projects);
 }
+
 async function seedTasks() {
     await seedData(db.db, "tasks", data.tasks);
 }
@@ -46,12 +49,14 @@ afterEach(async () => {
 });
 
 describe("project", () => {
+
     describe("create project", () => {
         let token;
         beforeEach(async () => {
             await seedUsers();
             token = await logIn(data.users[0].username, data.users[0].password);
         });
+
         it("should create project when all required info is presented and token is valid", async () => {
             await request
                 .post("/projects")
@@ -60,6 +65,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project).toBeTruthy();
         });
+
         it("should add user to owner and members when project is created", async () => {
             await request
                 .post("/projects")
@@ -71,6 +77,7 @@ describe("project", () => {
             const isMember = project.members.includes(data.users[0]._id);
             expect(isOwner && isMember).toBe(true);
         });
+
         it("should add project to user projects when project is created", async () => {
             await request
                 .post("/projects")
@@ -79,6 +86,7 @@ describe("project", () => {
             const user = await User.findById(data.users[0]._id);
             expect(user.projects.includes(data.projects[0]._id)).toBe(true);
         });
+
         it("should not create project when all required info is not presented", async () => {
             const projectData = Object.assign({}, data.projects[0]);
             delete projectData.title;
@@ -89,6 +97,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project).toBeFalsy();
         });
+
         it("should not add project to user projects when project is not created", async () => {
             const projectData = Object.assign({}, data.projects[0]);
             delete projectData.title;
@@ -100,6 +109,7 @@ describe("project", () => {
             expect(user.projects.includes(projectData._id)).toBe(false);
         });
     });
+
     describe("get projects", () => {
         let token;
         beforeEach(async () => {
@@ -107,6 +117,7 @@ describe("project", () => {
             await seedProjects();
             token = await logIn(data.users[1].username, data.users[1].password);
         });
+
         it("should get all user projects when valid token is presented", async () => {
             const res = await request
                 .get("/projects")
@@ -117,6 +128,7 @@ describe("project", () => {
                 true
             );
         });
+
         it("should not get any projects when invalid token is presented", async () => {
             const res = await request
                 .get("/projects")
@@ -124,11 +136,13 @@ describe("project", () => {
             expect(res.status).toBe(400);
         });
     });
+
     describe("get project by id", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
         });
+
         it("should get project when user has access to the project", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -139,6 +153,7 @@ describe("project", () => {
                 .set("Authorization", token);
             expect(res.body.title).toBe(data.projects[0].title);
         });
+
         it("should not get project when user doesnt have access to the project", async () => {
             const token = await logIn(
                 data.users[0].username,
@@ -149,6 +164,7 @@ describe("project", () => {
                 .set("Authorization", token);
             expect(res.status).toBe(400);
         });
+
         it("should not return any project when project does not exist", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -160,11 +176,13 @@ describe("project", () => {
             expect(res.status).toBe(400);
         });
     });
+
     describe("update project by id", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
         });
+
         it("should update project when user is owner and updates are valid", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -178,6 +196,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.title).toBe(newTitle);
         });
+
         it("should not update project when user is not owner and updates are valid", async () => {
             const token = await logIn(
                 data.users[0].username,
@@ -191,6 +210,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.title).not.toBe(newTitle);
         });
+
         it("should not update project when user is owner and updates are invalid", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -204,6 +224,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.title).not.toBe(newTitle);
         });
+
         describe("change owner", () => {
             it("should change owner user is an owner", async () => {
                 const token = await logIn(
@@ -217,6 +238,7 @@ describe("project", () => {
                 const project = await Project.findById(data.projects[0]._id);
                 expect(project.owner).toStrictEqual(data.users[2]._id);
             });
+
             it("should not change owner when user is not an owner", async () => {
                 const token = await logIn(
                     data.users[2].username,
@@ -229,6 +251,7 @@ describe("project", () => {
                 const project = await Project.findById(data.projects[0]._id);
                 expect(project.owner).not.toStrictEqual(data.users[2]._id);
             });
+
             it("should not change owner when member does not exist", async () => {
                 const token = await logIn(
                     data.users[1].username,
@@ -243,12 +266,14 @@ describe("project", () => {
             });
         });
     });
+
     describe("delete project by id", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
             await seedTasks();
         });
+
         it("should delete project when user is owner", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -260,6 +285,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project).toBeFalsy();
         });
+
         it("should not delete project when user is not owner", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -271,6 +297,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project).toBeTruthy();
         });
+
         it("should remove tasks when project is deleted", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -282,6 +309,7 @@ describe("project", () => {
             const tasks = await Task.find({ project: data.projects[0]._id });
             expect(tasks.length).toBe(0);
         });
+
         it("should remove project from members projects when project is deleted", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -294,11 +322,13 @@ describe("project", () => {
             expect(user.projects.includes(data.projects[0]._id)).toBe(false);
         });
     });
+
     describe("add member to project", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
         });
+
         it("should add member to project when user is an owner", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -311,6 +341,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[0]._id)).toBe(true);
         });
+
         it("should add project to user projects when user is added", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -323,6 +354,7 @@ describe("project", () => {
             const user = await User.findById(data.users[0]._id);
             expect(user.projects.includes(data.projects[0]._id)).toBe(true);
         });
+
         it("should not add member to project when user is not an owner", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -335,6 +367,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[0]._id)).toBe(false);
         });
+
         it("should not add member to project when user is a member", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -347,11 +380,13 @@ describe("project", () => {
             expect(res.status).toBe(400);
         });
     });
+
     describe("remove member from project", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
         });
+
         it("should remove user from members when owner does it", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -364,6 +399,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[2]._id)).toBe(false);
         });
+
         it("should remove user from members when same user does it", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -376,6 +412,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[2]._id)).toBe(false);
         });
+
         it("should not remove owner from members", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -388,6 +425,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[1]._id)).toBe(true);
         });
+
         it("should not remove user from members when other member does it", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -400,6 +438,7 @@ describe("project", () => {
             const project = await Project.findById(data.projects[0]._id);
             expect(project.members.includes(data.users[1]._id)).toBe(true);
         });
+
         it("should return error when user doesnt exist", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -411,6 +450,7 @@ describe("project", () => {
                 .set("Authorization", token);
             expect(res.status).toBe(400);
         });
+        
         it("should return error when project doesnt exist", async () => {
             const token = await logIn(
                 data.users[1].username,

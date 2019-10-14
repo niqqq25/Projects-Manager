@@ -15,12 +15,15 @@ const Task = require("../models/task");
 //load fake data
 const data = require("./data/testData");
 const seedData = require("../helpers/seedData");
+
 async function seedUsers() {
     await seedData(db.db, "users", data.users);
 }
+
 async function seedProjects() {
     await seedData(db.db, "projects", data.projects);
 }
+
 async function seedTasks() {
     await seedData(db.db, "tasks", data.tasks);
 }
@@ -47,6 +50,7 @@ afterEach(async () => {
 });
 
 describe("user", () => {
+
     describe("signup", () => {
         it("should post user when required info is provided", async () => {
             const userData = data.users[0];
@@ -54,6 +58,7 @@ describe("user", () => {
             const user = await User.findById(userData._id);
             expect(user).toBeTruthy();
         });
+
         it("should not post user when required info is not provided", async () => {
             const userData = {
                 firstname: "Andrius",
@@ -65,10 +70,12 @@ describe("user", () => {
             expect(user.length).toBe(0);
         });
     });
+
     describe("signin", () => {
         beforeEach(async () => {
             await seedUsers();
         });
+
         it("should return token when user exists", async () => {
             const res = await request.post("/users/signin").send({
                 username: data.users[0].username,
@@ -76,6 +83,7 @@ describe("user", () => {
             });
             expect(res.body.hasOwnProperty("token")).toBe(true);
         });
+
         it("should not return token when user doesnt exist", async () => {
             const res = await request.post("/users/signin").send({
                 username: "wrong",
@@ -83,6 +91,7 @@ describe("user", () => {
             });
             expect(res.body.hasOwnProperty("token")).toBe(false);
         });
+
         it("should not return token when password is wrong", async () => {
             const res = await request.post("/users/signin").send({
                 username: data.users[0].username,
@@ -91,6 +100,7 @@ describe("user", () => {
             expect(res.body.hasOwnProperty("token")).toBe(false);
         });
     });
+
     describe("get my info", () => {
         let token;
         beforeEach(async () => {
@@ -104,6 +114,7 @@ describe("user", () => {
                 .set("Authorization", token);
             expect(res.body.username).toBe(data.users[0].username);
         });
+
         it("should not return my info when token is invalid", async () => {
             const res = await request
                 .get("/users/me")
@@ -111,12 +122,14 @@ describe("user", () => {
             expect(res.body.hasOwnProperty("_id")).toBe(false);
         });
     });
+
     describe("delete me", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
             await seedTasks();
         });
+
         it("should delete me when valid token is presented", async () => {
             const token = await logIn(
                 data.users[0].username,
@@ -126,6 +139,7 @@ describe("user", () => {
             const user = await User.findById(data.users[0]._id);
             expect(user).toBeFalsy();
         });
+
         it("should not delete me when I own a project", async () => {
             const token = await logIn(
                 data.users[1].username,
@@ -135,6 +149,7 @@ describe("user", () => {
             const user = await User.findById(data.users[1]._id);
             expect(user).toBeTruthy();
         });
+
         it("should remove me from projects when I am deleted", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -144,6 +159,7 @@ describe("user", () => {
             const projects = await Project.find({ members: data.users[2]._id });
             expect(projects.length).toBe(0);
         });
+
         it("should remove me from assigned tasks when I am deleted", async () => {
             const token = await logIn(
                 data.users[2].username,
@@ -154,6 +170,7 @@ describe("user", () => {
             expect(tasks.length).toBe(0);
         });
     });
+
     describe("change my password", () => {
         let token;
         const newPassword = "admin1";
@@ -161,6 +178,7 @@ describe("user", () => {
             await seedUsers();
             token = await logIn(data.users[0].username, data.users[0].password);
         });
+
         it("should change my password when valid token and new password is presented", async () => {
             await request
                 .patch("/users/me/password")
@@ -175,6 +193,7 @@ describe("user", () => {
             );
             expect(isNewPassword).toBe(true);
         });
+
         it("shoud not change my password when valid token is presented and password is not presented", async () => {
             await request
                 .patch("/users/me/password")
@@ -188,6 +207,7 @@ describe("user", () => {
             );
             expect(isNewPassword).toBe(false);
         });
+
         it("shoud not change my password when invalid token is presented and password is presented", async () => {
             await request
                 .patch("/users/me/password")
@@ -203,6 +223,7 @@ describe("user", () => {
             expect(isNewPassword).toBe(false);
         });
     });
+
     describe("update me", () => {
         let token;
         const newFirstName = "Tobi";
@@ -211,6 +232,7 @@ describe("user", () => {
             await seedUsers();
             token = await logIn(data.users[0].username, data.users[0].password);
         });
+
         it("should update me when all changes are valid and token is presented", async () => {
             await request
                 .patch("/users/me")
@@ -223,6 +245,7 @@ describe("user", () => {
             const isNewEmail = user.email === newEmail;
             expect(isNewFirsname && isNewEmail).toBe(true);
         });
+
         it("should not update me when all changes are valid and token is not presented", async () => {
             await request
                 .patch("/users/me")
@@ -234,6 +257,7 @@ describe("user", () => {
             const isNewEmail = user.email === newEmail;
             expect(isNewFirsname && isNewEmail).toBe(false);
         });
+
         it("should not update me when changes are not valid and token is presented", async () => {
             await request
                 .patch("/users/me")
@@ -251,18 +275,21 @@ describe("user", () => {
             expect(isNewFirsname && isNewEmail).toBe(false);
         });
     });
+
     describe("get user by id", () => {
         let token;
         beforeEach(async () => {
             await seedUsers();
             token = await logIn(data.users[1].username, data.users[1].password);
         });
+
         it("should return user when user id is valid", async () => {
             const res = await request
                 .get(`/users/${data.users[0]._id}`)
                 .set("Authorization", token);
             expect(res.body.username).toBe(data.users[0].username);
         });
+
         it("should return error when user doesnt exist", async () => {
             const res = await request
                 .get("/users/1111")
@@ -270,16 +297,19 @@ describe("user", () => {
             expect(res.status).toBe(400);
         });
     });
+
     describe("get all users", () => {
         let token;
         beforeEach(async () => {
             await seedUsers();
             token = await logIn(data.users[1].username, data.users[1].password);
         });
+
         it("should return all users when there is no quary params", async () => {
             const res = await request.get("/users").set("Authorization", token);
             expect(res.body.length).toBe(data.users.length);
         });
+
         it("should return selected users when regex is provided", async () => {
             const regex = data.users[0].username.slice(0, 3);
             const res = await request
@@ -290,6 +320,7 @@ describe("user", () => {
                 usernames.every(username => username.slice(0, 3) === regex)
             ).toBe(true);
         });
+
         it("should return users which arent members of project when project id is provided and isMembers set to false", async () => {
             const res = await request
                 .get(`/users?project=${data.projects[0]._id}&isMembers=false`)
@@ -303,6 +334,7 @@ describe("user", () => {
             );
             expect(isUserIncluded && !isMembersIncluded).toBe(true);
         });
+
         it("should return members of project when project id is provided", async () => {
             const res = await request
                 .get(`/users?project=${data.projects[0]._id}`)
@@ -316,6 +348,7 @@ describe("user", () => {
             );
             expect(!isUserIncluded && isMembersIncluded).toBe(true);
         });
+        
         it("should return error when user does not exist in provided project", async () => {
             const myToken = await logIn(
                 data.users[0].username,
