@@ -1,8 +1,8 @@
-const Task = require("../models/task");
-
 async function getTaskChildren(taskChilds) {
+    const Task = require("../models/task");
     let tasksToCheck = [...taskChilds];
     const taskChildren = [];
+
     while (tasksToCheck.length > 0) {
         const tasks = await Task.find({
             _id: { $in: [...tasksToCheck] }

@@ -1,21 +1,22 @@
 const Project = require("../models/project");
 const User = require("../models/user");
 const Task = require("../models/task");
-const getTaskChildren = require("../helpers/getTaskChildren")
 
 async function createProject(req, res) {
     const project = new Project({
         ...req.body,
-        owner: req.user._id
+        owner: req.user._id,
+        members: [req.user._id]
     });
     try {
+        const validationError = await project.validate();
+        if (validationError) {
+            throw new Error(validationError);
+        }
         await project.save();
-        const user = req.user;
-        user.projects.push(project);
-        await user.save();
-        res.status(200).send(project);
+        res.status(201).send(project);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).send({ message: err.message });
     }
 }
 
@@ -24,181 +25,156 @@ async function getProjects(req, res) {
         await User.populate(req.user, { path: "projects" });
         res.status(200).send(req.user.projects);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(500).send({ message: err.message });
     }
 }
 
 async function getProjectById(req, res) {
     try {
-        const isProjectAccessible = (req.user.projects || []).includes(
-            req.params.id
-        );
-        if (!isProjectAccessible) {
-            throw "Project is unavailable";
-        }
-
-        const project = await Project.findById(req.params.id);
-        if (!project) {
-            throw "Project not found";
-        }
-        await Project.populate(project, {path: "members tasks", select: "-password"});
+        const project = await Project.findById(req.params.project_id).populate({
+            path: "members tasks",
+            select: "-password"
+        });
         res.status(200).send(project);
     } catch (err) {
-        res.status(400).send({ err });
+        res.status(500).send({ message: err.message });
     }
 }
 
 async function updateProjectById(req, res) {
-    const updatableKeys = ["description"];
+    const updatableKeys = ["description", "title", "owner"];
     try {
-        const isUpdatable = Object.keys(req.body).every(key =>
+        const fieldsToUpdate = Object.keys(req.body);
+        const isUpdatable = fieldsToUpdate.every(key =>
             updatableKeys.includes(key)
         );
         if (!isUpdatable) {
-            throw "Invalid updates";
+            throw new Error("Invalid updates");
         }
 
-        await Project.findByIdAndUpdate(req.params.id, req.body);
+        if (fieldsToUpdate.includes("owner")) {
+            const memberId = req.body.owner;
+            const isMember = req.project.members.includes(memberId);
+            if (!isMember) {
+                throw new Error("User is not a member");
+            }
+
+            const isOwner =
+                req.project.owner.toString() === memberId.toString();
+            if (isOwner) {
+                throw new Error("You cant change owner to yourself as owner");
+            }
+        }
+
+        await Project.updateOne({ _id: req.params.project_id }, req.body);
         res.status(200).send({ message: "Successfully updated" });
     } catch (err) {
-        res.status(400).send({ err });
+        res.status(400).send({ message: err.message });
     }
 }
 
 async function removeProjectById(req, res) {
     try {
-        const projectId = req.params.id;
-        const project = await Project.findByIdAndDelete(projectId);
-        const projectUsersIds = [...project.members, project.owner];
-        //remove project from users
-        User.updateMany(
-            { _id: { $in: projectUsersIds } },
-            { $pull: { projects: projectId } }
-        ).exec();
-        //remove tasks
-        const taskChildren = await getTaskChildren(project.tasks);
-        await Task.deleteMany({_id: {$in: taskChildren}});
-
+        await Project.deleteOne({ _id: req.params.project_id });
         res.status(200).send({ message: "Project is successfully removed" });
     } catch (err) {
-        res.status(400).send(err);
+        res.status(500).send({ message: err.message });
     }
 }
 
 async function addMemberToProject(req, res) {
     try {
         const memberId = req.body.id;
-        const projectId = req.params.id;
+        const projectId = req.params.project_id;
 
-        const count = await User.countDocuments({ _id: memberId });
+        const count = await User.findById(memberId);
         if (!count) {
-            throw "User doesnt exist";
+            throw new Error("User doesnt exist");
         }
 
         const isMember = req.project.members.includes(memberId);
         if (isMember) {
-            throw "User is a member";
+            throw new Error("User is a member");
         }
 
-        const isMeOwner = req.project.owner.toString() === memberId.toString();
-        if(isMeOwner){
-            throw "Cant add yourself";
-        }
-
-        await Project.findByIdAndUpdate(projectId, {
-            $addToSet: { members: memberId }
-        });
-        await User.findByIdAndUpdate(memberId, {
-            $addToSet: { projects: projectId }
-        });
+        await Project.updateOne(
+            { _id: projectId },
+            {
+                $addToSet: { members: memberId }
+            }
+        );
+        await User.updateOne(
+            { _id: memberId },
+            {
+                $addToSet: { projects: projectId }
+            }
+        );
         return res.status(200).send({
             message: "Member is successfully added to the project"
         });
     } catch (err) {
-        res.status(400).send({ err });
+        res.status(400).send({ message: err.message });
     }
 }
 
 async function removeMemberFromProject(req, res) {
     try {
         const memberId = req.body.id;
-        const projectId = req.params.id;
-        const isMemberExist = req.project.members.includes(memberId);
-        if (!isMemberExist) {
-            throw "Member doesnt exist in this project";
+        const projectId = req.params.project_id;
+
+        const project = await Project.findById(projectId);
+        if (!project) {
+            throw new Error("Project not found");
         }
 
-        await Project.findByIdAndUpdate(projectId, {
-            $pull: { members: memberId }
-        });
-        await User.findByIdAndUpdate(memberId, {
-            $pull: { projects: projectId }
-        });
+        const isMemberExist = project.members.includes(memberId);
+        if (!isMemberExist) {
+            throw new Error("Member doesnt exist in this project");
+        }
+
+        const isOwner = req.user._id.toString() === project.owner.toString();
+        const isRemoveMyself = req.user._id.toString() === memberId.toString();
+        //XOR operator - u can either remove other as owner or yourself as member
+        if (isOwner ? isRemoveMyself : !isRemoveMyself) {
+            throw new Error("The action is not allowed");
+        }
+
+        await Project.updateOne(
+            { _id: projectId },
+            {
+                $pull: { members: memberId }
+            }
+        );
+        await User.findOne(
+            { _id: memberId },
+            {
+                $pull: { projects: projectId }
+            }
+        );
         res.status(200).send({
             message: "Member is successfully removed from the project"
         });
     } catch (err) {
-        res.status(400).send({ err });
-    }
-}
-
-async function removeMyselfFromProject(req, res) {
-    try {
-        const memberId = req.user._id;
-        const projectId = req.params.id;
-
-        const isProjectAccessible = (req.user.projects || []).includes(
-            projectId
-        );
-        if (!isProjectAccessible) {
-            throw "Project not found";
-        }
-
-        const project = await Project.findById(projectId);
-        if (!project) {
-            throw "Project not found";
-        }
-
-        const isMeOwner = project.owner.toString() === memberId.toString();
-        if (isMeOwner) {
-            throw "Owner cant remove himself";
-        }
-
-        await Project.findByIdAndUpdate(projectId, {
-            $pull: { members: memberId }
-        });
-        await User.findByIdAndUpdate(memberId, {
-            $pull: { projects: projectId }
-        });
-        res.status(200).send({
-            message: "You successfully removed from project"
-        });
-    } catch (err) {
-        res.status(400).send({ err });
+        res.status(400).send({ message: err.message });
     }
 }
 
 async function addTaskToProject(req, res) {
-    try {
-        const projectId = req.params.id;
-        const isProjectAccessible = req.user.projects.includes(projectId);
+    const task = new Task({
+        ...req.body,
+        project: req.project._id
+    });
 
-        if (!isProjectAccessible) {
-            throw "Project not found";
+    try {
+        const validationError = await task.validate();
+        if (validationError) {
+            throw new Error(validationError);
         }
 
-        const task = new Task({
-            ...req.body,
-            project: projectId
-        });
         await task.save();
-        await Project.findByIdAndUpdate(projectId, {
-            $addToSet: { tasks: task._id }
-        });
-        res.status(200).send(task);
-
+        res.status(200).send({ message: "Task is successfully created" });
     } catch (err) {
-        res.status(400).send({ err });
+        res.status(500).send({ message: err.message });
     }
 }
 
@@ -210,6 +186,5 @@ module.exports = {
     removeProjectById,
     addMemberToProject,
     removeMemberFromProject,
-    removeMyselfFromProject,
     addTaskToProject
 };

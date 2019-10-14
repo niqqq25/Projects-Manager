@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/task");
-const authUser = require("../middleware/authUser")
-const authProjectUser = require("../middleware/authProjectUser");
+const authUser = require("../middleware/authUser");
+const authProjectMember = require("../middleware/authProjectMember");
 
-router.post("/tasks/:id/tasks", [authUser, authProjectUser], taskController.addTaskToTask);
-router.get("/tasks/:id", [authUser, authProjectUser], taskController.getTaskById);
-router.patch("/tasks/:id", [authUser, authProjectUser], taskController.updateTaskById);
-router.delete("/tasks/:id", [authUser, authProjectUser], taskController.deleteTaskById);
+router.post("/:task_id", [authUser, authProjectMember], taskController.addTaskToTask);
+router.get("/:task_id", [authUser, authProjectMember], taskController.getTaskById);
+router.patch("/:task_id", [authUser, authProjectMember], taskController.updateTaskById);
+router.delete("/:task_id", [authUser, authProjectMember], taskController.deleteTaskById);
+router.post("/:task_id/assignee", [authUser, authProjectMember], taskController.addAssignee);
+router.delete("/:task_id/assignee", [authUser, authProjectMember], taskController.removeAssigne);
 
 module.exports = router;
