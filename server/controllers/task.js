@@ -33,6 +33,7 @@ async function getTaskById(req, res) {
 
 async function updateTaskById(req, res) {
     const updatableKeys = ["description", "isCompleted"];
+    
     try {
         const isUpdatable = Object.keys(req.body).every(key =>
             updatableKeys.includes(key)

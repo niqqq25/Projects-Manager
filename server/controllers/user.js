@@ -29,29 +29,32 @@ async function signUp(req, res) {
 async function signIn(req, res) {
     try {
         const user = await User.findOne({ username: req.body.username });
-        if (user) {
-            const isPasswordMatching = await bcrypt.compare(
-                req.body.password,
-                user.password
-            );
-            if (isPasswordMatching) {
-                const token = jwt.sign(
-                    {
-                        username: user.username,
-                        password: user.password
-                    },
-                    process.env.JWT_KEY,
-                    { expiresIn: JWT_EXPIRATION_TIME }
-                );
-                return res.status(200).send({
-                    message: "Successfully signed in",
-                    token
-                });
-            }
+        if (!user) {
+            throw new Error("User not found");
         }
-        throw new Error();
+
+        const isPasswordMatching = await bcrypt.compare(
+            req.body.password,
+            user.password
+        );
+        if (!isPasswordMatching) {
+            throw new Error("Wrong password");
+        }
+
+        const token = jwt.sign(
+            {
+                username: user.username,
+                password: user.password
+            },
+            process.env.JWT_KEY,
+            { expiresIn: JWT_EXPIRATION_TIME }
+        );
+        return res.status(200).send({
+            message: "Successfully signed in",
+            token
+        });
     } catch (err) {
-        res.status(400).send({ message: "Auth failed" });
+        res.status(400).send({ message: err.message });
     }
 }
 
@@ -73,6 +76,7 @@ async function getUserById(req, res) {
 async function getUsers(req, res) {
     const queryParams = req.query;
     const query = {};
+
     try {
         if (queryParams.regex) {
             const regex = new RegExp("^" + queryParams.regex, "i");
@@ -127,6 +131,7 @@ async function deleteMe(req, res) {
 
 async function updateMyPassword(req, res) {
     const password = req.body.password;
+
     try {
         if (!password) {
             throw new Error("New password is required");
@@ -158,6 +163,7 @@ async function updateMyPassword(req, res) {
 
 async function updateMe(req, res) {
     const updatableKeys = ["firstname", "email", "secondname", "phone"];
+    
     try {
         const isUpdatable = Object.keys(req.body).every(key =>
             updatableKeys.includes(key)

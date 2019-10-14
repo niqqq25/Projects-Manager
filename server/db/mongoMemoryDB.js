@@ -14,7 +14,7 @@ class MongoMemoryDB {
             await mongodb.connect(url);
             this.db = mongoose.connection.db;
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     }
 
@@ -23,7 +23,7 @@ class MongoMemoryDB {
             await mongoose.disconnect();
             this.server.stop();
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     }
 

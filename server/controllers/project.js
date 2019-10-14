@@ -8,11 +8,13 @@ async function createProject(req, res) {
         owner: req.user._id,
         members: [req.user._id]
     });
+
     try {
         const validationError = await project.validate();
         if (validationError) {
             throw new Error(validationError);
         }
+
         await project.save();
         res.status(201).send(project);
     } catch (err) {
@@ -43,8 +45,9 @@ async function getProjectById(req, res) {
 
 async function updateProjectById(req, res) {
     const updatableKeys = ["description", "title", "owner"];
+    const fieldsToUpdate = Object.keys(req.body);
+    
     try {
-        const fieldsToUpdate = Object.keys(req.body);
         const isUpdatable = fieldsToUpdate.every(key =>
             updatableKeys.includes(key)
         );
@@ -83,10 +86,10 @@ async function removeProjectById(req, res) {
 }
 
 async function addMemberToProject(req, res) {
-    try {
-        const memberId = req.body.id;
-        const projectId = req.params.project_id;
+    const memberId = req.body.id;
+    const projectId = req.params.project_id;
 
+    try {
         const count = await User.findById(memberId);
         if (!count) {
             throw new Error("User doesnt exist");
@@ -103,12 +106,14 @@ async function addMemberToProject(req, res) {
                 $addToSet: { members: memberId }
             }
         );
+
         await User.updateOne(
             { _id: memberId },
             {
                 $addToSet: { projects: projectId }
             }
         );
+
         return res.status(200).send({
             message: "Member is successfully added to the project"
         });
@@ -118,10 +123,10 @@ async function addMemberToProject(req, res) {
 }
 
 async function removeMemberFromProject(req, res) {
-    try {
-        const memberId = req.body.id;
-        const projectId = req.params.project_id;
+    const memberId = req.body.id;
+    const projectId = req.params.project_id;
 
+    try {
         const project = await Project.findById(projectId);
         if (!project) {
             throw new Error("Project not found");
@@ -145,12 +150,14 @@ async function removeMemberFromProject(req, res) {
                 $pull: { members: memberId }
             }
         );
+
         await User.findOne(
             { _id: memberId },
             {
                 $pull: { projects: projectId }
             }
         );
+
         res.status(200).send({
             message: "Member is successfully removed from the project"
         });
