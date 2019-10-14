@@ -33,7 +33,7 @@ async function getTaskById(req, res) {
 
 async function updateTaskById(req, res) {
     const updatableKeys = ["description", "isCompleted"];
-    
+
     try {
         const isUpdatable = Object.keys(req.body).every(key =>
             updatableKeys.includes(key)
@@ -49,7 +49,11 @@ async function updateTaskById(req, res) {
             }
         }
 
-        await Task.updateOne({ _id: req.params.task_id }, req.body);
+        await Task.updateOne(
+            { _id: req.params.task_id },
+            { $set: req.body },
+            { runValidators: true }
+        );
         res.status(200).send({ message: "Successfully updated" });
     } catch (err) {
         res.status(400).send({ message: err.message });
@@ -88,8 +92,7 @@ async function removeAssigne(req, res) {
         );
         res.status(200).send({ message: "Successfully unassigned" });
     } catch (err) {
-        res.status(500).send({ message: err.message 
-         });
+        res.status(500).send({ message: err.message });
     }
 }
 

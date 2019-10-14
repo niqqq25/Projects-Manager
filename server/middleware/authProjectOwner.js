@@ -16,6 +16,7 @@ async function authProjectOwner(req, res, next) {
             throw new Error("Project not found");
         }
 
+        req.project = project;
         return next();
     } catch (err) {
         res.status(400).send({ message: err.message });

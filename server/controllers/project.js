@@ -46,7 +46,7 @@ async function getProjectById(req, res) {
 async function updateProjectById(req, res) {
     const updatableKeys = ["description", "title", "owner"];
     const fieldsToUpdate = Object.keys(req.body);
-    
+
     try {
         const isUpdatable = fieldsToUpdate.every(key =>
             updatableKeys.includes(key)
@@ -69,7 +69,11 @@ async function updateProjectById(req, res) {
             }
         }
 
-        await Project.updateOne({ _id: req.params.project_id }, req.body);
+        await Project.updateOne(
+            { _id: req.params.project_id },
+            { $set: req.body },
+            { runValidators: true }
+        );
         res.status(200).send({ message: "Successfully updated" });
     } catch (err) {
         res.status(400).send({ message: err.message });

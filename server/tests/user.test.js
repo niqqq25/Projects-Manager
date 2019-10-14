@@ -50,7 +50,6 @@ afterEach(async () => {
 });
 
 describe("user", () => {
-
     describe("signup", () => {
         it("should post user when required info is provided", async () => {
             const userData = data.users[0];
@@ -274,6 +273,19 @@ describe("user", () => {
             const isNewEmail = user.email === newEmail;
             expect(isNewFirsname && isNewEmail).toBe(false);
         });
+
+        it("should not update me when changes doesnt pass validation", async () => {
+            await request
+                .patch("/users/me")
+                .send({
+                    email: 'andrius'
+                })
+                .set("Authorization", token);
+            const user = await User.findOne({
+                username: data.users[0].username
+            });
+            expect(user.email).toBe(data.users[0].email);
+        });
     });
 
     describe("get user by id", () => {
@@ -348,7 +360,7 @@ describe("user", () => {
             );
             expect(!isUserIncluded && isMembersIncluded).toBe(true);
         });
-        
+
         it("should return error when user does not exist in provided project", async () => {
             const myToken = await logIn(
                 data.users[0].username,

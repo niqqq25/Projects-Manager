@@ -163,7 +163,7 @@ async function updateMyPassword(req, res) {
 
 async function updateMe(req, res) {
     const updatableKeys = ["firstname", "email", "secondname", "phone"];
-    
+
     try {
         const isUpdatable = Object.keys(req.body).every(key =>
             updatableKeys.includes(key)
@@ -172,7 +172,11 @@ async function updateMe(req, res) {
             throw new Error("Invalid updates");
         }
 
-        await User.updateOne({ _id: req.user._id }, req.body);
+        await User.updateOne(
+            { _id: req.user._id },
+            { $set: req.body },
+            { runValidators: true }
+        );
         res.status(200).send({ message: "Successfully updated" });
     } catch (err) {
         res.status(400).send({ message: err.message });
