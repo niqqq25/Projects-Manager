@@ -49,7 +49,6 @@ afterEach(async () => {
 });
 
 describe("project", () => {
-
     describe("create project", () => {
         let token;
         beforeEach(async () => {
@@ -141,6 +140,7 @@ describe("project", () => {
         beforeEach(async () => {
             await seedUsers();
             await seedProjects();
+            await seedTasks();
         });
 
         it("should get project when user has access to the project", async () => {
@@ -174,6 +174,28 @@ describe("project", () => {
                 .get(`/projects/1111`)
                 .set("Authorization", token);
             expect(res.status).toBe(400);
+        });
+
+        it("should have owners username in returned project", async () => {
+            const token = await logIn(
+                data.users[1].username,
+                data.users[1].password
+            );
+            const res = await request
+                .get(`/projects/${data.projects[0]._id}`)
+                .set("Authorization", token);
+            expect(res.body.owner.username).toBe(data.users[1].username);
+        });
+
+        it("should return assigness name in returned project", async () => {
+            const token = await logIn(
+                data.users[1].username,
+                data.users[1].password
+            );
+            const res = await request
+                .get(`/projects/${data.projects[0]._id}`)
+                .set("Authorization", token);
+            expect(res.body.tasks[0].assignee.username).toBeTruthy();
         });
     });
 
@@ -450,7 +472,7 @@ describe("project", () => {
                 .set("Authorization", token);
             expect(res.status).toBe(400);
         });
-        
+
         it("should return error when project doesnt exist", async () => {
             const token = await logIn(
                 data.users[1].username,

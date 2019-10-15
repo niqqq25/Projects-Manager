@@ -22,9 +22,28 @@ async function addTaskToTask(req, res) {
 
 async function getTaskById(req, res) {
     try {
-        const task = await Task.findById(req.params.task_id).populate(
-            "project parentTask tasks assignee"
-        );
+        const task = await Task.findById(req.params.task_id).populate([
+            {
+                path: "assignee",
+                select: "-password -email -phone -projects"
+            },
+            {
+                path: "tasks",
+                select: "-tasks -description -parentTask -project",
+                populate: {
+                    path: "assignee",
+                    select: "-password -email -phone -projects"
+                }
+            },
+            {
+                path: "parentTask",
+                select: "_id title"
+            },
+            {
+                path: "project",
+                select: "_id title"
+            }
+        ]);
         res.status(200).send(task);
     } catch (err) {
         res.status(500).send({ message: err.message });

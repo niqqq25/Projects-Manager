@@ -33,10 +33,20 @@ async function getProjects(req, res) {
 
 async function getProjectById(req, res) {
     try {
-        const project = await Project.findById(req.params.project_id).populate({
-            path: "members tasks",
-            select: "-password"
-        });
+        const project = await Project.populate(req.project, [
+            {
+                path: "members owner",
+                select: "-password -email -phone -projects"
+            },
+            {
+                path: "tasks",
+                select: "-description -project",
+                populate: {
+                    path: "assignee",
+                    select: "-password -email -phone -projects"
+                }
+            }
+        ]);
         res.status(200).send(project);
     } catch (err) {
         res.status(500).send({ message: err.message });
