@@ -1,0 +1,42 @@
+#projects{
+    width: 90%;
+    margin: 0 auto 0 auto;
+    background-color: white;
+    padding: 100px 0 20px 0;
+}
+
+#projects-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#projects-title{
+    display: inline-block;
+}
+
+#projects-table{
+    width: 100%;
+    background-color: white;
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+th{
+    padding: 12px;
+    border: 1px solid #fd9656;
+    background: transparent;
+}
+
+thead th {
+    border-bottom: 3px solid #fd9656;
+}
+
+tbody th {
+    font-weight: normal;
+}
+
+tbody tr:hover{
+    background-color: #ffeadc;
+    cursor: pointer;
+}

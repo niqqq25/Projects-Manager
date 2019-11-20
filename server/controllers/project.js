@@ -14,8 +14,8 @@ async function createProject(req, res) {
         if (validationError) {
             throw new Error(validationError);
         }
-
         await project.save();
+
         res.status(201).send(project);
     } catch (err) {
         res.status(400).send({ message: err.message });

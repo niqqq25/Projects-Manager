@@ -1,0 +1,28 @@
+#modal{
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.4);
+}
+
+#modal-content{
+    background-color: #FFFFFF;
+    margin: auto;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+#modal-close{
+    float: right;
+    top: 0;
+    font-size: 24px;
+    margin: -20px -10px 0 0;
+}
+
+#modal-close:hover{
+    color: #f36a15;
+    cursor: pointer;
+}
