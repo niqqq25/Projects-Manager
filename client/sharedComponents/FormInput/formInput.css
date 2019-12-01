@@ -73,3 +73,9 @@
     font-size: 12px;
     color: red;
 }
+
+.input-wrapper input:disabled{
+    background: inherit;
+    text-align: center;
+    color: #B2ADB0;
+}

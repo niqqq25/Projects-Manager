@@ -1,65 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
 
 import LoginForm from '../LoginForm/LoginForm';
-import AlertMessage from '../../../sharedComponents/AlertMessage/AlertMessage';
-import './loginPage.css';
 
-import * as Cookie from '../../../utils/cookie';
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
+import { ConfirmationModalContext } from '../../../providers/ConfirmationModalProvider';
 
 const REGISTRATION_SUCCESS_MESSAGE = 'You have successfully registered.';
+const USER_DELETION_SUCCESS_MESSAGE = 'User has been successfully deleted.';
 const AUTH_FAIL_MESSAGE = 'Your session has expired, please login again.';
 
 export default function LoginPage(props) {
-    const [alertMessageText, setAlertMessageText] = useState('');
-    const [alertMessageFail, setAlertMessageFail] = useState(false);
-    const [homeRedirect, setHomeRedirect] = useState(false);
+    const { showAlertMessage, removeAlertMessage } = useContext(
+        AlertMessageContext
+    );
+    const { removeConfirmationModal } = useContext(ConfirmationModalContext);
 
     useEffect(() => {
-        showAlertMessageBySearchParams();
+        removeAlertMessage();
+        removeConfirmationModal();
+        handleOtherPagesAlert();
     }, []);
 
-    function showAlertMessageBySearchParams() {
-        const params = new URLSearchParams(window.location.search);
+    function handleOtherPagesAlert() {
+        const state = props.location.state || {};
+        const message = {};
 
-        if (params.has('successfulRegistration')) {
-            setAlertMessageText(REGISTRATION_SUCCESS_MESSAGE);
-            setAlertMessageFail(false);
-        } else if (params.has('authFail')) {
-            Cookie.remove('access_token');
-            setAlertMessageText(AUTH_FAIL_MESSAGE);
-            setAlertMessageFail(true);
+        if (state.authFailed) {
+            message.text = AUTH_FAIL_MESSAGE;
+            message.fail = true;
+        } else if (state.registrationSuccess) {
+            message.text = REGISTRATION_SUCCESS_MESSAGE;
+            message.fail = false;
+        } else if (state.userDeleted) {
+            message.text = USER_DELETION_SUCCESS_MESSAGE;
+            message.fail = false;
         }
-    } 
 
-    function onAlertMessageClose() {
-        setAlertMessageText('');
-    }
-
-    function onLoginFormFail(message) {
-        setAlertMessageText(message);
-        setAlertMessageFail(true);
-    }
-
-    function onLoginFormSuccess() {
-        setHomeRedirect(true);
+        props.history.replace();
+        showAlertMessage(message);
     }
 
     return (
         <div id="login-page">
-            {alertMessageText && (
-                <AlertMessage
-                    onClose={onAlertMessageClose}
-                    isFail={alertMessageFail}
-                >
-                    {alertMessageText}
-                </AlertMessage>
-            )}
-            <LoginForm
-                onLoginFail={onLoginFormFail}
-                onLoginSuccess={onLoginFormSuccess}
-            />
-            {homeRedirect && <Redirect to="/home" />}
+            <LoginForm {...props} />
         </div>
     );
 }

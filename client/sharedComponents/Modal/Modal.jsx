@@ -4,7 +4,12 @@ import './modal.css';
 const noop = () => {};
 
 export default function Modal(props) {
-    const { onClose, children, closingEnabled = true } = props;
+    const {
+        onClose,
+        children,
+        closingEnabled = true,
+        outsideClosingDisabled,
+    } = props;
 
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
@@ -14,11 +19,14 @@ export default function Modal(props) {
         return () => {
             body.style.overflow = 'auto';
             body.style.height = 'auto';
-        }
+        };
     }, []);
 
     return (
-        <div id="modal" onClick={closingEnabled ? onClose : noop}>
+        <div
+            id="modal"
+            onClick={closingEnabled && !outsideClosingDisabled ? onClose : noop}
+        >
             <div id="modal-content" onClick={event => event.stopPropagation()}>
                 <span
                     id="modal-close"

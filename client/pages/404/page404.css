@@ -1,0 +1,25 @@
+#page404{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#page404 h1{
+    font-size: 80px;
+}
+
+#page404 p{
+    color: grey;
+    margin-bottom: 15px;
+    padding-bottom: 1px;
+}
+
+#page404 p::after{
+    content: '';
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, #f5af19, #f12711);
+}

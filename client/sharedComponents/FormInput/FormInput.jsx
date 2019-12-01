@@ -3,14 +3,16 @@ import './formInput.css';
 
 export default function FormInput(props) {
     const {
-        label = '',
-        type = 'text',
+        name = '',
+        label,
         error,
         required,
         onChange = () => {},
+        value,
+        disabled,
     } = props;
 
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState(value || '');
 
     function handleInput(event) {
         setInput(event.target.value);
@@ -42,23 +44,25 @@ export default function FormInput(props) {
         <div className="input-group">
             <div className={'input-wrapper' + disableInputBorderSliding()}>
                 <input
-                    type={type}
-                    id={label}
+                    type={name.toLowerCase() === 'password' ? name : 'text'}
+                    id={name}
+                    name={name}
                     value={input}
                     className="input"
                     onChange={handleInput}
                     autoComplete="off"
+                    disabled={disabled}
                 ></input>
             </div>
             <label
-                htmlFor={label}
+                htmlFor={name}
                 className={
                     'input-label' +
                     disableLabelSliding() +
                     changeLabelColorToError()
                 }
             >
-                {label}
+                {label || name}
                 {required && <span className="required-symbol"> *</span>}
             </label>
             {error && <p className="error-text">{error}</p>}

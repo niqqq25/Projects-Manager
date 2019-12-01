@@ -1,0 +1,17 @@
+#delete-user-text{
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: rgb(105, 105, 105);
+}
+
+#delete-user-link{
+    color: rgb(43, 42, 42);
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+#delete-user-link:hover{
+    color: #f36a15;
+    cursor: pointer;
+}

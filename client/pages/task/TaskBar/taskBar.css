@@ -1,0 +1,22 @@
+#task-bar{
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid rgb(224, 224, 224);
+    padding-bottom: 5px;
+}
+
+#task-name{
+    font-size: 40px;
+}
+
+.item-type{
+    text-transform: capitalize;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+#task-assignee{
+    font-size: 14px;
+}

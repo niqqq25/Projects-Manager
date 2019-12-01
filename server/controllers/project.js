@@ -40,7 +40,7 @@ async function getProjectById(req, res) {
             },
             {
                 path: "tasks",
-                select: "-description -project",
+                select: "-project",
                 populate: {
                     path: "assignee",
                     select: "-password -email -phone -projects"
@@ -70,12 +70,6 @@ async function updateProjectById(req, res) {
             const isMember = req.project.members.includes(memberId);
             if (!isMember) {
                 throw new Error("User is not a member");
-            }
-
-            const isOwner =
-                req.project.owner.toString() === memberId.toString();
-            if (isOwner) {
-                throw new Error("You cant change owner to yourself as owner");
             }
         }
 
@@ -165,7 +159,7 @@ async function removeMemberFromProject(req, res) {
             }
         );
 
-        await User.findOne(
+        await User.updateOne(
             { _id: memberId },
             {
                 $pull: { projects: projectId }

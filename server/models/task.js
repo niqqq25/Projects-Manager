@@ -50,7 +50,6 @@ taskSchema.post("save", async function(next) {
                 }
             );
         }
-        next();
     } catch (err) {
         next(new Error(err));
     }
@@ -80,7 +79,6 @@ taskSchema.pre("deleteOne", async function(next) {
 
         const taskChildren = await getTaskChildren(task.tasks);
         await Task.deleteMany({ _id: { $in: taskChildren } });
-        next();
     } catch (err) {
         next(new Error(err));
     }

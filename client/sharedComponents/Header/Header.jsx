@@ -1,33 +1,42 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import './header.css';
 
-import * as Cookie from '../../utils/cookie';
+import { UserContext } from '../../providers/UserProvider';
+
+import Cookies from 'js-cookie';
 
 export default function Header(props) {
-    const {firstname, secondname, company} = props;
-    const [loginRedirect, setLoginRedirect] = useState(false);
-    const [homeRedirect, setHomeRedirect] = useState(false);
-    const [profileRedirect, setProfileRedirect] = useState(false);
+    const { user } = useContext(UserContext);
 
     function handleLogout() {
-        Cookie.remove('access_token');
-        setLoginRedirect(true);
+        Cookies.remove('access_token', {path: '/'});
     }
 
     return (
         <div id="header-wrapper">
-            <div id="header">
-                <div id="me">{company ? company : `${firstname} ${secondname}`}</div>
-                <ul id="navigation">
-                    <li onClick={() => setHomeRedirect(true)}>Home</li>
-                    <li onClick={() => setProfileRedirect(true)}>Profile</li>
-                    <li onClick={handleLogout}>Logout</li>
-                </ul>
+            <div id="header-border">
+                <div id="header">
+                    <div id="me">
+                        {user.company
+                            ? user.company
+                            : `${user.firstname} ${user.secondname}`}
+                    </div>
+                    <ul id="navigation">
+                        <li>
+                            <Link to="/home">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/profile">Profile</Link>
+                        </li>
+                        <li>
+                            <Link to="/login" onClick={handleLogout}>
+                                Logout
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            {loginRedirect && <Redirect to="/login" />}
-            {homeRedirect && <Redirect to="/home" />}
-            {profileRedirect && <Redirect to="/profile" />}
         </div>
     );
 }

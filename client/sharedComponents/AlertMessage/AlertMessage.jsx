@@ -3,18 +3,18 @@ import './alertMessage.css';
 
 const noop = () => {};
 
-export default function AlertMessage(props) {
+export default function AlertMessage({onClose, fail, children, style}) {
     return (
-        <div id="alert-message-wrapper">
+        <div id="alert-message-wrapper" style={style}>
             <div
                 id="alert-message"
-                className={props.fail ? 'alert-fail' : 'alert-success'}
+                className={fail ? 'alert-fail' : 'alert-success'}
             >
-                <p id="alert-message-text">{props.children || ''}</p>
+                <p id="alert-message-text">{JSON.stringify(children) || ''}</p>
                 <a
                     type="button"
                     id="alert-message-close"
-                    onClick={props.onClose || noop}
+                    onClick={onClose || noop}
                 >
                     &times;
                 </a>

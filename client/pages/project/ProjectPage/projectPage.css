@@ -1,0 +1,16 @@
+.main-content{
+    display: flex;
+}
+
+.main-content-left{
+    width: 100%;
+}
+
+#project-description-title {
+    font-size: 20px;
+}
+
+#project-description-text {
+    margin-top: 2px;
+    color: grey;
+}

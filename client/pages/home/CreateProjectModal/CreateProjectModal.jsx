@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './createProjectModal.css';
 
 import Modal from '../../../sharedComponents/Modal/Modal';
 import FormInput from '../../../sharedComponents/FormInput/FormInput';
 import FormButton from '../../../sharedComponents/FormButton/FormButton';
-import AlertMessage from '../../../sharedComponents/AlertMessage/AlertMessage';
 
 import * as ProjectAPI from '../../../requests/project';
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
 
 const INVALID_FORM_MESSAGE = 'Please fill all required fields';
 const noop = () => {};
 
-export default function CreateProjectModal({onClose, onSuccess = noop}) {
+export default function CreateProjectModal({ onClose, onSuccess = noop }) {
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [loading, setLoading] = useState(false);
     const [titleError, setTitleError] = useState(null);
-    const [alertMessage, setAlertMessage] = useState(null);
+
+    const { showAlertMessage, removeAlertMessage } = useContext(AlertMessageContext);
+
+    useEffect(() => {
+        return removeAlertMessage;
+    }, []);
 
     async function handleCreateProjectFormSubmit(event) {
         event.preventDefault();
@@ -27,12 +32,12 @@ export default function CreateProjectModal({onClose, onSuccess = noop}) {
             setLoading(false);
 
             if (response.error) {
-                setAlertMessage(response.error.message);
+                showAlertMessage({ text: response.error, fail: true });
             } else {
                 onSuccess();
             }
         } else {
-            setAlertMessage(INVALID_FORM_MESSAGE);
+            showAlertMessage({ text: INVALID_FORM_MESSAGE, fail: true });
         }
     }
 
@@ -53,13 +58,13 @@ export default function CreateProjectModal({onClose, onSuccess = noop}) {
         <Modal onClose={onClose} closingEnabled={!loading}>
             <form id="create-project-form">
                 <FormInput
-                    label="Title"
+                    name="title"
                     onChange={event => handleTitleChange(event.target.value)}
                     error={titleError}
                     required
                 />
                 <FormInput
-                    label="Description"
+                    name="description"
                     onChange={event => setDescription(event.target.value)}
                 />
                 <FormButton
@@ -68,11 +73,6 @@ export default function CreateProjectModal({onClose, onSuccess = noop}) {
                     loading={loading}
                 />
             </form>
-            {alertMessage && (
-                <AlertMessage onClose={() => setAlertMessage(null)} fail>
-                    {alertMessage}
-                </AlertMessage>
-            )}
         </Modal>
     );
 }

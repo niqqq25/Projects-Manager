@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import Cookies from 'js-cookie';
 import './loginForm.css';
 
+import Form from '../../../sharedComponents/Form/Form';
 import FormImput from '../../../sharedComponents/FormInput/FormInput';
 import FormButton from '../../../sharedComponents/FormButton/FormButton';
 
 import * as UserAPI from '../../../requests/user';
-import * as Cookie from '../../../utils/cookie';
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
 
 const LOGIN_FAIL_MESSAGE =
     'The username or password you entered did not match our records. Please double-check and try again.';
@@ -15,31 +16,39 @@ export default function LoginForm(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [registrationRedirect, setRegistrationRedirect] = useState(false);
+
+    const { showAlertMessage } = useContext(AlertMessageContext);
 
     async function handleFormSubmit(event) {
         event.preventDefault();
         await setLoading(true);
-        const response = await UserAPI.get({username, password});
+        const response = await UserAPI.get({ username, password });
         setLoading(false);
 
-        if(response.error){
-            props.onLoginFail(LOGIN_FAIL_MESSAGE);
+        if (response.error) {
+            onSubmitFail();
         } else {
-            Cookie.set({name: 'access_token', value: response.token});
-            props.onLoginSuccess();
+            onSubmitSuccess(response);
         }
     }
 
+    function onSubmitSuccess(response) {
+        Cookies.set('access_token', response.token, { path: '/' });
+        props.history.push('/home');
+    }
+
+    function onSubmitFail() {
+        showAlertMessage({ text: LOGIN_FAIL_MESSAGE, fail: true });
+    }
+
     return (
-        <form id="login-form">
+        <Form style={{ marginTop: '100px' }}>
             <FormImput
-                label="Username"
+                name="username"
                 onChange={event => setUsername(event.target.value)}
             />
             <FormImput
-                label="Password"
-                type="password"
+                name="password"
                 onChange={event => setPassword(event.target.value)}
             />
             <FormButton
@@ -51,12 +60,11 @@ export default function LoginForm(props) {
                 Don't have an account?
                 <a
                     id="signup-link"
-                    onClick={() => setRegistrationRedirect(true)}
+                    onClick={() => props.history.push('/registration')}
                 >
                     Sign Up
                 </a>
-                {registrationRedirect && <Redirect to="/registration" />}
             </p>
-        </form>
+        </Form>
     );
 }

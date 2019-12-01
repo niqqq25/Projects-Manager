@@ -1,135 +1,94 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import isObject from 'isobject';
 import './registrationForm.css';
 
+import Form from '../../../sharedComponents/Form/Form';
 import FormInput from '../../../sharedComponents/FormInput/FormInput';
 import FormButton from '../../../sharedComponents/FormButton/FormButton';
 
 import * as UserAPI from '../../../requests/user';
-
-const EMAIL_REGEX = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-const PHONE_REGEX = /^(?:\+?\d{2}[ -]?[\d -][\d -]+)$/;
-const NAME_REGEX = /^([a-zA-Z]+?)([-\s'][a-zA-Z]+)*?$/;
-const LOGIN_REGEX = /^[a-zA-Z0-9]+$/;
+import validateUserFormInput from '../../../validations/validateUserFormInput';
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
 
 const INVALID_FORM_MESSAGE = 'Please correctly fill all required fields';
 
-export default class RegistrationForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstname: null,
-            secondname: null,
-            company: null,
-            phone: null,
-            email: null,
-            username: null,
-            password: null,
-            errors: {
-                firstname: '',
-                secondname: '',
-                company: '',
-                phone: '',
-                email: '',
-                username: '',
-                password: '',
-            },
-            loading: false,
-            loginRedirect: false,
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+export default function RegistrationForm(props) {
+    const [inputs, setInputs] = useState(inputsSchema);
+    const [loading, setLoading] = useState(false);
+
+    const { showAlertMessage } = useContext(AlertMessageContext);
+    
+    function handleInputChange(event) {
+        const { name, value } = event.target;
+        const input = inputs[name];
+
+        input.error = validateUserFormInput({
+            value,
+            name,
+            required: input.required,
+        });
+
+        input.value = value;
+        setInputs({ ...inputs });
     }
 
-    handleInputChange(event) {
-        const { id, value } = event.target;
-        const errors = this.state.errors;
-
-        switch (id) {
-            case 'firstname':
-            case 'secondname':
-                errors[id] = NAME_REGEX.test(value)
-                    ? ''
-                    : `Please enter a valid ${id}`;
-                break;
-            case 'phone':
-                errors.phone = PHONE_REGEX.test(value)
-                    ? ''
-                    : 'Please enter a valid phone';
-                break;
-            case 'email':
-                errors.email = EMAIL_REGEX.test(value)
-                    ? ''
-                    : 'Please enter a valid email';
-                break;
-            case 'username':
-                errors.username = LOGIN_REGEX.test(value)
-                    ? ''
-                    : 'Username should contain only alphanumeric symbols';
-                break;
-            case 'password':
-                if (value.length < 6) {
-                    errors.password = 'Password is too short!';
-                } else if (!LOGIN_REGEX.test(value)) {
-                    errors.password =
-                        'Username should contain only alphanumeric symbols';
-                } else {
-                    errors.password = '';
-                }
-                break;
-            default:
-                break;
-        }
-
-        this.setState({ errors, [id]: value });
-    }
-
-    async handleFormSubmit(event) {
+    async function handleFormSubmit(event) {
         event.preventDefault();
 
-        if (this.validateForm()) {
-            await this.setState({ loading: true });
-            const response = await UserAPI.create(this.state);
-            this.setState({ loading: false });
+        if (validateForm()) {
+            await setLoading(true);
+            const response = await UserAPI.create(getInputValues());
+            setLoading(false);
 
-            if(response.error){
-                this.handleFailedSubmit(response.error);
+            if (response.error) {
+                onSubmitFail(response.error);
             } else {
-                this.handleSuccessfulSubmit();
+                onSubmitSuccess();
             }
         } else {
-            this.props.onRegistrationFail(INVALID_FORM_MESSAGE);
+            onSubmitFail();
         }
     }
 
-    handleSuccessfulSubmit() {
-        this.setState({ loginRedirect: true });
+    function getInputValues() {
+        return Object.keys(inputs).reduce((obj, input) => {
+            obj[input] = inputs[input].value;
+            return obj;
+        }, {});
     }
 
-    handleFailedSubmit(response) {
-        const errorMessage = response.message;
-        const { errors } = this.state;
+    function onSubmitSuccess() {
+        props.history.push({
+            pathname: '/login',
+            state: { registrationSuccess: true },
+        });
+    }
+
+    function onSubmitFail(errorMessage) {
+        showAlertMessage({ text: INVALID_FORM_MESSAGE, fail: true });
+        const error = errorMessage || '';
+
         if (
-            errorMessage.includes(this.state.username) &&
-            errorMessage.includes('duplicate')
+            error.includes(inputs.username.value) &&
+            error.includes('duplicate')
         ) {
-            errors.username = 'Username is already in use';
-            this.setState({ errors });
-            this.props.onRegistrationFail(INVALID_FORM_MESSAGE);
-        } else {
-            this.props.onRegistrationFail(errorMessage);
+            inputs.username.error = 'Username is already in use';
+            setInputs({ ...inputs });
+        } else if (
+            error.includes(inputs.email.value) &&
+            error.includes('duplicate')
+        ) {
+            inputs.username.error = 'Email is already in use';
+            setInputs({ ...inputs });
         }
     }
 
-    validateForm() {
+    function validateForm() {
         let valid = true;
 
-        inputs.forEach(input => {
-            if (input.required && !this.state[input.name]) {
-                valid = false;
-            }
-
-            if (this.state.errors[input.name]) {
+        Object.keys(inputs).forEach(name => {
+            const input = inputs[name];
+            if ((input.required && !input.value) || input.error) {
                 valid = false;
             }
         });
@@ -137,69 +96,68 @@ export default class RegistrationForm extends React.Component {
         return valid;
     }
 
-    render() {
-        return (
-            <form id="registration-form">
-                <p id="form-title">Sign up</p>
-                {inputs.map((input, index) => {
-                    const { name, required, type } = input;
-                    return (
-                        <FormInput
-                            key={index}
-                            label={name}
-                            required={required}
-                            error={this.state.errors[name]}
-                            onChange={this.handleInputChange}
-                            type={type}
-                        />
-                    );
-                })}
-                <FormButton
-                    value="Signup"
-                    onClick={this.handleFormSubmit}
-                    loading={this.state.loading}
-                />
-                {this.state.loginRedirect && (
-                    <Redirect
-                        to={{
-                            pathname: '/login',
-                            search: 'successfulRegistration=true'
-                        }}
+    return (
+        <Form title="Sign up" style={{ margin: '50px auto' }}>
+            {Object.keys(inputs).map((name, index) => {
+                const { error, required } = inputs[name];
+                return (
+                    <FormInput
+                        key={index}
+                        name={name}
+                        required={required}
+                        error={error}
+                        onChange={handleInputChange}
                     />
-                )}
-            </form>
-        );
-    }
+                );
+            })}
+            <FormButton
+                value="Signup"
+                onClick={handleFormSubmit}
+                loading={loading}
+            />
+            <p id="login-text">
+                Already have an account?
+                <a id="login-link" onClick={() => props.history.push('/login')}>
+                    Log in
+                </a>
+            </p>
+        </Form>
+    );
 }
 
-const inputs = [
-    {
-        name: 'firstname',
+const inputsSchema = {
+    firstname: {
+        value: '',
+        error: '',
         required: true,
     },
-    {
-        name: 'secondname',
+    secondname: {
+        value: '',
+        error: '',
         required: true,
     },
-    {
-        name: 'company',
-        required: false,
+    company: {
+        value: '',
+        error: '',
     },
-    {
-        name: 'phone',
+    email: {
+        value: '',
+        error: '',
         required: true,
     },
-    {
-        name: 'email',
+    phone: {
+        value: '',
+        error: '',
         required: true,
     },
-    {
-        name: 'username',
+    username: {
+        value: '',
+        error: '',
         required: true,
     },
-    {
-        name: 'password',
+    password: {
+        value: '',
+        error: '',
         required: true,
-        type: 'password',
     },
-];
+};

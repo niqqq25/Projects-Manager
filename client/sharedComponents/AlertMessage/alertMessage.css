@@ -3,15 +3,15 @@
 }
 
 #alert-message-wrapper {
-    z-index: 99;
+    z-index: 5000;
     position: fixed;
-    top: 0;
-    width: 60%;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+    width: 300px;
     padding: 2px;
     background: linear-gradient(90deg, #f5af19 0%, #f12711 100%);
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 }
 
@@ -51,9 +51,3 @@
 .alert-fail {
     background: #F8D7DA !important;
 }
-
-@media (max-width: 900px) {
-    #alert-message-wrapper {
-        width: 100%;
-    }
-  }

@@ -1,29 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './registrationPage.css';
 
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
-import AlertMessage from '../../../sharedComponents/AlertMessage/AlertMessage';
+
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
 
 export default function RegistrationPage(props) {
-    const [alertMessageText, setAlertMessageText] = useState('');
-    const [alertMessageFail, setAlertMessageFail] = useState(false);
+    const { removeAlertMessage } = useContext(AlertMessageContext);
 
-    function onRegistrationFail(message) {
-        setAlertMessageText(message);
-        setAlertMessageFail(true);
-    }
+    useEffect(() => {
+        removeAlertMessage();
+    }, []);
 
     return (
         <div id="registration-page">
-            {alertMessageText && (
-                <AlertMessage
-                    onClose={() => setAlertMessageText('')}
-                    isFail={alertMessageFail}
-                >
-                    {alertMessageText}
-                </AlertMessage>
-            )}
-            <RegistrationForm onRegistrationFail={onRegistrationFail} />
+            <RegistrationForm {...props} />
         </div>
     );
 }

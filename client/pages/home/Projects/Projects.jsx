@@ -1,50 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './projects.css';
 
 import Button from '../../../sharedComponents/Button/Button';
 import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
-import AlertMessage from '../../../sharedComponents/AlertMessage/AlertMessage';
-import Spinner from '../../../sharedComponents/Spinner/Spinner';
+import Table from '../../../sharedComponents/Table/Table';
 
 import * as ProjectAPI from '../../../requests/project';
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
+
 const FETCH_FAIL_MESSAGE = 'Failed to fetch data';
 const CREATE_PROJECT_SUCCESS_MESSAGE = 'Project has been successfully created';
 
 export default function Projects(props) {
     const [createProjectModal, setCreateProjectModal] = useState(false);
     const [projects, setProjects] = useState(null);
-    const [alertMessage, setAlertMessage] = useState(null);
-    const [projectsError, setProjectsError] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const { showAlertMessage, removeAlertMessage } = useContext(
+        AlertMessageContext
+    );
 
     useEffect(() => {
-        // setProjects([
-        //         {
-        //             title: 'Duck',
-        //             tasks: ['1', '2', '3'],
-        //             description: 'This one has no description',
-        //         },
-        //     ]);
-        // getProjects();
+        getProjects();
     }, []);
 
     async function getProjects() {
-        if(projects){
+        if (projects) {
             setProjects(null);
         }
+
+        setLoading(true);
         const response = await ProjectAPI.getAll();
+        setLoading(false);
 
         if (response.error) {
-            setProjectsError(FETCH_FAIL_MESSAGE);
+            setError(FETCH_FAIL_MESSAGE);
         } else {
             setProjects(response);
-            setProjectsError(null);
+            setError(null);
         }
     }
 
     function onCreateProjectSuccess() {
         setCreateProjectModal(false);
-        setAlertMessage(CREATE_PROJECT_SUCCESS_MESSAGE);
+        showAlertMessage({
+            text: CREATE_PROJECT_SUCCESS_MESSAGE,
+            fail: false,
+        });
         getProjects();
+    }
+
+    function getProjectsBodyContent() {
+        return (projects || []).map((project, index) => (
+            <tr
+                key={index}
+                onClick={() => props.history.push(`/projects/${project._id}`)}
+            >
+                <th>{project.title}</th>
+                <th>{project.description || '-'}</th>
+                <th>{(project.tasks || []).length}</th>
+            </tr>
+        ));
     }
 
     return (
@@ -53,53 +70,23 @@ export default function Projects(props) {
                 <h1 id="projects-title">Projects</h1>
                 <Button
                     value="Create +"
-                    onClick={() => setCreateProjectModal(true)}
+                    onClick={() => {
+                        setCreateProjectModal(true);
+                        removeAlertMessage();
+                    }}
                 />
-                {createProjectModal && (
-                    <CreateProjectModal
-                        onClose={() => setCreateProjectModal(false)}
-                        onSuccess={onCreateProjectSuccess}
-                    />
-                )}
             </div>
-            <table id="projects-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Tasks count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {projects ? (
-                        projects.map((project, index) => (
-                            <tr key={index}>
-                                <th>{project.title}</th>
-                                <th>{project.description || '-'}</th>
-                                <th>{(project.tasks || []).length}</th>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr></tr>
-                    )}
-                </tbody>
-            </table>
-            {!projects && !projectsError && <Spinner block/>}
-            {projectsError && (
-                <p>
-                    <span style={{ color: 'red', fontWeight: 'bold' }}>
-                        Error:{' '}
-                    </span>
-                    {projectsError}
-                </p>
-            )}
-            {alertMessage && (
-                <AlertMessage
-                    onClose={() => setAlertMessage(null)}
-                    fail={false}
-                >
-                    {alertMessage}
-                </AlertMessage>
+            <Table
+                headers={['Title', 'Description', 'Tasks count']}
+                bodyContent={getProjectsBodyContent()}
+                loading={loading}
+                error={error}
+            ></Table>
+            {createProjectModal && (
+                <CreateProjectModal
+                    onClose={() => setCreateProjectModal(false)}
+                    onSuccess={onCreateProjectSuccess}
+                />
             )}
         </div>
     );

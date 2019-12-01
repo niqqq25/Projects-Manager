@@ -1,54 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
 import './homePage.css';
 
-import * as UserAPI from '../../../requests/user';
-
-import Header from '../../../sharedComponents/Header/Header';
 import Projects from '../Projects/Projects';
-import Spinner from '../../../sharedComponents/Spinner/Spinner';
+import Header from '../../../sharedComponents/Header/Header';
+
+import { AlertMessageContext } from '../../../providers/AlertMessageProvider';
+
+const PROJECT_DELETE_SUCCESS_MESSAGE = 'Project has been successfully deleted';
+const PROJECT_LEAVE_SUCCESS_MESSAGE = 'You successfully left the project';
 
 export default function HomePage(props) {
-    const [user, setUser] = useState(null);
-    const [loginRedirect, setLoginRedirect] = useState(false);
+    const { showAlertMessage, removeAlertMessage } = useContext(
+        AlertMessageContext
+    );
 
     useEffect(() => {
-        setUser({firstname: 'Fake', secondname: 'Forreal'});
-        // getUser();
+        removeAlertMessage();
+        handleOtherPagesAlert();
     }, []);
 
-    async function getUser() {
-        const response = await UserAPI.getMe();
+    function handleOtherPagesAlert() {
+        const state = props.location.state || {};
+        const message = {};
 
-        if (response.error) {
-            setLoginRedirect(true);
-        } else {
-            setUser(response);
+        if (state.projectDeleted) {
+            message.text = PROJECT_DELETE_SUCCESS_MESSAGE;
+            message.fail = false;
+        } else if(state.projectLeft){
+            message.text = PROJECT_LEAVE_SUCCESS_MESSAGE;
+            message.fail = false;
         }
+
+        props.history.replace();
+        showAlertMessage(message);
     }
 
     return (
         <div id="home-page">
-            {user ? (
-                <>
-                    <Header
-                        firstname={user.firstname}
-                        secondname={user.secondname}
-                        company={user.company}
-                    />
-                    <Projects />
-                </>
-            ) : (
-                <Spinner page></Spinner>
-            )}
-            {loginRedirect && (
-                <Redirect
-                    to={{
-                        pathname: '/login',
-                        search: 'authFail=true',
-                    }}
-                />
-            )}
+            <Header />
+            <Projects {...props} />
         </div>
     );
 }
