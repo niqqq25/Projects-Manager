@@ -1,9 +1,0 @@
-.textarea{
-    text-align: left;
-    resize: none;
-    overflow: hidden;
-}
-
-.textarea:focus{
-    background-color: rgb(245, 244, 244);
-}

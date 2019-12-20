@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 const authUser = async (req, res, next) => {
     try {
-        if(!req.headers.authorization){
+        if (!req.headers.authorization) {
             throw new Error("Required token not found");
         }
 
