@@ -1,9 +1,10 @@
-const express = require("express");
+import express from "express";
+import projectController from "../controllers/project";
+import authUser from "../middleware/authUser";
+import authProjectOwner from "../middleware/authProjectOwner";
+import authProjectMember from "../middleware/authProjectMember";
+
 const router = express.Router();
-const projectController = require("../controllers/project");
-const authUser = require("../middleware/authUser");
-const authProjectOwner = require("../middleware/authProjectOwner");
-const authProjectMember = require("../middleware/authProjectMember");
 
 router.post("/", authUser, projectController.createProject);
 router.get("/", authUser, projectController.getProjects);
@@ -34,4 +35,4 @@ router.post(
     projectController.addTaskToProject
 );
 
-module.exports = router;
+export default router;

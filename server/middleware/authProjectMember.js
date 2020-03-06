@@ -1,5 +1,5 @@
-const Project = require("../models/project");
-const Task = require("../models/task");
+import Project from "../models/project";
+import Task from "../models/task";
 
 async function authProjectMember(req, res, next) {
     let projectId = req.params.project_id;
@@ -35,4 +35,4 @@ async function authProjectMember(req, res, next) {
     }
 }
 
-module.exports = authProjectMember;
+export default authProjectMember;

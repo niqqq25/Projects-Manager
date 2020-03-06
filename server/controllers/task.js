@@ -1,4 +1,4 @@
-const Task = require("../models/task");
+import Task from "../models/task";
 
 async function addTaskToTask(req, res) {
     const task = new Task({
@@ -115,7 +115,7 @@ async function removeAssigne(req, res) {
     }
 }
 
-module.exports = {
+export default {
     addTaskToTask,
     getTaskById,
     updateTaskById,

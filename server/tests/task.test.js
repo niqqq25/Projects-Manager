@@ -1,18 +1,18 @@
-const MongoMemoryDB = require("../db/mongoMemoryDB");
+import MongoMemoryDB from "../db/mongoMemoryDB";
 const db = new MongoMemoryDB();
 
 //request
-const supertest = require("supertest");
-const app = require("../server");
+import supertest from "supertest";
+import app from "../app";
 const request = supertest(app);
 
 //models
-const Project = require("../models/project");
-const Task = require("../models/task");
+import Project  from "../models/project";
+import Task from "../models/task";
 
 //load fake data
-const data = require("./data/testData");
-const seedData = require("../helpers/seedData");
+import data from "./data/testData";
+import seedData from "../helpers/seedData";
 
 async function seedUsers() {
     await seedData(db.db, "users", data.users);

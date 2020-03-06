@@ -6,4 +6,12 @@ const MainContent__TasksTableContainer = styled.div`
     padding: 0 10px;
 `;
 
-export default { MainContent, MainContent__TasksTableContainer };
+const MainContent__DescriptionContainer = styled.div`
+    padding: 0 10px;
+`;
+
+export default {
+    MainContent,
+    MainContent__TasksTableContainer,
+    MainContent__DescriptionContainer,
+};

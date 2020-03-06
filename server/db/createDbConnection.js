@@ -1,0 +1,12 @@
+import mongoose from "mongoose";
+
+export default async function createDbConnection(db = 'default') {
+    const options = {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    };
+
+    await mongoose.connect(db, options);
+}

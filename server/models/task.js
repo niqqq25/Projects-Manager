@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const getTaskChildren = require("../helpers/getTaskChildren");
+import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
     title: {
@@ -31,6 +30,24 @@ const taskSchema = new mongoose.Schema({
         default: false
     }
 });
+
+async function getTaskChildren(taskChilds) {
+    let tasksToCheck = [...taskChilds];
+    const taskChildren = [];
+
+    while (tasksToCheck.length > 0) {
+        const tasks = await Task.find({
+            _id: { $in: [...tasksToCheck] }
+        });
+        taskChildren.push(...tasksToCheck);
+        tasksToCheck = [];
+
+        tasks.forEach(task => {
+            tasksToCheck.push(...task.tasks);
+        });
+    }
+    return taskChildren;
+}
 
 taskSchema.post("save", async function(next) {
     try {
@@ -86,4 +103,4 @@ taskSchema.pre("deleteOne", async function(next) {
 
 const Task = mongoose.model("Task", taskSchema);
 
-module.exports = Task;
+export default Task;

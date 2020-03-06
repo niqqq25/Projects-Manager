@@ -1,7 +1,7 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
-const Project = require("../models/project");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import User from "../models/user";
+import Project from "../models/project";
 
 const JWT_EXPIRATION_TIME = "10h"; //later change this to 1h
 const PASSWORD_MIN_LENGTH = 6;
@@ -184,7 +184,7 @@ async function updateMe(req, res) {
     }
 }
 
-module.exports = {
+export default {
     signUp,
     signIn,
     getUserById,

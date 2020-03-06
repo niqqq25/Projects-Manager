@@ -1,4 +1,4 @@
-const Project = require("../models/project");
+import Project from "../models/project";
 
 async function authProjectOwner(req, res, next) {
     const projectId = req.params.project_id;
@@ -23,4 +23,4 @@ async function authProjectOwner(req, res, next) {
     }
 }
 
-module.exports = authProjectOwner;
+export default authProjectOwner;

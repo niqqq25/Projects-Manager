@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import userController from "../controllers/user";
+import authUser from "../middleware/authUser";
+
 const router = express.Router();
-const userController = require("../controllers/user");
-const authUser = require("../middleware/authUser");
 
 router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);
@@ -12,4 +13,4 @@ router.patch("/me", authUser, userController.updateMe);
 router.get("/:user_id", authUser, userController.getUserById);
 router.get("/", authUser, userController.getUsers);
 
-module.exports = router;
+export default router;

@@ -1,8 +1,9 @@
-const PORT = process.env.PORT || 5000;
-const app = require("./server");
-const mongodb = require("./db/mongodb");
+import app from "./app";
+import createDbConnection from './db/createDbConnection';
 
-mongodb.connect(process.env.MONGODB_URL);
+const PORT = process.env.PORT || 5000;
+
+createDbConnection(process.env.MONGODB_URL);
 
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);

@@ -1,6 +1,6 @@
-const Project = require("../models/project");
-const User = require("../models/user");
-const Task = require("../models/task");
+import Project from "../models/project";
+import User from "../models/user";
+import Task from "../models/task";
 
 async function createProject(req, res) {
     const project = new Project({
@@ -193,7 +193,7 @@ async function addTaskToProject(req, res) {
     }
 }
 
-module.exports = {
+export default {
     createProject,
     getProjects,
     getProjectById,

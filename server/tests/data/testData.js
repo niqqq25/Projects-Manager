@@ -1,4 +1,5 @@
-const ObjectID = require("mongodb").ObjectID;
+import mongodb from "mongodb";
+const ObjectID = mongodb.ObjectID;
 
 /*
 SCHEMA
@@ -80,4 +81,4 @@ const tasks = [
     }
 ];
 
-module.exports = { users, projects, tasks };
+export default { users, projects, tasks };

@@ -27,7 +27,7 @@ async function getMe() {
 
 async function get({ username, password }) {
     try {
-        const response = await fetch(`${PROTOCOL}${HOSTNAME}/users/signin`, {
+        const response = await fetch(`/users/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

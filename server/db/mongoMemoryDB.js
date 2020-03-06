@@ -1,6 +1,6 @@
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const mongoose = require("mongoose");
-const mongodb = require("./mongodb");
+import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
+import createDbConnection from './createDbConnection';
 
 class MongoMemoryDB {
     constructor() {
@@ -11,10 +11,10 @@ class MongoMemoryDB {
     async connect() {
         try {
             const url = await this.server.getConnectionString();
-            await mongodb.connect(url);
+            await createDbConnection(url);
             this.db = mongoose.connection.db;
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
         }
     }
 
@@ -23,7 +23,7 @@ class MongoMemoryDB {
             await mongoose.disconnect();
             this.server.stop();
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
         }
     }
 
@@ -37,4 +37,4 @@ class MongoMemoryDB {
     }
 }
 
-module.exports = MongoMemoryDB;
+export default MongoMemoryDB;

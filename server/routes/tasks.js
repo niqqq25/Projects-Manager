@@ -1,8 +1,9 @@
-const express = require("express");
+import express from "express";
+import taskController from "../controllers/task";
+import authUser from "../middleware/authUser";
+import authProjectMember from "../middleware/authProjectMember";
+
 const router = express.Router();
-const taskController = require("../controllers/task");
-const authUser = require("../middleware/authUser");
-const authProjectMember = require("../middleware/authProjectMember");
 
 router.post("/:task_id", [authUser, authProjectMember], taskController.addTaskToTask);
 router.get("/:task_id", [authUser, authProjectMember], taskController.getTaskById);
@@ -11,4 +12,4 @@ router.delete("/:task_id", [authUser, authProjectMember], taskController.deleteT
 router.post("/:task_id/assignee", [authUser, authProjectMember], taskController.addAssignee);
 router.delete("/:task_id/assignee", [authUser, authProjectMember], taskController.removeAssigne);
 
-module.exports = router;
+export default router;

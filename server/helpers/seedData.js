@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 async function seedData(db, collectionName, data) {
     if(collectionName === "users"){
@@ -12,4 +12,4 @@ async function seedData(db, collectionName, data) {
     await db.collection(collectionName).insertMany(data);
 }
 
-module.exports = seedData;
+export default seedData;
