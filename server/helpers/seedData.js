@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 async function seedData(db, collectionName, data) {
     if(collectionName === "users"){

@@ -1,8 +1,8 @@
-import express from "express";
+import { Router } from "express";
 import userController from "../controllers/user";
 import authUser from "../middleware/authUser";
 
-const router = express.Router();
+const router = new Router();
 
 router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);

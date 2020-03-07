@@ -1,0 +1,54 @@
+{
+    "name": "projects_manager",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "parcel watch ./client/index.js --no-source-maps",
+        "start": "nodemon --exec babel-node server"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "dist/*",
+            "client/*"
+        ]
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.0.1",
+        "express": "^4.17.1",
+        "js-cookie": "^2.2.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongodb": "^3.5.4",
+        "mongoose": "^5.9.3",
+        "parcel-bundler": "^1.12.4",
+        "react": ">=0.14.0 <17.0.0",
+        "react-dom": ">= 16.8.0",
+        "react-is": ">= 16.8.0",
+        "react-responsive": "^8.0.3",
+        "react-router-dom": "^5.1.2",
+        "react-textarea-autosize": "^7.1.2",
+        "styled-components": "^5.0.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.8.7",
+        "@babel/node": "^7.8.7",
+        "@babel/plugin-transform-runtime": "^7.8.3",
+        "@babel/preset-env": "^7.8.7",
+        "jest": "^25.1.0",
+        "mongodb-memory-server": "^6.3.2",
+        "nodemon": "^2.0.2",
+        "supertest": "^4.0.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/niqqq25/Projects-Manager.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/niqqq25/Projects-Manager/issues"
+    },
+    "homepage": "https://github.com/niqqq25/Projects-Manager#readme"
+}

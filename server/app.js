@@ -1,20 +1,32 @@
-import path from "path";
-import express from "express";
-import dotenv from "dotenv";
+import express from 'express';
+import Bundler from 'parcel-bundler';
+import path from 'path';
+import router from './routes/router';
+import createDbConnection from './db/createDbConnection';
 
+const PORT = process.env.PORT || 5001;
 const app = express();
 
-dotenv.config({ path: path.resolve(__dirname, ".env") });
+async function server() {
+    await createDbConnection(process.env.MONGODB_URL);
 
-import userRouter from "./routes/users";
-import projectRouter from "./routes/projects";
-import taskRouter from "./routes/tasks";
+    app.use(express.json());
 
-app.use(express.json());
+    const entryFiles = path.join(__dirname, '..', './client/index.js'); //'../client/*/index.js'
+    const options = { sourceMaps: false };
+    const bundler = new Bundler(entryFiles, options);
+    bundler.bundle();
 
-app.use()
-    .use("/users", userRouter)
-    .use("/projects", projectRouter)
-    .use("/tasks", taskRouter);
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
 
-export default app;
+    app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
+
+    app.use(router);
+
+    app.listen(PORT, () => {
+        console.log(`Listening on ${PORT}`);
+    });
+}
+
+export default server;

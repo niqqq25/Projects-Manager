@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import MongoMemoryDB from "../db/mongoMemoryDB";
 const db = new MongoMemoryDB();
 

@@ -1,14 +1,18 @@
-import express from "express";
+import { Router } from "express";
 import projectController from "../controllers/project";
 import authUser from "../middleware/authUser";
 import authProjectOwner from "../middleware/authProjectOwner";
 import authProjectMember from "../middleware/authProjectMember";
 
-const router = express.Router();
+const router = new Router();
 
 router.post("/", authUser, projectController.createProject);
 router.get("/", authUser, projectController.getProjects);
-router.get("/:project_id", [authUser, authProjectMember], projectController.getProjectById);
+router.get(
+    "/:project_id",
+    [authUser, authProjectMember],
+    projectController.getProjectById
+);
 router.patch(
     "/:project_id",
     [authUser, authProjectOwner],
