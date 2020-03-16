@@ -1,13 +1,17 @@
 const routes = {
     USER: {
-        ROOT: '/api/users'
+        ROOT: '/api/users',
+        LOGIN: '/login',
+        ME: '/me',
     },
     TASK: {
-        ROOT: 'api/tasks'
+        ROOT: '/api/tasks',
     },
     PROJECT: {
-        ROOT: 'api/projects'
-    }
+        ROOT: '/api/projects',
+        MEMBERS: '/members',
+        TASKS: '/tasks',
+    },
 };
 
 export default routes;

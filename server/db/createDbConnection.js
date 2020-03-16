@@ -8,5 +8,7 @@ export default async function createDbConnection(db = 'default') {
         useFindAndModify: false
     };
 
-    await mongoose.connect(db, options);
+    const url = `mongodb://localhost:27017/${db}`;
+
+    await mongoose.connect(url, options);
 }

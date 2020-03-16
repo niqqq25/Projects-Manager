@@ -17,7 +17,7 @@ tasks:
 const users = [
     //simple user
     {
-        _id: new ObjectID("bdbdf88028e375d81dccee42"),
+        _id: "bdbdf88028e375d81dccee42",
         firstname: "Tomas",
         secondname: "second",
         email: "tomas@email.com",
@@ -27,7 +27,7 @@ const users = [
     },
     //owner
     {
-        _id: new ObjectID("915db99d709ad3f495fead58"),
+        _id: "915db99d709ad3f495fead58",
         firstname: "Bob",
         secondname: "second",
         email: "bob@email.com",
@@ -38,7 +38,7 @@ const users = [
     },
     //project member
     {
-        _id: new ObjectID("b091c07a22700ebc58fe3008"),
+        _id: "b091c07a22700ebc58fe3008",
         firstname: "Andrew",
         secondname: "second",
         email: "andrew@email.com",
@@ -51,7 +51,7 @@ const users = [
 
 const projects = [
     {
-        _id: new ObjectID("3a6017b2a53544da7243ccc7"),
+        _id: "3a6017b2a53544da7243ccc7",
         title: "Project",
         owner: ObjectID("915db99d709ad3f495fead58"),
         members: [
@@ -63,9 +63,8 @@ const projects = [
 ];
 
 const tasks = [
-    //first project tasks
     {
-        _id: new ObjectID("09dae8175b197ef2a7cd2700"),
+        _id: "09dae8175b197ef2a7cd2700",
         title: "Task",
         description: "This is task",
         project: ObjectID("3a6017b2a53544da7243ccc7"),
@@ -73,7 +72,7 @@ const tasks = [
         tasks: [ObjectID("09dae8175b197ef2a7cd2701")]
     },
     {
-        _id: new ObjectID("09dae8175b197ef2a7cd2701"),
+        _id: "09dae8175b197ef2a7cd2701",
         title: "Task in task",
         description: "This is task",
         parentTask: ObjectID("09dae8175b197ef2a7cd2700"),

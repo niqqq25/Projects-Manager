@@ -49,7 +49,7 @@ async function getTaskChildren(taskChilds) {
     return taskChildren;
 }
 
-taskSchema.post("save", async function(next) {
+taskSchema.post("save", async function(doc, next) {
     try {
         if (this.parentTask) {
             await Task.updateOne(
@@ -59,7 +59,7 @@ taskSchema.post("save", async function(next) {
                 }
             );
         } else {
-            const Project = require("./project");
+            const Project = require("./project").default;
             await Project.updateOne(
                 { _id: this.project },
                 {
@@ -85,7 +85,7 @@ taskSchema.pre("deleteOne", async function(next) {
                 }
             );
         } else {
-            const Project = require("./project");
+            const Project = require("./project").default;
             await Project.updateOne(
                 { _id: task.project },
                 {

@@ -1,19 +1,19 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import Bundler from 'parcel-bundler';
 import path from 'path';
+
 import router from './routes/router';
 import createDbConnection from './db/createDbConnection';
 
-const PORT = process.env.PORT || 5001;
 const app = express();
 
-async function server() {
-    await createDbConnection(process.env.MONGODB_URL);
+if (process.env.NODE_ENV !== 'test') {
+    createDbConnection('admin');
 
-    app.use(express.json());
-
-    const entryFiles = path.join(__dirname, '..', './client/index.js'); //'../client/*/index.js'
+    const entryFiles = path.join(__dirname, '..', './client/entries/*.js');
     const options = { sourceMaps: false };
+
     const bundler = new Bundler(entryFiles, options);
     bundler.bundle();
 
@@ -21,12 +21,11 @@ async function server() {
     app.set('view engine', 'ejs');
 
     app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
-
-    app.use(router);
-
-    app.listen(PORT, () => {
-        console.log(`Listening on ${PORT}`);
-    });
 }
 
-export default server;
+app.use(express.json());
+app.use(cookieParser());
+
+app.use(router);
+
+export default app;

@@ -1,125 +1,77 @@
-import Task from "../models/task";
+import { Task } from '../models';
+import { ErrorHandler } from '../middleware/errorMiddleware';
 
-async function addTaskToTask(req, res) {
-    const task = new Task({
-        ...req.body,
-        project: req.project._id,
-        parentTask: req.params.task_id
-    });
+const populateQuery = [
+    {
+        path: 'assignee',
+        select: 'username',
+    },
+    {
+        path: 'tasks',
+        select: 'title assignee isCompleted',
+        populate: {
+            path: 'assignee',
+            select: 'username',
+        },
+    },
+    {
+        path: 'parentTask',
+        select: 'title',
+    },
+    {
+        path: 'project',
+        select: 'title',
+    },
+];
 
+export async function getTask(req, res, next) {
     try {
-        const validationError = await task.validate();
-        if (validationError) {
-            throw new Error(validationError);
-        }
-
-        await task.save();
-        res.status(201).send({ message: "Task is successfully created" });
+        const task = await Task.findById(req.params.task_id).populate(
+            populateQuery
+        );
+        res.status(200).send({ task });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function getTaskById(req, res) {
-    try {
-        const task = await Task.findById(req.params.task_id).populate([
-            {
-                path: "assignee",
-                select: "-password -email -phone -projects"
-            },
-            {
-                path: "tasks",
-                select: "-tasks -description -parentTask -project",
-                populate: {
-                    path: "assignee",
-                    select: "-password -email -phone -projects"
-                }
-            },
-            {
-                path: "parentTask",
-                select: "_id title"
-            },
-            {
-                path: "project",
-                select: "_id title"
-            }
-        ]);
-        res.status(200).send(task);
-    } catch (err) {
-        res.status(500).send({ message: err.message });
-    }
-}
-
-async function updateTaskById(req, res) {
-    const updatableKeys = ["description", "isCompleted", 'title'];
+export async function updateTask(req, res, next) {
+    const updatableKeys = ['description', 'isCompleted', 'title', 'assignee'];
 
     try {
         const isUpdatable = Object.keys(req.body).every(key =>
             updatableKeys.includes(key)
         );
         if (!isUpdatable) {
-            throw new Error("Invalid updates");
+            throw new ErrorHandler(400, 'Invalid updates');
         }
 
         if (req.body.assignee) {
-            const isMember = req.project.members.includes(req.body.assignee);
+            const isMember = res.locals.project.members.includes(
+                req.body.assignee
+            );
             if (!isMember) {
-                throw new Error("Invalid updates");
+                throw new ErrorHandler(400, 'Assignee must be member');
             }
         }
 
-        await Task.updateOne(
-            { _id: req.params.task_id },
+        const task = await Task.findByIdAndUpdate(
+            req.params.task_id,
             { $set: req.body },
-            { runValidators: true }
-        );
-        res.status(200).send({ message: "Successfully updated" });
+            { runValidators: true, new: true }
+        ).populate(populateQuery);
+
+        res.status(200).send({ task });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function deleteTaskById(req, res) {
+export async function deleteTask(req, res, next) {
     try {
         await Task.deleteOne({ _id: req.params.task_id });
-        res.status(200).send({ message: "Task successfully removed" });
+        res.status(200).send({ message: 'Task was successfully removed' });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        next(err);
     }
 }
-
-async function addAssignee(req, res) {
-    try {
-        const userId = req.body.id;
-        const isMember = req.project.members.includes(userId);
-        if (!isMember) {
-            throw new Error("Member is not found");
-        }
-
-        await Task.updateOne({ _id: req.params.task_id }, { assignee: userId });
-        res.status(200).send({ message: "Successfully assigned " });
-    } catch (err) {
-        res.status(400).send({ message: err.message });
-    }
-}
-
-async function removeAssigne(req, res) {
-    try {
-        await Task.updateOne(
-            { _id: req.params.task_id },
-            { $unset: { assignee: "" } }
-        );
-        res.status(200).send({ message: "Successfully unassigned" });
-    } catch (err) {
-        res.status(500).send({ message: err.message });
-    }
-}
-
-export default {
-    addTaskToTask,
-    getTaskById,
-    updateTaskById,
-    deleteTaskById,
-    addAssignee,
-    removeAssigne
-};

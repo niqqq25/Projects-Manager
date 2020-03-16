@@ -1,46 +1,46 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
-        required: true
+        required: true,
     },
     secondname: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         required: true,
         unique: true,
-        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     },
     phone: {
         type: String,
-        required: true
+        required: true,
     },
     company: String,
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     projects: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Project"
-        }
-    ]
+            ref: 'Project',
+        },
+    ],
 });
 
-userSchema.pre("deleteOne", async function(next) {
-    const Project = require("./project");
-    const Task = require("./task");
+userSchema.pre('deleteOne', async function(next) {
     const userId = this.getQuery()._id;
+    const Project = require('./project').default;
+    const Task = require('./task').default;
 
     try {
         //remove user from projects
@@ -52,7 +52,7 @@ userSchema.pre("deleteOne", async function(next) {
         //remove user from assigned tasks
         await Task.updateMany(
             { assignee: userId },
-            { $unset: { assignee: "" } }
+            { $unset: { assignee: '' } }
         ).exec();
 
         next();
@@ -61,6 +61,6 @@ userSchema.pre("deleteOne", async function(next) {
     }
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;

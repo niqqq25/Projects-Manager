@@ -1,60 +1,67 @@
-import Project from "../models/project";
-import User from "../models/user";
-import Task from "../models/task";
+import { User, Project, Task } from '../models';
+import { ErrorHandler } from '../middleware/errorMiddleware';
 
-async function createProject(req, res) {
+const taskPopulateQuery = {
+    path: 'assignee',
+    select: 'username',
+};
+
+const populateQuery = [
+    { path: 'members', select: 'username' },
+    { path: 'owner', select: 'username' },
+    {
+        path: 'tasks',
+        select: 'title assignee isCompleted',
+        populate: taskPopulateQuery,
+    },
+];
+
+export async function createProject(req, res, next) {
+    const { user } = res.locals;
     const project = new Project({
         ...req.body,
-        owner: req.user._id,
-        members: [req.user._id]
+        owner: user._id,
+        members: [user._id],
     });
 
     try {
         const validationError = await project.validate();
         if (validationError) {
-            throw new Error(validationError);
+            throw new ErrorHandler(400, validationError);
         }
         await project.save();
+        await Project.populate(project, populateQuery);
 
-        res.status(201).send(project);
+        res.status(201).send({ project });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function getProjects(req, res) {
+export async function getProjects(req, res, next) {
+    const { user } = res.locals;
     try {
-        await User.populate(req.user, { path: "projects" });
-        res.status(200).send(req.user.projects);
+        const projects = await Project.find({ members: user._id });
+        res.status(200).send({ projects });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        next(err);
     }
 }
 
-async function getProjectById(req, res) {
+export async function getProject(req, res, next) {
     try {
-        const project = await Project.populate(req.project, [
-            {
-                path: "members owner",
-                select: "-password -email -phone -projects"
-            },
-            {
-                path: "tasks",
-                select: "-project",
-                populate: {
-                    path: "assignee",
-                    select: "-password -email -phone -projects"
-                }
-            }
-        ]);
-        res.status(200).send(project);
+        const project = await Project.populate(
+            res.locals.project,
+            populateQuery
+        );
+        res.status(200).send({ project });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        next(err);
     }
 }
 
-async function updateProjectById(req, res) {
-    const updatableKeys = ["description", "title", "owner"];
+export async function updateProject(req, res, next) {
+    const updatableKeys = ['description', 'title', 'owner'];
     const fieldsToUpdate = Object.keys(req.body);
 
     try {
@@ -62,144 +69,154 @@ async function updateProjectById(req, res) {
             updatableKeys.includes(key)
         );
         if (!isUpdatable) {
-            throw new Error("Invalid updates");
+            throw new ErrorHandler(400, 'Invalid updates');
         }
 
-        if (fieldsToUpdate.includes("owner")) {
+        const { project } = res.locals;
+        if (fieldsToUpdate.includes('owner')) {
             const memberId = req.body.owner;
-            const isMember = req.project.members.includes(memberId);
+            const isMember = project.members.includes(memberId);
             if (!isMember) {
-                throw new Error("User is not a member");
+                throw new ErrorHandler(400, 'User is not a member');
             }
         }
 
-        await Project.updateOne(
-            { _id: req.params.project_id },
+        const $project = await Project.findByIdAndUpdate(
+            project._id,
             { $set: req.body },
-            { runValidators: true }
-        );
-        res.status(200).send({ message: "Successfully updated" });
+            { runValidators: true, new: true }
+        ).populate(populateQuery);
+
+        res.status(200).send({ project: $project });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function removeProjectById(req, res) {
+export async function removeProject(req, res, next) {
     try {
         await Project.deleteOne({ _id: req.params.project_id });
-        res.status(200).send({ message: "Project is successfully removed" });
+        res.status(200).send({ message: 'Project is successfully removed' });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        next(err);
     }
 }
 
-async function addMemberToProject(req, res) {
-    const memberId = req.body.id;
-    const projectId = req.params.project_id;
+export async function addMember(req, res, next) {
+    const { project_id } = req.params;
+    const { _id } = req.body;
 
     try {
-        const count = await User.findById(memberId);
-        if (!count) {
-            throw new Error("User doesnt exist");
+        const user = await User.findById(_id);
+        if (!user) {
+            throw new ErrorHandler(404, 'User doesnt exist');
         }
 
-        const isMember = req.project.members.includes(memberId);
+        const isMember = res.locals.project.members.includes(_id);
         if (isMember) {
-            throw new Error("User is a member");
+            throw new ErrorHandler(400, 'User is a member');
         }
 
-        await Project.updateOne(
-            { _id: projectId },
+        const project = await Project.findByIdAndUpdate(
+            project_id,
             {
-                $addToSet: { members: memberId }
-            }
-        );
+                $addToSet: { members: _id },
+            },
+            { new: true }
+        ).populate(populateQuery);
 
         await User.updateOne(
-            { _id: memberId },
+            { _id },
             {
-                $addToSet: { projects: projectId }
+                $addToSet: { projects: project_id },
             }
         );
 
         return res.status(200).send({
-            message: "Member is successfully added to the project"
+            project,
         });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function removeMemberFromProject(req, res) {
-    const memberId = req.body.id;
-    const projectId = req.params.project_id;
+export async function removeMember(req, res, next) {
+    const { project_id } = req.params;
+    const { _id } = req.body;
+    const { project, user } = res.locals;
 
     try {
-        const project = await Project.findById(projectId);
-        if (!project) {
-            throw new Error("Project not found");
-        }
-
-        const isMemberExist = project.members.includes(memberId);
+        const isMemberExist = project.members.includes(_id);
         if (!isMemberExist) {
-            throw new Error("Member doesnt exist in this project");
+            throw new ErrorHandler(404, 'Member doesnt exist in this project');
         }
 
-        const isOwner = req.user._id.toString() === project.owner.toString();
-        const isRemoveMyself = req.user._id.toString() === memberId.toString();
+        const isOwner = user._id.toString() === project.owner.toString();
+        const isRemoveMyself = user._id.toString() === _id.toString();
         //XOR operator - u can either remove other as owner or yourself as member
         if (isOwner ? isRemoveMyself : !isRemoveMyself) {
-            throw new Error("The action is not allowed");
+            throw new ErrorHandler(403, 'The action is not allowed');
         }
 
-        await Project.updateOne(
-            { _id: projectId },
+        const $project = await Project.findByIdAndUpdate(
+            project_id,
             {
-                $pull: { members: memberId }
-            }
-        );
+                $pull: { members: _id },
+            },
+            { new: true }
+        ).populate(populateQuery);
 
         await User.updateOne(
-            { _id: memberId },
+            { _id },
             {
-                $pull: { projects: projectId }
+                $pull: { projects: project_id },
             }
         );
 
         res.status(200).send({
-            message: "Member is successfully removed from the project"
+            project: $project,
         });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        next(err);
     }
 }
 
-async function addTaskToProject(req, res) {
-    const task = new Task({
-        ...req.body,
-        project: req.project._id
-    });
+export async function addTask(req, res, next) {
+    const { parent: parentTask } = req.query;
+    const { project_id: project } = req.params;
 
     try {
+        if (parentTask) {
+            const pTask = await Task.findById(parentTask);
+
+            if (!pTask) {
+                throw new ErrorHandler(404, 'Parent task not found');
+            }
+
+            if (pTask.project.toString() !== project) {
+                throw new ErrorHandler(
+                    409,
+                    'Parent task is from different project'
+                );
+            }
+        }
+
+        const task = new Task({
+            ...req.body,
+            project,
+            parentTask,
+        });
+
         const validationError = await task.validate();
         if (validationError) {
-            throw new Error(validationError);
+            throw new ErrorHandler(422, validationError);
         }
 
         await task.save();
-        res.status(200).send({ message: "Task is successfully created" });
+        await Task.populate(task, taskPopulateQuery);
+
+        res.status(201).send({ task });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        next(err);
     }
 }
-
-export default {
-    createProject,
-    getProjects,
-    getProjectById,
-    updateProjectById,
-    removeProjectById,
-    addMemberToProject,
-    removeMemberFromProject,
-    addTaskToProject
-};

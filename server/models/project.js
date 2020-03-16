@@ -1,37 +1,37 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     description: String,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "User"
+        ref: 'User',
     },
     members: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }
+            ref: 'User',
+        },
     ],
     tasks: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Task"
-        }
-    ]
+            ref: 'Task',
+        },
+    ],
 });
 
-projectSchema.post("save", async function(next) {
+projectSchema.post('save', async function(doc, next) {
     try {
-        const User = require("./user");
+        const User = require('./user').default;
         await User.updateOne(
             { _id: this.owner },
             {
-                $push: { projects: this._id }
+                $push: { projects: this._id },
             }
         );
     } catch (err) {
@@ -39,14 +39,14 @@ projectSchema.post("save", async function(next) {
     }
 });
 
-projectSchema.post("deleteOne", async function(next) {
+projectSchema.post('deleteOne', async function(doc, next) {
     try {
         const projectId = this.getQuery()._id;
         //remove tasks
-        const Task = require("./task");
+        const Task = require('./task').default;
         await Task.deleteMany({ project: projectId });
         //remove project from users
-        const User = require("./user");
+        const User = require('./user').default;
         User.updateMany(
             { projects: projectId },
             { $pull: { projects: projectId } }
@@ -56,6 +56,6 @@ projectSchema.post("deleteOne", async function(next) {
     }
 });
 
-const Project = mongoose.model("Project", projectSchema);
+const Project = mongoose.model('Project', projectSchema);
 
 export default Project;
