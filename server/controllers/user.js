@@ -128,7 +128,7 @@ export async function deleteMe(req, res, next) {
 
 export async function updateMe(req, res, next) {
     const { _id } = res.locals.user;
-    const updatableKeys = ['firstname', 'secondname', 'phone', 'password'];
+    const updatableKeys = ['fullName', 'password'];
     const isUpdatable = Object.keys(req.body).every(key =>
         updatableKeys.includes(key)
     );

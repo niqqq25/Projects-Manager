@@ -156,7 +156,7 @@ describe('user API', () => {
 
     describe('PATCH /api/users/me', () => {
         const { username, password, _id } = data.users[0];
-        const firstname = 'Tobi';
+        const fullName = 'Tobi';
 
         beforeEach(async () => {
             await seedUsers();
@@ -166,10 +166,10 @@ describe('user API', () => {
         it('should update me when all changes are valid', async () => {
             await request
                 .patch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`)
-                .send({ firstname });
+                .send({ fullName });
             const user = await User.findById(_id);
             
-            const isNewFirsname = user.firstname === firstname;
+            const isNewFirsname = user.fullName === fullName;
             expect(isNewFirsname).to.equal(true);
         });
 
@@ -177,20 +177,20 @@ describe('user API', () => {
             setInvalidUserToken();
             await request
                 .patch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`)
-                .send({ firstname });
+                .send({ fullName });
             const user = await User.findById(_id);
 
-            const isNewFirsname = user.firstname === firstname;
+            const isNewFirsname = user.fullName === fullName;
             expect(isNewFirsname).to.equal(false);
         });
 
         it('should not update me when changes are not valid', async () => {
             await request
                 .patch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`)
-                .send({ firstname, email: 'top' });
+                .send({ fullName, email: 'top' });
             const user = await User.findById(_id);
 
-            const isNewFirsname = user.firstname === firstname;
+            const isNewFirsname = user.fullName === fullName;
             expect(isNewFirsname).to.equal(false);
         });
 
@@ -221,9 +221,9 @@ describe('user API', () => {
         it('should return updated me when I am updated', async () => {
             const res = await request
                 .patch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`)
-                .send({ firstname });
+                .send({ fullName });
 
-            expect(res.body.user.firstname).to.equal(firstname);
+            expect(res.body.user.fullName).to.equal(fullName);
         });
     });
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from '../routers/public';
-
-import GlobalStyles from '../components/shared/Global.styles';
+import { AlertMessageProvider } from '../providers/AlertMessage';
 
 ReactDOM.render(
-    <>
+    <AlertMessageProvider>
         <Router />
-        <GlobalStyles />
-    </>,
+    </AlertMessageProvider>,
     document.getElementById('root')
 );
