@@ -8,10 +8,31 @@ const loginFormValidationSchema = Yup.object().shape({
 const signupFormValidationSchema = Yup.object().shape({
     fullName: Yup.string().required('Full Name is required'),
     username: Yup.string().required('Username is required'),
-    password: Yup.string().min(6, 'Password is too short'),
+    password: Yup.string().min(
+        6,
+        'Password must be at least 6 characters long'
+    ),
     email: Yup.string()
         .required('Email is required')
         .email('Email is invalid'),
 });
 
-export { loginFormValidationSchema, signupFormValidationSchema };
+const userEditFormValidationSchema = Yup.object().shape({
+    fullName: Yup.string().required('Full Name cannot be empty'),
+    password: Yup.string().test(
+        'check password length',
+        'New password must be at least 6 characters long',
+        value => {
+            if (value) {
+                return value.length > 5;
+            }
+            return true;
+        }
+    ),
+});
+
+export {
+    loginFormValidationSchema,
+    signupFormValidationSchema,
+    userEditFormValidationSchema,
+};

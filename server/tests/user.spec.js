@@ -85,6 +85,18 @@ describe('user API', () => {
         });
     });
 
+    describe('GET /api/users/logout', () => {
+        it('should delete user token', async () => {
+            const { username, password } = data.users[0];
+            await seedUsers();
+            await login(username, password);
+            await request.get(`${ROUTES.USER.ROOT}${ROUTES.USER.LOGOUT}`);
+
+            const cookie = request.jar.getCookie('user_token');
+            expect(cookie).to.not.be.ok;
+        });
+    });
+
     describe('GET /api/users/me', () => {
         const { username, password } = data.users[0];
 
@@ -168,7 +180,7 @@ describe('user API', () => {
                 .patch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`)
                 .send({ fullName });
             const user = await User.findById(_id);
-            
+
             const isNewFirsname = user.fullName === fullName;
             expect(isNewFirsname).to.equal(true);
         });

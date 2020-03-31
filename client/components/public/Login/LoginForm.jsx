@@ -11,6 +11,7 @@ import { loginFormValidationSchema } from '../../../helpers/validationSchemas';
 import { loginUser } from '../../../actions/user';
 import { AlertMessageContext } from '../../../providers/AlertMessage';
 import ALERTS from '../../../constants/alerts';
+import ROUTES from '../../../constants/routes';
 
 function LoginForm({ history }) {
     const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ function LoginForm({ history }) {
         setLoading(false);
 
         if (res.status !== 'error') {
-            window.location = '/';
+            window.location = ROUTES.HOME;
         } else {
             setAlertMessage(ALERTS.USER.LOGIN_ERROR);
         }
@@ -70,7 +71,7 @@ function LoginForm({ history }) {
 
             <SignUpText>
                 Don't have an account?
-                <Link onClick={() => history.push('/signup')}>Sign up</Link>
+                <Link onClick={() => history.push(ROUTES.SIGNUP)}>Sign up</Link>
             </SignUpText>
         </Form>
     );

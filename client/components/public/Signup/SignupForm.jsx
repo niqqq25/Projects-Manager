@@ -9,6 +9,7 @@ import {
 import useForm from '../../../helpers/useForm';
 import { signupFormValidationSchema } from '../../../helpers/validationSchemas';
 import { createUser } from '../../../actions/user';
+import ROUTES from '../../../constants/routes';
 
 const initialInputs = {
     fullName: '',
@@ -47,7 +48,7 @@ function SignupForm({ history }) {
         if (res.status === 'error') {
             onCreateUserError(res.message);
         } else {
-            history.push('/login?registrationSuccess=true');
+            history.push(`${ROUTES.LOGIN}?registrationSuccess=true`);
         }
     }
 
@@ -108,7 +109,7 @@ function SignupForm({ history }) {
 
             <LoginText>
                 Already have an account?
-                <Link onClick={() => history.push('/login')}>Login</Link>
+                <Link onClick={() => history.push(ROUTES.LOGIN)}>Login</Link>
             </LoginText>
         </Form>
     );

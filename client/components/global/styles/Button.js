@@ -15,6 +15,7 @@ const Button = styled.button`
     text-transform: uppercase;
     padding: 10px 10px;
     font-weight: bold;
+    font-size: inherit;
     border-radius: inherit;
     background-color: white;
     &:hover:enabled {

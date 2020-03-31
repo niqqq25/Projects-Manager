@@ -2,6 +2,7 @@ const routes = {
     USER: {
         ROOT: '/api/users',
         LOGIN: '/login',
+        LOGOUT: '/logout',
         ME: '/me',
     },
     TASK: {

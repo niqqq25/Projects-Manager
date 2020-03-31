@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import ROUTES from '../constants/routes';
 
 import Layout from '../components/public/Layout';
 import Login from '../components/public/Login';
@@ -9,9 +10,9 @@ const router = () => (
     <BrowserRouter>
         <Layout>
             <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <Redirect to="/login" />
+                <Route exact path={ROUTES.LOGIN} component={Login} />
+                <Route exact path={ROUTES.SIGNUP} component={Signup} />
+                <Redirect to={ROUTES.LOGIN} />
             </Switch>
         </Layout>
     </BrowserRouter>

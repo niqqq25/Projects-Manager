@@ -1,9 +1,9 @@
 import React from 'react';
+import Navbar from './Navbar';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
     body {
-        background: linear-gradient( 90deg, hsl(41, 72%, 73%), hsl(6, 70%, 61%));
         font-family: "Montserrat", sans-serif;
     }
     * {
@@ -15,8 +15,9 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout = ({ children }) => (
     <>
-        <GlobalStyle />
+        <Navbar />
         {children}
+        <GlobalStyle />
     </>
 );
 

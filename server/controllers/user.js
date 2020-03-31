@@ -55,6 +55,11 @@ export async function login(req, res, next) {
     }
 }
 
+export async function logout(req, res, next) {
+    res.clearCookie('user_token');
+    res.status(200).send({ message: 'Success' });
+}
+
 export async function getUserById(req, res, next) {
     try {
         const user = await User.findById(req.params.id, selectQuery);
