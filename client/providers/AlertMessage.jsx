@@ -23,11 +23,8 @@ function AlertMessageProvider({ children }) {
                 <AlertMessageContainer>
                     <AlertMessage
                         onClose={() => setAlertMessage(null)}
-                        error={alertMessage.error}
-                        success={alertMessage.success}
-                    >
-                        {alertMessage.content}
-                    </AlertMessage>
+                        alertMessage={alertMessage}
+                    />
                 </AlertMessageContainer>
             )}
         </AlertMessageContext.Provider>

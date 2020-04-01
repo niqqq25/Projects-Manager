@@ -28,7 +28,10 @@ function UserProvider({ children }) {
 
     async function updateUser({ fullName, password }) {
         const res = await updateMe({ fullName, password });
-        setUser(user);
+        if (res.user) {
+            setUser(res.user);
+        }
+        return res;
     }
 
     return (

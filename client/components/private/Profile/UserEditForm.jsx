@@ -1,13 +1,17 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../../providers/User';
+import { AlertMessageContext } from '../../../providers/AlertMessage';
 import useForm from '../../../helpers/useForm';
 import { userEditFormValidationSchema } from '../../../helpers/validationSchemas';
 import { InputField, SubmitButton, Link } from '../../global';
 import { Form, ButtonContainer, FormTitle } from './styles/UserEditForm';
+import UserDeleteField from './UserDeleteField';
+import ALERTS from '../../../constants/alerts';
 
-function UserEditForm({ onUserEditSuccess }) {
+function UserEditForm() {
     const [loading, setLoading] = useState(false);
     const { user, updateUser } = useContext(UserContext);
+    const { setAlertMessage } = useContext(AlertMessageContext);
     const [inputs, { setValue, validateInputs }] = useForm(
         {
             username: user.username,
@@ -30,12 +34,15 @@ function UserEditForm({ onUserEditSuccess }) {
 
     async function handleUpdateUser() {
         setLoading(true);
-        await updateUser({
+        const res = await updateUser({
             fullName: fullName.value,
             password: password.value || undefined,
         });
         setLoading(false);
-        onUserEditSuccess();
+
+        if (res.user) {
+            setAlertMessage(ALERTS.USER.UPDATE_SUCCESS);
+        }
     }
 
     return (
@@ -71,6 +78,7 @@ function UserEditForm({ onUserEditSuccess }) {
                     loading={loading ? 1 : 0}
                 />
             </ButtonContainer>
+            <UserDeleteField />
         </Form>
     );
 }

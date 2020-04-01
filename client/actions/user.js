@@ -41,4 +41,11 @@ async function updateMe({ fullName, password }) {
     return await res.json();
 }
 
-export { loginUser, createUser, getMe, updateMe, logoutMe };
+async function deleteUser() {
+    const res = await fetch(`${ROUTES.USER.ROOT}${ROUTES.USER.ME}`, {
+        method: 'DELETE',
+    });
+    return await res.json();
+}
+
+export { loginUser, createUser, getMe, updateMe, logoutMe, deleteUser };
