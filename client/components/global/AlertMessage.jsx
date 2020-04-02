@@ -1,40 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     AlertMessage,
     AlertMessageContainer,
     CloseButton,
     AlertMessageText,
 } from './styles/AlertMessage';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import alertActions from '../../redux/shared/actions/alert';
 
-function _AlertMessage({ alertMessage, onClose }) {
-    const [timer, setTimer] = useState(null);
-
-    useEffect(() => {
-        startTimer();
-    }, []);
-
-    useEffect(() => {
-        return () => clearTimeout(timer);
-    }, [timer]);
-
-    function startTimer() {
-        const _timer = setTimeout(() => {
-            onClose();
-        }, 2000);
-        setTimer(_timer);
-    }
-
-    const { success, error, content } = alertMessage;
+function _AlertMessage() {
+    const alert = useSelector(state => state.alert, shallowEqual);
+    const dispatch = useDispatch();
+    const { message, type } = alert;
 
     return (
-        <AlertMessageContainer>
-            <AlertMessage success={success} error={error}>
-                <AlertMessageText>{content}</AlertMessageText>
-                <CloseButton type="button" onClick={onClose}>
-                    &times;
-                </CloseButton>
-            </AlertMessage>
-        </AlertMessageContainer>
+        <>
+            {message ? (
+                <AlertMessageContainer>
+                    <AlertMessage type={type}>
+                        <AlertMessageText>{message}</AlertMessageText>
+                        <CloseButton
+                            type="button"
+                            onClick={() => dispatch(alertActions.clear())}
+                        >
+                            &times;
+                        </CloseButton>
+                    </AlertMessage>
+                </AlertMessageContainer>
+            ) : null}
+        </>
     );
 }
 

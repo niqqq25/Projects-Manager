@@ -1,5 +1,6 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
+import { AlertMessage } from '../global';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -16,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
 const Layout = ({ children }) => (
     <>
         <GlobalStyle />
+        <AlertMessage />
         {children}
     </>
 );

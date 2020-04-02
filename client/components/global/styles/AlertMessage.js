@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 
 const AlertMessageContainer = styled.div`
+    position: fixed;
+    z-index: 999;
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+    width: 300px;
     display: block;
     background: linear-gradient(90deg, #f5af19 0%, #f12711 100%);
     border-radius: 10px;
@@ -8,10 +14,20 @@ const AlertMessageContainer = styled.div`
     padding: 2px;
 `;
 
+const handleBackgroundColor = type => {
+    switch (type) {
+        case 'success':
+            return '#D4EDDA';
+        case 'error':
+            return '#F8D7DA';
+        default:
+            return 'white';
+    }
+};
+
 const AlertMessage = styled.div`
     position: relative;
-    background-color: ${props =>
-        (props.success && '#D4EDDA') || (props.error && '#F8D7DA') || 'white'};
+    background-color: ${({ type }) => handleBackgroundColor(type)};
     padding: 20px;
     border-radius: inherit;
     font-size: 14px;
@@ -35,9 +51,4 @@ const CloseButton = styled.a`
     }
 `;
 
-export {
-    AlertMessage,
-    AlertMessageContainer,
-    AlertMessageText,
-    CloseButton,
-};
+export { AlertMessage, AlertMessageContainer, AlertMessageText, CloseButton };

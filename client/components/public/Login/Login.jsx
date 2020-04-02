@@ -1,28 +1,27 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import LoginForm from './LoginForm';
-import { AlertMessageContext } from '../../../providers/AlertMessage';
 import ALERTS from '../../../constants/alerts';
 
+import { useDispatch } from 'react-redux';
+import alertActions from '../../../redux/shared/actions/alert';
+
 function Login({ history }) {
-    const { setAlertMessage } = useContext(AlertMessageContext);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        handleAlerts();
+        handleSearchParams();
     }, []);
 
-    function handleAlerts() {
+    function handleSearchParams() {
         const searchParams = new URLSearchParams(window.location.search);
-        const isRegistrationSuccess = searchParams.has('registrationSuccess');
         const isUserDelete = searchParams.has('userDelete');
-        let message = null;
 
-        if (isRegistrationSuccess) {
-            message = ALERTS.USER.REGISTRATION_SUCCESS;
-        } else if (isUserDelete) {
-            message = ALERTS.USER.DELETION_SUCCESS;
+        if (isUserDelete) {
+            dispatch(
+                alertActions.successWithTimeout(ALERTS.USER.DELETION_SUCCESS)
+            );
         }
-        setAlertMessage(message);
     }
 
     return <LoginForm history={history} />;

@@ -4,15 +4,15 @@ import Router from '../routers/private';
 
 import { UserProvider } from '../providers/User';
 import { AlertMessageProvider } from '../providers/AlertMessage';
-import { ConfirmationModalProvider } from '../providers/ConfirmationModalProvider';
+import { ConfirmationModalProvider } from '../providers/ConfirmationModal';
 
 ReactDOM.render(
-    <AlertMessageProvider>
-        <UserProvider>
-            <ConfirmationModalProvider>
-                <Router />
-            </ConfirmationModalProvider>
-        </UserProvider>
-    </AlertMessageProvider>,
+        <AlertMessageProvider>
+            <UserProvider>
+                <ConfirmationModalProvider>
+                    <Router />
+                </ConfirmationModalProvider>
+            </UserProvider>
+        </AlertMessageProvider>,
     document.getElementById('root')
 );

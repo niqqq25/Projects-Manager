@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { InputField, SubmitButton, Link } from '../../global';
 import {
     Form,
@@ -8,8 +8,9 @@ import {
 } from './styles/SignupForm';
 import useForm from '../../../helpers/useForm';
 import { signupFormValidationSchema } from '../../../helpers/validationSchemas';
-import { createUser } from '../../../actions/user';
 import ROUTES from '../../../constants/routes';
+import userActions from '../../../redux/public/actions/user';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialInputs = {
     fullName: '',
@@ -19,36 +20,36 @@ const initialInputs = {
 };
 
 function SignupForm({ history }) {
-    const [loading, setLoading] = useState(false);
     const [inputs, { setValue, validateInputs, setError }] = useForm(
         initialInputs,
         signupFormValidationSchema
     );
     const { fullName, email, username, password } = inputs;
 
+    const dispatch = useDispatch();
+    const { isFetching, error } = useSelector(state => state.registration);
+
+    useEffect(() => {
+        if (error) {
+            onCreateUserError(error.message);
+            dispatch(userActions.clearRegistrationError());
+        }
+    }, [error]);
+
     async function handleFormSubmit(e) {
         e.preventDefault();
 
         const isValid = await validateInputs();
         if (isValid) {
-            handleCreateUser();
-        }
-    }
-
-    async function handleCreateUser() {
-        setLoading(true);
-        const res = await createUser({
-            username: username.value,
-            password: password.value,
-            fullName: fullName.value,
-            email: email.value,
-        });
-        setLoading(false);
-
-        if (res.status === 'error') {
-            onCreateUserError(res.message);
-        } else {
-            history.push(`${ROUTES.LOGIN}?registrationSuccess=true`);
+            dispatch(
+                userActions.register({
+                    username: username.value,
+                    password: password.value,
+                    email: email.value,
+                    fullName: fullName.value,
+                    history,
+                })
+            );
         }
     }
 
@@ -104,7 +105,7 @@ function SignupForm({ history }) {
             />
 
             <ButtonContainer>
-                <SubmitButton value="Sign Up" loading={loading ? 1 : 0} />
+                <SubmitButton value="Sign Up" loading={isFetching ? 1 : 0} />
             </ButtonContainer>
 
             <LoginText>

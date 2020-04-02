@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from '../routers/public';
-import { AlertMessageProvider } from '../providers/AlertMessage';
+
+import { Provider } from 'react-redux';
+import store from '../redux/public/store';
 
 ReactDOM.render(
-    <AlertMessageProvider>
+    <Provider store={store}>
         <Router />
-    </AlertMessageProvider>,
+    </Provider>,
     document.getElementById('root')
 );
