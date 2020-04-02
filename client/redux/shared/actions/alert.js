@@ -14,7 +14,7 @@ const error = message => ({
     payload: message,
 });
 
-const TIME = 2000;
+const TIME = 4000;
 const successWithTimeout = message => dispatch => {
     dispatch(success(message));
     setTimeout(() => dispatch(clear()), TIME);

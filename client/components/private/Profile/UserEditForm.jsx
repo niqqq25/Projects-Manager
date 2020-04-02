@@ -1,23 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../../providers/User';
-import { AlertMessageContext } from '../../../providers/AlertMessage';
+import React from 'react';
 import useForm from '../../../helpers/useForm';
 import { userEditFormValidationSchema } from '../../../helpers/validationSchemas';
-import { InputField, SubmitButton, Link } from '../../global';
+import { InputField, SubmitButton } from '../../global';
 import { Form, ButtonContainer, FormTitle } from './styles/UserEditForm';
 import UserDeleteField from './UserDeleteField';
-import ALERTS from '../../../constants/alerts';
 
-function UserEditForm() {
-    const [loading, setLoading] = useState(false);
-    const { user, updateUser } = useContext(UserContext);
-    const { setAlertMessage } = useContext(AlertMessageContext);
+import { connect } from 'react-redux';
+import currentUserActions, {
+    UPDATE_USER,
+} from '../../../redux/private/actions/currentUser';
+
+function UserEditForm({ isUpdating, currentUser, updateUser }) {
     const [inputs, { setValue, validateInputs }] = useForm(
         {
-            username: user.username,
+            username: currentUser.username,
             password: '',
-            email: user.email,
-            fullName: user.fullName,
+            email: currentUser.email,
+            fullName: currentUser.fullName,
         },
         userEditFormValidationSchema
     );
@@ -28,20 +27,7 @@ function UserEditForm() {
 
         const isValid = await validateInputs();
         if (isValid) {
-            handleUpdateUser();
-        }
-    }
-
-    async function handleUpdateUser() {
-        setLoading(true);
-        const res = await updateUser({
-            fullName: fullName.value,
-            password: password.value || undefined,
-        });
-        setLoading(false);
-
-        if (res.user) {
-            setAlertMessage(ALERTS.USER.UPDATE_SUCCESS);
+            updateUser(password.value, fullName.value);
         }
     }
 
@@ -75,7 +61,7 @@ function UserEditForm() {
             <ButtonContainer>
                 <SubmitButton
                     value="Update profile"
-                    loading={loading ? 1 : 0}
+                    loading={isUpdating ? 1 : 0}
                 />
             </ButtonContainer>
             <UserDeleteField />
@@ -83,4 +69,15 @@ function UserEditForm() {
     );
 }
 
-export default UserEditForm;
+const ConnectedUserEditForm = connect(
+    ({ requesting, currentUser }) => ({
+        isUpdating: requesting.includes(UPDATE_USER),
+        currentUser: currentUser,
+    }),
+    dispatch => ({
+        updateUser: (password, fullName) =>
+            dispatch(currentUserActions.update({ password, fullName })),
+    })
+)(UserEditForm);
+
+export default ConnectedUserEditForm;

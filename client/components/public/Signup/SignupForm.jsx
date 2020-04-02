@@ -9,8 +9,9 @@ import {
 import useForm from '../../../helpers/useForm';
 import { signupFormValidationSchema } from '../../../helpers/validationSchemas';
 import ROUTES from '../../../constants/routes';
+
+import { connect } from 'react-redux';
 import userActions from '../../../redux/public/actions/user';
-import { useDispatch, useSelector } from 'react-redux';
 
 const initialInputs = {
     fullName: '',
@@ -19,20 +20,23 @@ const initialInputs = {
     password: '',
 };
 
-function SignupForm({ history }) {
+function SignupForm({
+    history,
+    registration,
+    clearRegistrationError,
+    registerUser,
+}) {
     const [inputs, { setValue, validateInputs, setError }] = useForm(
         initialInputs,
         signupFormValidationSchema
     );
     const { fullName, email, username, password } = inputs;
-
-    const dispatch = useDispatch();
-    const { isFetching, error } = useSelector(state => state.registration);
+    const { isFetching, error } = registration;
 
     useEffect(() => {
         if (error) {
             onCreateUserError(error.message);
-            dispatch(userActions.clearRegistrationError());
+            clearRegistrationError();
         }
     }, [error]);
 
@@ -41,14 +45,12 @@ function SignupForm({ history }) {
 
         const isValid = await validateInputs();
         if (isValid) {
-            dispatch(
-                userActions.register({
-                    username: username.value,
-                    password: password.value,
-                    email: email.value,
-                    fullName: fullName.value,
-                    history,
-                })
+            registerUser(
+                username.value,
+                password.value,
+                email.value,
+                fullName.value,
+                history
             );
         }
     }
@@ -116,4 +118,22 @@ function SignupForm({ history }) {
     );
 }
 
-export default SignupForm;
+const ConnectedSignupForm = connect(
+    ({ registration }) => ({ registration }),
+    dispatch => ({
+        clearRegistrationError: () =>
+            dispatch(userActions.clearRegistrationError()),
+        registerUser: (username, password, email, fullName, history) =>
+            dispatch(
+                userActions.register({
+                    username,
+                    password,
+                    email,
+                    fullName,
+                    history,
+                })
+            ),
+    })
+)(SignupForm);
+
+export default ConnectedSignupForm;

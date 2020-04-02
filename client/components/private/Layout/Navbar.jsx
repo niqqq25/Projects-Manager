@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
     Navbar,
@@ -9,8 +9,6 @@ import {
 } from './styles/Navbar';
 import { Link } from '../../global';
 import ROUTES from '../../../constants/routes';
-import { UserContext } from '../../../providers/User';
-import { logoutMe } from '../../../actions/user';
 
 const NavigationLink = ({ children, onClick }) => (
     <LinkContainer>
@@ -18,13 +16,11 @@ const NavigationLink = ({ children, onClick }) => (
     </LinkContainer>
 );
 
-function _Navbar({ history }) {
-    const { user } = useContext(UserContext);
-
+function _Navbar({ history, username, logoutUser }) {
     return (
         <Navbar>
             <NavbarInner>
-                <UserInfo>{user.username}</UserInfo>
+                <UserInfo>{username}</UserInfo>
                 <NavigationList>
                     <NavigationLink onClick={() => history.push(ROUTES.HOME)}>
                         Home
@@ -34,7 +30,7 @@ function _Navbar({ history }) {
                     >
                         Profile
                     </NavigationLink>
-                    <NavigationLink onClick={logoutMe}>Logout</NavigationLink>
+                    <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
                 </NavigationList>
             </NavbarInner>
         </Navbar>

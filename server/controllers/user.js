@@ -150,6 +150,8 @@ export async function updateMe(req, res, next) {
 
             const hash = await bcrypt.hash(req.body.password, 10);
             req.body.password = hash;
+        } else {
+            delete req.body.password; //prevent from empty string
         }
 
         const user = await User.findByIdAndUpdate(

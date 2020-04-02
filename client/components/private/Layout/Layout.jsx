@@ -1,24 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { GlobalStyle, SpinnerContainer } from './styles/Layout';
 import Navbar from './Navbar';
-import { createGlobalStyle } from 'styled-components';
+import { Spinner, AlertMessage, ConfirmationModal } from '../../global';
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        font-family: "Montserrat", sans-serif;
-    }
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-`;
+import { connect } from 'react-redux';
+import currentUserActions from '../../../redux/private/actions/currentUser';
 
-const Layout = ({ children }) => (
-    <>
-        <Navbar />
-        {children}
-        <GlobalStyle />
-    </>
-);
+function Layout(props) {
+    const { children, getCurrentUser, currentUser, logoutUser } = props;
 
-export default Layout;
+    useEffect(() => {
+        getCurrentUser();
+    }, []);
+
+    return (
+        <>
+            {currentUser ? (
+                <>
+                    <Navbar
+                        username={currentUser.username}
+                        logoutUser={logoutUser}
+                    />
+                    {children}
+                </>
+            ) : (
+                <SpinnerContainer>
+                    <Spinner />
+                </SpinnerContainer>
+            )}
+            <GlobalStyle />
+            <AlertMessage />
+            <ConfirmationModal />
+        </>
+    );
+}
+
+const ConnectedLayout = connect(
+    ({ currentUser }) => ({
+        currentUser,
+    }),
+    dispatch => ({
+        getCurrentUser: () => dispatch(currentUserActions.get()),
+        logoutUser: () => dispatch(currentUserActions.logout()),
+    })
+)(Layout);
+
+export default ConnectedLayout;
