@@ -1,36 +1,27 @@
 import React from 'react';
 import {
     Table,
-    TableHead,
-    TableBody,
     SpinnerContainer,
     ErrorText,
     EmptyTableText,
 } from './styles/Table';
-
 import Spinner from './Spinner';
 
-const _Table = ({ headerContent, bodyContent, error, loading }) => (
+const _Table = ({ isError, isLoading, isEmpty, children, minWidth }) => (
     <>
-        <Table>
-            <TableHead>
-                <tr>{headerContent}</tr>
-            </TableHead>
-            <TableBody>
-                {loading || error ? null : bodyContent}
-            </TableBody>
-        </Table>
+        <Table minWidth={minWidth}>{children}</Table>
 
-        {loading && (
+        {isLoading ? (
             <SpinnerContainer>
                 <Spinner />
             </SpinnerContainer>
-        )}
-
-        {error && <ErrorText>{error}</ErrorText>}
-
-        {!bodyContent.length && !loading && (
-            <EmptyTableText>Nothing to see here!</EmptyTableText>
+        ) : (
+            <>
+                {isError && <ErrorText>{error}</ErrorText>}
+                {isEmpty && (
+                    <EmptyTableText>Nothing to see here!</EmptyTableText>
+                )}
+            </>
         )}
     </>
 );

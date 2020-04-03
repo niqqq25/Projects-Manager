@@ -31,8 +31,13 @@ const userEditFormValidationSchema = Yup.object().shape({
     ),
 });
 
+const projectCreateModalValidationSchema = Yup.object().shape({
+    title: Yup.string().required('Title is required'),
+});
+
 export {
     loginFormValidationSchema,
     signupFormValidationSchema,
     userEditFormValidationSchema,
+    projectCreateModalValidationSchema,
 };

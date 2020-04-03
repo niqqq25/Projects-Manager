@@ -7,24 +7,19 @@ const Table = styled.table`
     border: solid transparent;
     table-layout: fixed;
     text-align: center;
-`;
-
-const TableHead = styled.thead`
-    & th {
+    min-width: ${({ minWidth }) => minWidth || 'none'};
+    & thead th {
         padding: 12px;
         border: 1px solid #fd9656;
         background: transparent;
         border-bottom: 3px solid #fd9656;
     }
-`;
-
-const TableBody = styled.tbody`
-    & td {
+    & tbody td {
         padding: 12px;
         border: 1px solid #fd9656;
         background: transparent;
     }
-    & > tr:hover {
+    & tbody tr:hover {
         background-color: #ffeadc;
         cursor: pointer;
     }
@@ -44,11 +39,4 @@ const EmptyTableText = styled.p`
     margin: 10px 0 0 20px;
 `;
 
-export {
-    Table,
-    TableHead,
-    TableBody,
-    ErrorText,
-    EmptyTableText,
-    SpinnerContainer,
-};
+export { Table, ErrorText, EmptyTableText, SpinnerContainer };
