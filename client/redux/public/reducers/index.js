@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
 
-import alert from '../../shared/reducers/alert';
-import login from '../reducers/login';
-import registration from '../reducers/registration';
+//shared
+import notifications from '../../shared/reducers/notifications';
+import requests from '../../shared/reducers/requests';
 
-const rootReducer = combineReducers({ alert, login, registration });
+const rootReducer = combineReducers({
+    notifications,
+    requests,
+});
 
 export default rootReducer;

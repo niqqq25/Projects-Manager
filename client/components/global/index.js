@@ -8,9 +8,9 @@ import SubmitButton from './SubmitButton';
 import Table from './Table';
 import Modal from './Modal';
 import ConfirmationModal from './ConfirmationModal';
-import AlertMessage from './AlertMessage';
 import Link from './Link';
 import InputField from './InputField';
+import Notifications from './Notifications';
 
 export {
     InputGroup,
@@ -23,7 +23,7 @@ export {
     Table,
     Modal,
     ConfirmationModal,
-    AlertMessage,
     Link,
     InputField,
+    Notifications
 };

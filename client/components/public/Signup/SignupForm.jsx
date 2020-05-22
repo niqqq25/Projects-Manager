@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { InputField, SubmitButton, Link } from '../../global';
 import {
     Form,
@@ -10,8 +10,10 @@ import useForm from '../../../helpers/useForm';
 import { signupFormValidationSchema } from '../../../helpers/validationSchemas';
 import ROUTES from '../../../constants/routes';
 
+//redux
 import { connect } from 'react-redux';
-import userActions from '../../../redux/public/actions/user';
+import USER from '../../../redux/public/constants/user';
+import { registerUser } from '../../../redux/public/actions/user';
 
 const initialInputs = {
     fullName: '',
@@ -20,45 +22,37 @@ const initialInputs = {
     password: '',
 };
 
-function SignupForm({
-    history,
-    registration,
-    clearRegistrationError,
-    registerUser,
-}) {
+function SignupForm({ history, isFetching, registerUser }) {
     const [inputs, { setValue, validateInputs, setError }] = useForm(
         initialInputs,
         signupFormValidationSchema
     );
     const { fullName, email, username, password } = inputs;
-    const { isFetching, error } = registration;
-
-    useEffect(() => {
-        if (error) {
-            onCreateUserError(error.message);
-            clearRegistrationError();
-        }
-    }, [error]);
 
     async function handleFormSubmit(e) {
         e.preventDefault();
 
         const isValid = await validateInputs();
         if (isValid) {
-            registerUser(
+            const error = await registerUser(
                 username.value,
                 password.value,
                 email.value,
-                fullName.value,
-                history
+                fullName.value
             );
+
+            if (error) {
+                handleRegistrationError(error);
+            } else {
+                history.push(ROUTES.LOGIN);
+            }
         }
     }
 
-    function onCreateUserError(message) {
-        const isDuplicate = message.includes('duplicate');
-        const isUsername = message.includes('username');
-        const isEmail = message.includes('email');
+    function handleRegistrationError(error) {
+        const isDuplicate = error.includes('duplicate');
+        const isUsername = error.includes('username');
+        const isEmail = error.includes('email');
 
         if (isDuplicate && isUsername) {
             setError({ name: 'username', value: 'Username is already in use' });
@@ -119,18 +113,17 @@ function SignupForm({
 }
 
 const ConnectedSignupForm = connect(
-    ({ registration }) => ({ registration }),
-    dispatch => ({
-        clearRegistrationError: () =>
-            dispatch(userActions.clearRegistrationError()),
-        registerUser: (username, password, email, fullName, history) =>
+    ({ requests }) => ({
+        isFetching: requests.includes(USER.REGISTRATION_REQUEST),
+    }),
+    (dispatch) => ({
+        registerUser: (username, password, email, fullName) =>
             dispatch(
-                userActions.register({
+                registerUser({
                     username,
                     password,
                     email,
                     fullName,
-                    history,
                 })
             ),
     })

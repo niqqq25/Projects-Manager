@@ -1,72 +1,49 @@
-import { LOGIN, REGISTRATION } from '../constants';
-import ALERT_MESSAGE from '../../../constants/alerts';
+import USER from '../constants/user';
+import NOTIFICATIONS from '../../../constants/notifications';
 import ROUTES from '../../../constants/routes';
-import alertActions from '../../shared/actions/alert';
-import userServices from '../services/user';
 
-const login = ({ username, password }) => async dispatch => {
-    dispatch(request());
+import {
+    addSuccessNotification,
+    addErrorNotification,
+} from '../../shared/actions/notifications';
+import { startRequest, endRequest } from '../../shared/actions/requests';
+import { registerUser, loginUser } from '../services/user';
+
+const _loginUser = ({ username, password }) => async (dispatch) => {
+    dispatch(startRequest(USER.LOGIN_REQUEST));
 
     try {
-        await userServices.login({ username, password });
-        dispatch(success());
+        await loginUser({ username, password });
         window.location = ROUTES.HOME;
     } catch {
-        dispatch(error());
-        dispatch(alertActions.errorWithTimeout(ALERT_MESSAGE.USER.LOGIN_ERROR));
+        dispatch(addErrorNotification(NOTIFICATIONS.USER.LOGIN_ERROR));
     }
 
-    function request() {
-        return { type: LOGIN.REQUEST };
-    }
-    function success() {
-        return { type: LOGIN.SUCCESS };
-    }
-    function error() {
-        return { type: LOGIN.ERROR };
-    }
+    dispatch(endRequest(USER.LOGIN_REQUEST));
 };
 
-const register = ({
-    username,
-    password,
-    email,
-    fullName,
-    history,
-}) => async dispatch => {
-    dispatch(request());
+const _registerUser = ({ username, password, email, fullName }) => async (
+    dispatch
+) => {
+    dispatch(startRequest(USER.REGISTRATION_REQUEST));
 
+    let error = null;
     try {
-        await userServices.register({
+        await registerUser({
             username,
             password,
             email,
             fullName,
         });
-        dispatch(success());
         dispatch(
-            alertActions.successWithTimeout(
-                ALERT_MESSAGE.USER.REGISTRATION_SUCCESS
-            )
+            addSuccessNotification(NOTIFICATIONS.USER.REGISTRATION_SUCCESS)
         );
-        history.push(ROUTES.LOGIN);
     } catch (err) {
-        dispatch(error(err));
+        error = err.message;
     }
 
-    function request() {
-        return { type: REGISTRATION.REQUEST };
-    }
-    function success() {
-        return { type: REGISTRATION.SUCCESS };
-    }
-    function error(error) {
-        return { type: REGISTRATION.ERROR, payload: error };
-    }
+    dispatch(endRequest(USER.REGISTRATION_REQUEST));
+    return error;
 };
 
-const clearRegistrationError = () => ({
-    type: REGISTRATION.CLEAR_ERROR,
-});
-
-export default { login, register, clearRegistrationError };
+export { _loginUser as loginUser, _registerUser as registerUser };

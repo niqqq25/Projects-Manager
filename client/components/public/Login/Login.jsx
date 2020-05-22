@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
 import LoginForm from './LoginForm';
-import ALERTS from '../../../constants/alerts';
+import NOTIFICATIONS from '../../../constants/NOTIFICATIONS';
 
 import { useDispatch } from 'react-redux';
-import alertActions from '../../../redux/shared/actions/alert';
+import { addSuccessNotification } from '../../../redux/shared/actions/notifications';
 
 function Login({ history }) {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function Login({ history }) {
 
         if (isUserDelete) {
             dispatch(
-                alertActions.successWithTimeout(ALERTS.USER.DELETION_SUCCESS)
+                addSuccessNotification(NOTIFICATIONS.USER.DELETION_SUCCESS)
             );
         }
     }

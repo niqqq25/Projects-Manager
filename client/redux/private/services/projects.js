@@ -17,4 +17,10 @@ const update = async ({ id, title, description, owner }) =>
         body: { title, description, owner },
     });
 
-export default { getAll, get, create, update };
+const createTask = async ({ title, description, project_id }) =>
+    await _fetch(
+        `${API_ROUTES.PROJECT.ROOT}/${project_id}${API_ROUTES.PROJECT.TASKS}`,
+        { method: 'POST', body: { title, description } }
+    );
+
+export default { getAll, get, create, update, createTask };

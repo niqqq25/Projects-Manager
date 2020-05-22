@@ -1,14 +1,17 @@
-import ALERT_MESSAGE from '../../../constants/alerts';
+import NOTIFICATIONS from '../../../constants/notifications';
 import ROUTES from '../../../constants/routes';
 import { CURRENT_USER } from '../constants';
 
-import alertActions from '../../shared/actions/alert';
+import {
+    addSuccessNotification,
+    addErrorNotification,
+} from '../../shared/actions/notifications';
 import requestingActions from '../actions/requesting';
 import confirmationActions from '../actions/confirmation';
 
 import currentUserServices from '../services/currentUser';
 
-const get = () => async dispatch => {
+const get = () => async (dispatch) => {
     try {
         const { user } = await currentUserServices.get();
         dispatch(success(user));
@@ -30,7 +33,7 @@ const logout = () => async () => {
 };
 
 export const UPDATE_USER = 'currentUser/UPDATE';
-const update = ({ password, fullName }) => async dispatch => {
+const update = ({ password, fullName }) => async (dispatch) => {
     dispatch(requestingActions.start(UPDATE_USER));
 
     try {
@@ -46,7 +49,9 @@ const update = ({ password, fullName }) => async dispatch => {
     function success(user) {
         dispatch(requestingActions.end(UPDATE_USER));
         dispatch(
-            alertActions.successWithTimeout(ALERT_MESSAGE.USER.UPDATE_SUCCESS)
+            addSuccessNotification(
+                NOTIFICATIONS.USER.UPDATE_SUCCESS
+            )
         );
         return { type: CURRENT_USER.UPDATE_SUCCESS, payload: user };
     }
@@ -57,7 +62,7 @@ const update = ({ password, fullName }) => async dispatch => {
 };
 
 export const DELETE_USER = 'currentUser/DELETE';
-const _delete = () => async dispatch => {
+const _delete = () => async (dispatch) => {
     dispatch(requestingActions.start(DELETE_USER));
 
     try {
@@ -67,7 +72,7 @@ const _delete = () => async dispatch => {
         dispatch(requestingActions.end(DELETE_USER));
         dispatch(confirmationActions.close());
         dispatch(
-            alertActions.errorWithTimeout(ALERT_MESSAGE.USER.DELETION_ERROR)
+            addErrorNotification(NOTIFICATIONS.USER.DELETION_ERROR)
         );
     }
 };

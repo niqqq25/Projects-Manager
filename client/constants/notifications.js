@@ -11,5 +11,11 @@ export default {
     PROJECT: {
         CREATE_SUCCESS: 'Project has been successfully created.',
         CREATE_ERROR: 'Failed to create new project.',
+        UPDATE_SUCCESS: 'Project has been successfully updated.',
+        UPDATE_ERROR: 'Failed to update new project.',
+    },
+    TASK: {
+        CREATE_SUCCESS: 'Task has been successfully created.',
+        CREATE_ERROR: 'Failed to create new task.',
     },
 };

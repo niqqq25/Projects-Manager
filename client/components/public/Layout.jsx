@@ -1,6 +1,6 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { AlertMessage } from '../global';
+import Notifications from '../global/Notifications';
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -14,10 +14,10 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const Layout = ({ children }) => (
+const Layout = ({ children, ...props }) => (
     <>
         <GlobalStyle />
-        <AlertMessage />
+        <Notifications />
         {children}
     </>
 );

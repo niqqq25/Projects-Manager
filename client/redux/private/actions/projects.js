@@ -1,14 +1,17 @@
-import ALERT_MESSAGE from '../../../constants/alerts';
+import NOTIFICATIONS from '../../../constants/notifications';
 import { PROJECTS } from '../constants';
 
-import alertActions from '../../shared/actions/alert';
+import {
+    addSuccessNotification,
+    addErrorNotification,
+} from '../../shared/actions/notifications';
 import requestingActions from '../actions/requesting';
 import projectCreateModelActions from '../actions/projectCreateModal';
 
 import projectsServices from '../services/projects';
 
 export const GET_PROJECTS = 'projects/GET';
-const getAll = () => async dispatch => {
+const getAll = () => async (dispatch) => {
     dispatch(requestingActions.start(GET_PROJECTS));
 
     try {
@@ -29,7 +32,7 @@ const getAll = () => async dispatch => {
 };
 
 export const CREATE_PROJECTS = 'projects/CREATE';
-const create = ({ title, description }) => async dispatch => {
+const create = ({ title, description }) => async (dispatch) => {
     dispatch(requestingActions.start(CREATE_PROJECTS));
 
     try {
@@ -44,18 +47,12 @@ const create = ({ title, description }) => async dispatch => {
 
     function success(project) {
         complete();
-        dispatch(
-            alertActions.successWithTimeout(
-                ALERT_MESSAGE.PROJECT.CREATE_SUCCESS
-            )
-        );
+        dispatch(addSuccessNotification(NOTIFICATIONS.PROJECT.CREATE_SUCCESS));
         return { type: PROJECTS.CREATE_SUCCESS, payload: { project } };
     }
-    function error(error) {
+    function error() {
         complete();
-        dispatch(
-            alertActions.errorWithTimeout(ALERT_MESSAGE.PROJECT.CREATE_ERROR)
-        );
+        dispatch(addErrorNotification(NOTIFICATIONS.PROJECT.CREATE_ERROR));
     }
     function complete() {
         dispatch(requestingActions.end(CREATE_PROJECTS));

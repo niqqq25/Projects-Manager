@@ -1,6 +1,6 @@
 export default {
-    GET_SUCCESS: 'project/GET_SUCCESS',
-    GET_ERROR: 'project/GET_ERROR',
+    GET_SUCCESS: 'projects/GET_SUCCESS',
+    GET_ERROR: 'projects/GET_ERROR',
 
-    CREATE_SUCCESS: 'project/CREATE_SUCCESS',
+    CREATE_SUCCESS: 'projects/CREATE_SUCCESS',
 };

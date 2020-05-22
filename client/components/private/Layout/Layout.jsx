@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { GlobalStyle, SpinnerContainer } from './styles/Layout';
 import Navbar from './Navbar';
-import { Spinner, AlertMessage, ConfirmationModal } from '../../global';
+import { Spinner, Notifications, ConfirmationModal } from '../../global';
 
 import { connect } from 'react-redux';
 import currentUserActions from '../../../redux/private/actions/currentUser';
@@ -29,7 +29,7 @@ function Layout(props) {
                 </SpinnerContainer>
             )}
             <GlobalStyle />
-            <AlertMessage />
+            <Notifications />
             <ConfirmationModal />
         </>
     );

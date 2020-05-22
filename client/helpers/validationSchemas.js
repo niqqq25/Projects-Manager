@@ -35,9 +35,19 @@ const projectCreateModalValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
 });
 
+const taskCreateModalValidationSchema = Yup.object().shape({
+    title: Yup.string().required('Title is required'),
+});
+
+const projectEditModalValidationSchema = Yup.object().shape({
+    title: Yup.string().required('Title cannot be empty'),
+});
+
 export {
     loginFormValidationSchema,
     signupFormValidationSchema,
     userEditFormValidationSchema,
     projectCreateModalValidationSchema,
+    taskCreateModalValidationSchema,
+    projectEditModalValidationSchema,
 };

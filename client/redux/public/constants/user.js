@@ -1,0 +1,4 @@
+export default {
+    LOGIN_REQUEST: 'user/LOGIN_REQUEST',
+    REGISTRATION_REQUEST: 'user/REGISTRATION_REQUEST',
+};
