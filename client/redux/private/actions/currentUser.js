@@ -1,80 +1,101 @@
+//constants
 import NOTIFICATIONS from '../../../constants/notifications';
 import ROUTES from '../../../constants/routes';
-import { CURRENT_USER } from '../constants';
+import CURRENT_USER from '../constants/currentUser';
 
+//actions
 import {
     addSuccessNotification,
     addErrorNotification,
 } from '../../shared/actions/notifications';
-import requestingActions from '../actions/requesting';
-import confirmationActions from '../actions/confirmation';
+import { startRequest, endRequest } from '../../shared/actions/requests';
+import { closeConfirmation } from '../actions/confirmation';
 
-import currentUserServices from '../services/currentUser';
+//services
+import {
+    getCurrentUser,
+    logoutCurrentUser,
+    updateCurrentUser,
+    deleteCurrentUser,
+} from '../services/currentUser';
 
-const get = () => async (dispatch) => {
+const getCurrentUserSuccess = (user) => ({
+    type: CURRENT_USER.GET_SUCCESS,
+    payload: { user },
+});
+
+const _getCurrentUser = () => async (dispatch) => {
+    dispatch(startRequest(CURRENT_USER.GET));
+
     try {
-        const { user } = await currentUserServices.get();
-        dispatch(success(user));
+        const { user } = await getCurrentUser();
+        dispatch(getCurrentUserSuccess(user));
     } catch (err) {
-        error(err);
+        console.error(err);
     }
 
-    function success(user) {
-        return { type: CURRENT_USER.GET_SUCCESS, payload: user };
-    }
-    function error(error) {
-        console.error(error);
-    }
+    dispatch(endRequest(CURRENT_USER.GET));
 };
 
-const logout = () => async () => {
-    await currentUserServices.logout();
-    window.location = ROUTES.LOGIN;
-};
+const logoutCurrentUserSuccess = () => ({
+    type: CURRENT_USER.LOGOUT_SUCCESS,
+});
 
-export const UPDATE_USER = 'currentUser/UPDATE';
-const update = ({ password, fullName }) => async (dispatch) => {
-    dispatch(requestingActions.start(UPDATE_USER));
+const _logoutCurrentUser = () => async (dispatch) => {
+    dispatch(startRequest(CURRENT_USER.LOGOUT));
 
     try {
-        const { user } = await currentUserServices.update({
-            password,
-            fullName,
-        });
-        dispatch(success(user));
-    } catch {
-        error();
+        await logoutCurrentUser();
+        dispatch(logoutCurrentUserSuccess());
+        window.location = ROUTES.LOGIN;
+    } catch (err) {
+        console.error(err);
     }
 
-    function success(user) {
-        dispatch(requestingActions.end(UPDATE_USER));
-        dispatch(
-            addSuccessNotification(
-                NOTIFICATIONS.USER.UPDATE_SUCCESS
-            )
-        );
-        return { type: CURRENT_USER.UPDATE_SUCCESS, payload: user };
-    }
-
-    function error() {
-        dispatch(requestingActions.end(UPDATE_USER));
-    }
+    dispatch(endRequest(CURRENT_USER.LOGOUT));
 };
 
-export const DELETE_USER = 'currentUser/DELETE';
-const _delete = () => async (dispatch) => {
-    dispatch(requestingActions.start(DELETE_USER));
+const updateCurrentUserSuccess = (user) => ({
+    type: CURRENT_USER.UPDATE_SUCCESS,
+    payload: { user },
+});
+
+const _updateCurrentUser = ({ password, fullName }) => async (dispatch) => {
+    dispatch(startRequest(CURRENT_USER.UPDATE));
 
     try {
-        await currentUserServices._delete();
+        const { user } = await updateCurrentUser({ password, fullName });
+        dispatch(addSuccessNotification(NOTIFICATIONS.USER.UPDATE_SUCCESS));
+        dispatch(updateCurrentUserSuccess(user));
+    } catch (err) {
+        console.error(err);
+    }
+
+    dispatch(endRequest(CURRENT_USER.UPDATE));
+};
+
+const deleteCurrentUserSuccess = () => ({
+    type: CURRENT_USER.DELETE_SUCCESS,
+});
+
+const _deleteCurrentUser = () => async (dispatch) => {
+    dispatch(startRequest(CURRENT_USER.DELETE));
+
+    try {
+        await deleteCurrentUser();
+        dispatch(deleteCurrentUserSuccess());
         window.location = `${ROUTES.LOGIN}?userDelete=true`;
     } catch {
-        dispatch(requestingActions.end(DELETE_USER));
-        dispatch(confirmationActions.close());
-        dispatch(
-            addErrorNotification(NOTIFICATIONS.USER.DELETION_ERROR)
-        );
+        dispatch(closeConfirmation());
+        dispatch(addErrorNotification(NOTIFICATIONS.USER.DELETE_ERROR));
     }
+
+    dispatch(endRequest(CURRENT_USER.DELETE));
 };
 
-export default { get, logout, update, _delete };
+export {
+    _getCurrentUser as getCurrentUser,
+    _logoutCurrentUser as logoutCurrentUser,
+    _updateCurrentUser as updateCurrentUser,
+    _deleteCurrentUser as deleteCurrentUser,
+};

@@ -9,15 +9,9 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
+    html, body, #root {
+        height: 100%;
+    }
 `;
 
-const SpinnerContainer = styled.div`
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-`;
-
-export { GlobalStyle, SpinnerContainer };
+export { GlobalStyle };

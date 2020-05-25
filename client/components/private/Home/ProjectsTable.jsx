@@ -6,16 +6,14 @@ import { Table } from '../../global';
 import ProjectsTableHeader from './ProjectTableHeader';
 
 import { connect } from 'react-redux';
-import projectsActions, {
-    GET_PROJECTS,
-} from '../../../redux/private/actions/projects';
+import { getProjects } from '../../../redux/private/actions/projects';
+import PROJECTS from '../../../redux/private/constants/projects';
 
 function _ProjectsTable({ isLoading, projects, getProjects, history }) {
-    const { error, projects: _projects } = projects;
-    const projectsCount = (_projects || []).length;
+    const projectsCount = projects.length;
 
     useEffect(() => {
-        getProjects();
+        getProjects(); //fix this mess (need to handle errors)
     }, []);
 
     return (
@@ -26,7 +24,6 @@ function _ProjectsTable({ isLoading, projects, getProjects, history }) {
                     minWidth="800px"
                     isLoading={isLoading}
                     isEmpty={!projectsCount}
-                    isError={error}
                 >
                     <thead>
                         <tr>
@@ -39,7 +36,7 @@ function _ProjectsTable({ isLoading, projects, getProjects, history }) {
                     </thead>
                     {projectsCount ? (
                         <tbody>
-                            {_projects.map(
+                            {projects.map(
                                 ({ title, description, tasks, _id }, index) => (
                                     <tr
                                         key={index}
@@ -65,12 +62,12 @@ function _ProjectsTable({ isLoading, projects, getProjects, history }) {
 
 const ConnectedProjectsTable = withRouter(
     connect(
-        ({ projects, requesting }) => ({
-            isLoading: requesting.includes(GET_PROJECTS),
-            projects: projects,
+        ({ projects, requests }) => ({
+            isLoading: requests.includes(PROJECTS.GET),
+            projects,
         }),
-        dispatch => ({
-            getProjects: () => dispatch(projectsActions.getAll()),
+        (dispatch) => ({
+            getProjects: () => dispatch(getProjects()),
         })
     )(_ProjectsTable)
 );

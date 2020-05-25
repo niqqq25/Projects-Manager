@@ -1,18 +1,16 @@
-import { CURRENT_USER } from '../constants';
+import CURRENT_USER from '../constants/currentUser';
 
 function currentUser(state = null, { type, payload }) {
     switch (type) {
         case CURRENT_USER.GET_SUCCESS:
-            return payload;
+        case CURRENT_USER.UPDATE_SUCCESS:
+            return payload.user;
+        case CURRENT_USER.LOGOUT_SUCCESS:
+        case CURRENT_USER.DELETE_SUCCESS:
+            return null;
         default:
             return state;
     }
 }
 
 export default currentUser;
-
-//test some things
-//make Error handling reducer
-//reewrite all existing reducers with error handling
-//change from useSelector to connect
-//test all out

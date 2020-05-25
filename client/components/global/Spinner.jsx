@@ -1,6 +1,10 @@
 import React from 'react';
-import { Spinner } from './styles/Spinner';
+import { Spinner, SpinnerWrapper } from './styles/Spinner';
 
-const _Spinner = () => <Spinner />;
+const _Spinner = ({ size }) => (
+    <SpinnerWrapper>
+        <Spinner size={size} />
+    </SpinnerWrapper>
+);
 
 export default _Spinner;

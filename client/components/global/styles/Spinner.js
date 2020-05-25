@@ -6,9 +6,25 @@ const spinning = keyframes`
     }
 `;
 
+const SpinnerWrapper = styled.div`
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+`;
+
+const getSpinnerSizeInPx = (size) => {
+    switch (size) {
+        case 'normal':
+        default:
+            return 50;
+    }
+};
+
 const Spinner = styled.div`
     display: block;
-    height: 100%;
+    height: ${({ size }) => getSpinnerSizeInPx(size)}px;
+    width: ${({ size }) => getSpinnerSizeInPx(size)}px;
     border: 3px solid #ffd6bd;
     border-top-color: white;
     border-radius: 50%;
@@ -16,4 +32,4 @@ const Spinner = styled.div`
             ${spinning}`} linear infinite 1s;
 `;
 
-export { Spinner };
+export { SpinnerWrapper, Spinner };

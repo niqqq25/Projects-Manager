@@ -6,9 +6,8 @@ import { Form, ButtonContainer, FormTitle } from './styles/UserEditForm';
 import UserDeleteField from './UserDeleteField';
 
 import { connect } from 'react-redux';
-import currentUserActions, {
-    UPDATE_USER,
-} from '../../../redux/private/actions/currentUser';
+import { updateCurrentUser } from '../../../redux/private/actions/currentUser';
+import CURRENT_USER from '../../../redux/private/constants/currentUser';
 
 function UserEditForm({ isUpdating, currentUser, updateUser }) {
     const [inputs, { setValue, validateInputs }] = useForm(
@@ -70,13 +69,13 @@ function UserEditForm({ isUpdating, currentUser, updateUser }) {
 }
 
 const ConnectedUserEditForm = connect(
-    ({ requesting, currentUser }) => ({
-        isUpdating: requesting.includes(UPDATE_USER),
-        currentUser: currentUser,
+    ({ requests, currentUser }) => ({
+        isUpdating: requests.includes(CURRENT_USER.UPDATE),
+        currentUser,
     }),
-    dispatch => ({
+    (dispatch) => ({
         updateUser: (password, fullName) =>
-            dispatch(currentUserActions.update({ password, fullName })),
+            dispatch(updateCurrentUser({ password, fullName })),
     })
 )(UserEditForm);
 

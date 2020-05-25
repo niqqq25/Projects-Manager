@@ -12,15 +12,14 @@ import Button from './Button';
 import Spinner from './Spinner';
 
 import { connect, useDispatch } from 'react-redux';
-import confirmationActions from '../../redux/private/actions/confirmation';
-import currentUserActions, {
-    DELETE_USER,
-} from '../../redux/private/actions/currentUser';
+import { closeConfirmation } from '../../redux/private/actions/confirmation';
+import { deleteCurrentUser } from '../../redux/private/actions/currentUser';
+import CURRENT_USER from '../../redux/private/constants/currentUser';
 
 function selectOnConfirmAction(type) {
     switch (type) {
-        case DELETE_USER:
-            return currentUserActions._delete;
+        case CURRENT_USER.DELETE:
+            return deleteCurrentUser;
         default:
             return () => {};
     }
@@ -70,13 +69,13 @@ function _ConfirmationModal({ onClose, isOpen, isLoading, onConfirm }) {
 }
 
 const ConnectedConfirmationModal = connect(
-    ({ confirmation, requesting }) => ({
-        isOpen: confirmation.isOpen,
-        isLoading: requesting.includes(confirmation.type),
-        onConfirm: selectOnConfirmAction(confirmation.type),
+    ({ confirmation, requests }) => ({
+        isOpen: !!confirmation,
+        isLoading: requests.includes(confirmation),
+        onConfirm: selectOnConfirmAction(confirmation),
     }),
-    dispatch => ({
-        onClose: () => dispatch(confirmationActions.close()),
+    (dispatch) => ({
+        onClose: () => dispatch(closeConfirmation()),
     })
 )(_ConfirmationModal);
 

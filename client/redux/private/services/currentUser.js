@@ -1,20 +1,26 @@
 import API_ROUTES from '../../../../shared/routes';
 import _fetch from '../../../helpers/fetch';
 
-const logout = async () =>
+const logoutCurrentUser = async () =>
     await _fetch(`${API_ROUTES.USER.ROOT}${API_ROUTES.USER.LOGOUT}`);
 
-const get = async () => _fetch(`${API_ROUTES.USER.ROOT}${API_ROUTES.USER.ME}`);
+const getCurrentUser = async () =>
+    _fetch(`${API_ROUTES.USER.ROOT}${API_ROUTES.USER.ME}`);
 
-const update = async ({ fullName, password }) =>
+const updateCurrentUser = async ({ fullName, password }) =>
     await _fetch(`${API_ROUTES.USER.ROOT}${API_ROUTES.USER.ME}`, {
         method: 'PATCH',
         body: { fullName, password: password },
     });
 
-const _delete = async () =>
+const deleteCurrentUser = async () =>
     await _fetch(`${API_ROUTES.USER.ROOT}${API_ROUTES.USER.ME}`, {
         method: 'DELETE',
     });
 
-export default { logout, get, update, _delete };
+export {
+    logoutCurrentUser,
+    getCurrentUser,
+    updateCurrentUser,
+    deleteCurrentUser,
+};

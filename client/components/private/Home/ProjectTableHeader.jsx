@@ -7,7 +7,8 @@ import {
 import { Button } from '../../global';
 
 import { useDispatch } from 'react-redux';
-import projectCreateModalActions from '../../../redux/private/actions/projectCreateModal';
+import { openModal } from '../../../redux/private/actions/activeModals';
+import MODALS from '../../../redux/private/constants/modals';
 
 function _ProjectsTableHeader() {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function _ProjectsTableHeader() {
             <ButtonContainer>
                 <Button
                     value="Create +"
-                    onClick={() => dispatch(projectCreateModalActions.open())}
+                    onClick={() => dispatch(openModal(MODALS.PROJECT_CREATE))}
                 />
             </ButtonContainer>
         </ProjectsTableHeader>

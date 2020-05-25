@@ -1,21 +1,17 @@
 import CURRENT_USER from './currentUser';
-import REQUESTING from './requesting';
 import CONFIRMATION from './confirmation';
 import PROJECTS from './projects';
-import PROJECT_CREATE_MODAL from './projectCreateModal';
-import PROJECT from './project';
+import CURRENT_PROJECT from './currentProject';
 import TASKS from './tasks';
-import TASK_CREATE_MODAL from './taskCreateModal';
-import PROJECT_EDIT_MODAL from './projectEditModal';
+import ACTIVE_MODALS from './activeModals';
+import MODALS from './modals';
 
 export {
     CURRENT_USER,
-    REQUESTING,
     CONFIRMATION,
     PROJECTS,
-    PROJECT_CREATE_MODAL,
-    PROJECT,
+    CURRENT_PROJECT,
     TASKS,
-    TASK_CREATE_MODAL,
-    PROJECT_EDIT_MODAL,
+    ACTIVE_MODALS,
+    MODALS,
 };

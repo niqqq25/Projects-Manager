@@ -1,10 +1,13 @@
 export default {
-    DELETE_SUCCESS: 'currentUser/DELETE_SUCCESS',
-    DELETE_ERROR: 'currentUser/DELETE_ERROR',
+    GET: 'currentUser/GET_REQUEST',
+    GET_SUCCESS: 'currentUser/GET_SUCCESS',
 
+    LOGOUT: 'currentUser/LOGOUT_REQUEST',
+    LOGOUT_SUCCESS: 'currentUser/LOGOUT_SUCCESS',
+
+    UPDATE: 'currentUser/UPDATE_REQUEST',
     UPDATE_SUCCESS: 'currentUser/UPDATE_SUCCESS',
 
-    GET: 'currentUser/GET',
-    GET_SUCCESS: 'currentUser/GET_SUCCESS',
-    GET_ERROR: 'currentUser/GET_ERROR',
-}
+    DELETE: 'currentUser/DELETE_REQUEST',
+    DELETE_SUCCESS: 'currentUser/DELETE_SUCCESS',
+};

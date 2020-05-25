@@ -10,7 +10,7 @@ import { startRequest, endRequest } from '../../shared/actions/requests';
 import { registerUser, loginUser } from '../services/user';
 
 const _loginUser = ({ username, password }) => async (dispatch) => {
-    dispatch(startRequest(USER.LOGIN_REQUEST));
+    dispatch(startRequest(USER.LOGIN));
 
     try {
         await loginUser({ username, password });
@@ -19,13 +19,13 @@ const _loginUser = ({ username, password }) => async (dispatch) => {
         dispatch(addErrorNotification(NOTIFICATIONS.USER.LOGIN_ERROR));
     }
 
-    dispatch(endRequest(USER.LOGIN_REQUEST));
+    dispatch(endRequest(USER.LOGIN));
 };
 
 const _registerUser = ({ username, password, email, fullName }) => async (
     dispatch
 ) => {
-    dispatch(startRequest(USER.REGISTRATION_REQUEST));
+    dispatch(startRequest(USER.REGISTRATION));
 
     let error = null;
     try {
@@ -35,14 +35,12 @@ const _registerUser = ({ username, password, email, fullName }) => async (
             email,
             fullName,
         });
-        dispatch(
-            addSuccessNotification(NOTIFICATIONS.USER.REGISTRATION_SUCCESS)
-        );
+        dispatch(addSuccessNotification(NOTIFICATIONS.USER.REGISTER_SUCCESS));
     } catch (err) {
         error = err.message;
     }
 
-    dispatch(endRequest(USER.REGISTRATION_REQUEST));
+    dispatch(endRequest(USER.REGISTRATION));
     return error;
 };
 

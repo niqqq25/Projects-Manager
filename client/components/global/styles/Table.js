@@ -31,12 +31,8 @@ const SpinnerContainer = styled.div`
     margin: 10px auto 0 auto;
 `;
 
-const ErrorText = styled.p`
-    color: red;
-`;
-
 const EmptyTableText = styled.p`
     margin: 10px 0 0 20px;
 `;
 
-export { Table, ErrorText, EmptyTableText, SpinnerContainer };
+export { Table, EmptyTableText, SpinnerContainer };

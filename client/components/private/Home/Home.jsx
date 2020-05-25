@@ -1,14 +1,6 @@
 import React from 'react';
 import ProjectsTable from './ProjectsTable';
-import ProjectCreateModal from './ProjectCreateModal';
 
-function Home() {
-    return (
-        <>
-            <ProjectsTable />
-            <ProjectCreateModal />
-        </>
-    );
-}
+const Home = () => <ProjectsTable />;
 
 export default Home;

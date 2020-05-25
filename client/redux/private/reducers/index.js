@@ -1,30 +1,25 @@
 import { combineReducers } from 'redux';
 
-import requesting from './requesting';
 import currentUser from './currentUser';
 import confirmation from './confirmation';
 import projects from './projects';
-import projectCreateModal from './projectCreateModal';
-import project from './project';
+import currentProject from './currentProject';
 import tasks from './tasks';
-import taskCreateModal from './taskCreateModal';
-import projectEditModal from './projectEditModal';
+import activeModals from './activeModals';
 
 //shared
-//TODO move request from shared
 import notifications from '../../shared/reducers/notifications';
+import requests from '../../shared/reducers/requests';
 
 const rootReducer = combineReducers({
     notifications,
-    requesting,
+    requests,
     currentUser,
     confirmation,
     projects,
-    project,
-    projectCreateModal,
+    currentProject,
     tasks,
-    taskCreateModal,
-    projectEditModal,
+    activeModals,
 });
 
 export default rootReducer;

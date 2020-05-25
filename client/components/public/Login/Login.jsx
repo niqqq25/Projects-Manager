@@ -18,9 +18,7 @@ function Login({ history }) {
         const isUserDelete = searchParams.has('userDelete');
 
         if (isUserDelete) {
-            dispatch(
-                addSuccessNotification(NOTIFICATIONS.USER.DELETION_SUCCESS)
-            );
+            dispatch(addSuccessNotification(NOTIFICATIONS.USER.DELETE_SUCCESS));
         }
     }
 

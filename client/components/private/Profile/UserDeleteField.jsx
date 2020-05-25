@@ -3,8 +3,8 @@ import { UserDeleteField } from './styles/UserDeleteField';
 import { Link } from '../../global';
 
 import { useDispatch } from 'react-redux';
-import confirmationActions from '../../../redux/private/actions/confirmation';
-import { DELETE_USER } from '../../../redux/private/actions/currentUser';
+import { openConfirmation } from '../../../redux/private/actions/confirmation';
+import CURRENT_USER from '../../../redux/private/constants/currentUser';
 
 function _UserDeleteField() {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function _UserDeleteField() {
         <UserDeleteField>
             Suck at life?
             <Link
-                onClick={() => dispatch(confirmationActions.open(DELETE_USER))}
+                onClick={() => dispatch(openConfirmation(CURRENT_USER.DELETE))}
             >
                 Delete me
             </Link>

@@ -1,4 +1,4 @@
-import { TASKS } from '../constants';
+import TASKS from '../constants/tasks';
 
 const defaultState = {
     tasks: [],

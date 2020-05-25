@@ -1,20 +1,26 @@
 import API_ROUTES from '../../../../shared/routes';
 import _fetch from '../../../helpers/fetch';
 
-const getAll = async () => await _fetch(API_ROUTES.PROJECT.ROOT);
+const getProjects = async () => await _fetch(API_ROUTES.PROJECT.ROOT);
 
-const get = async id => await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`);
+const getProject = async (id) =>
+    await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`);
 
-const create = async ({ title, description }) =>
+const createProject = async ({ title, description }) =>
     await _fetch(API_ROUTES.PROJECT.ROOT, {
         method: 'POST',
         body: { title, description },
     });
 
-const update = async ({ id, title, description, owner }) =>
+const updateProject = async ({ id, title, description, owner }) =>
     await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`, {
         method: 'PATCH',
         body: { title, description, owner },
+    });
+
+const deleteProject = async ({ id }) =>
+    await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`, {
+        method: 'DELETE',
     });
 
 const createTask = async ({ title, description, project_id }) =>
@@ -23,4 +29,11 @@ const createTask = async ({ title, description, project_id }) =>
         { method: 'POST', body: { title, description } }
     );
 
-export default { getAll, get, create, update, createTask };
+export {
+    getProjects,
+    getProject,
+    createProject,
+    updateProject,
+    deleteProject,
+    createTask,
+};

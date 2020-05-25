@@ -1,12 +1,12 @@
-import { CONFIRMATION } from '../constants';
+import CONFIRMATION from '../constants/confirmation';
 
-const open = type => ({
+const openConfirmation = (type) => ({
     type: CONFIRMATION.OPEN,
     payload: { type },
 });
 
-const close = () => ({
+const closeConfirmation = () => ({
     type: CONFIRMATION.CLOSE,
 });
 
-export default { open, close };
+export { openConfirmation, closeConfirmation };

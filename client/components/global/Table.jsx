@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-    Table,
-    SpinnerContainer,
-    ErrorText,
-    EmptyTableText,
-} from './styles/Table';
+import { Table, SpinnerContainer, EmptyTableText } from './styles/Table';
 import Spinner from './Spinner';
 
-const _Table = ({ isError, isLoading, isEmpty, children, minWidth }) => (
+const _Table = ({ isLoading, isEmpty, children, minWidth }) => (
     <>
         <Table minWidth={minWidth}>{children}</Table>
 
@@ -17,7 +12,6 @@ const _Table = ({ isError, isLoading, isEmpty, children, minWidth }) => (
             </SpinnerContainer>
         ) : (
             <>
-                {isError && <ErrorText>{error}</ErrorText>}
                 {isEmpty && (
                     <EmptyTableText>Nothing to see here!</EmptyTableText>
                 )}

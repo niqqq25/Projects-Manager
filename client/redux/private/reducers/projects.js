@@ -1,27 +1,11 @@
-import { PROJECTS } from '../constants';
+import PROJECTS from '../constants/projects';
 
-const defaultState = {
-    projects: [],
-    error: null,
-};
-
-function projects(state = defaultState, { type, payload }) {
+function projects(state = [], { type, payload }) {
     switch (type) {
         case PROJECTS.GET_SUCCESS:
-            return {
-                projects: payload.projects,
-                error: null,
-            };
-        case PROJECTS.GET_ERROR:
-            return {
-                ...state,
-                error: payload.error,
-            };
+            return payload.projects;
         case PROJECTS.CREATE_SUCCESS:
-            return {
-                ...state,
-                projects: [...state.projects, payload.project],
-            };
+            return [...state, payload.project];
         default:
             return state;
     }

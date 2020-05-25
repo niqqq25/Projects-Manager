@@ -1,13 +1,24 @@
 import React, { useEffect } from 'react';
-import { GlobalStyle, SpinnerContainer } from './styles/Layout';
+import { GlobalStyle } from './styles/Layout';
 import Navbar from './Navbar';
 import { Spinner, Notifications, ConfirmationModal } from '../../global';
+import Modals from '../Modals';
 
 import { connect } from 'react-redux';
-import currentUserActions from '../../../redux/private/actions/currentUser';
+import {
+    getCurrentUser,
+    logoutCurrentUser,
+} from '../../../redux/private/actions/currentUser';
+import CURRENT_USER from '../../../redux/private/constants/currentUser';
 
 function Layout(props) {
-    const { children, getCurrentUser, currentUser, logoutUser } = props;
+    const {
+        children,
+        getCurrentUser,
+        currentUser,
+        logoutUser,
+        isCurrentUserFetching,
+    } = props;
 
     useEffect(() => {
         getCurrentUser();
@@ -15,33 +26,33 @@ function Layout(props) {
 
     return (
         <>
-            {currentUser ? (
+            {!isCurrentUserFetching && currentUser ? (
                 <>
                     <Navbar
                         username={currentUser.username}
                         logoutUser={logoutUser}
                     />
                     {children}
+                    <GlobalStyle />
+                    <Notifications />
+                    <ConfirmationModal />
+                    <Modals />
                 </>
             ) : (
-                <SpinnerContainer>
-                    <Spinner />
-                </SpinnerContainer>
+                <Spinner />
             )}
-            <GlobalStyle />
-            <Notifications />
-            <ConfirmationModal />
         </>
     );
 }
 
 const ConnectedLayout = connect(
-    ({ currentUser }) => ({
+    ({ currentUser, requests }) => ({
+        isCurrentUserFetching: requests.includes(CURRENT_USER.GET),
         currentUser,
     }),
-    dispatch => ({
-        getCurrentUser: () => dispatch(currentUserActions.get()),
-        logoutUser: () => dispatch(currentUserActions.logout()),
+    (dispatch) => ({
+        getCurrentUser: () => dispatch(getCurrentUser()),
+        logoutUser: () => dispatch(logoutCurrentUser()),
     })
 )(Layout);
 
