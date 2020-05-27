@@ -5,7 +5,7 @@ const Link = styled.a`
     padding-left: 5px;
     font-weight: bold;
     &:hover {
-        color: #f36a15;
+        color: ${({ styles }) => styles?.hoverColor || '#f36a15'};
         cursor: pointer;
     }
 `;

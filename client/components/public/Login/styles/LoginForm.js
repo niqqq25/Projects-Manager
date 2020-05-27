@@ -24,7 +24,7 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
     margin-top: 15px;
 `;
 
@@ -34,4 +34,4 @@ const SignUpText = styled.p`
     color: rgb(105, 105, 105);
 `;
 
-export { Form, ButtonContainer, SignUpText, FormTitle };
+export { Form, ButtonWrapper, SignUpText, FormTitle };

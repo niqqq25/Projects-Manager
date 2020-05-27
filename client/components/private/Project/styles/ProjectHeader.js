@@ -19,6 +19,6 @@ const ProjectDescriber = styled.span`
     font-size: 14px;
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonWrapper = styled.div``;
 
-export { ProjectHeader, ProjectTitle, ProjectDescriber, ButtonContainer };
+export { ProjectHeader, ProjectTitle, ProjectDescriber, ButtonWrapper };

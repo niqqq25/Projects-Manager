@@ -1,5 +1,5 @@
 import React from 'react';
-import { TasksTable, TableContainer, TaskStatus } from './styles/TasksTable';
+import { TasksTable, TableWrapper, TaskStatus } from './styles/TasksTable';
 import { Table } from '../../global';
 import TasksTableHeader from './TasksTableHeader';
 import ROUTES from '../../../constants/routes';
@@ -16,7 +16,7 @@ function _TasksTable({ tasks }) {
     return (
         <TasksTable>
             <TasksTableHeader />
-            <TableContainer>
+            <TableWrapper>
                 <Table minWidth="800px" isEmpty={!taskCount}>
                     <thead>
                         <tr>
@@ -61,7 +61,7 @@ function _TasksTable({ tasks }) {
                         </tbody>
                     ) : null}
                 </Table>
-            </TableContainer>
+            </TableWrapper>
         </TasksTable>
     );
 }

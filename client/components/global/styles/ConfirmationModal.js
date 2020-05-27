@@ -10,7 +10,7 @@ const ConfirmationModalInner = styled.div`
     width: 250px;
 `;
 
-const SpinnerContainer = styled.div`
+const SpinnerWrapper = styled.div`
     position: absolute;
     height: 40px;
     width: 40px;
@@ -19,21 +19,21 @@ const SpinnerContainer = styled.div`
     transform: translate(-50%, -50%);
 `;
 
-const ButtonsContainer = styled.div`
+const ButtonsWrapper = styled.div`
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
     flex: 1;
     margin: 0 15px;
 `;
 
 export {
     ConfirmationModal,
-    SpinnerContainer,
+    SpinnerWrapper,
     ConfirmationModalInner,
-    ButtonsContainer,
-    ButtonContainer,
+    ButtonsWrapper,
+    ButtonWrapper,
 };

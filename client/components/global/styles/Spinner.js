@@ -15,6 +15,8 @@ const SpinnerWrapper = styled.div`
 
 const getSpinnerSizeInPx = (size) => {
     switch (size) {
+        case 'small':
+            return 30;
         case 'normal':
         default:
             return 50;

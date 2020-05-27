@@ -9,6 +9,7 @@ export default {
         UPDATE_SUCCESS: 'The changes have been saved.',
     },
     PROJECT: {
+        GET_ALL_ERROR: 'Failed to fetch projects.',
         CREATE_SUCCESS: 'Project has been successfully created.',
         CREATE_ERROR: 'Failed to create new project.',
         UPDATE_SUCCESS: 'Project has been successfully updated.',

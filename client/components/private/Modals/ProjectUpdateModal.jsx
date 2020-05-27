@@ -3,7 +3,7 @@ import {
     ProjectEditModal,
     Form,
     FormTitle,
-    SubmitButtonContainer,
+    SubmitButtonWrapper,
 } from './styles/ProjectUpdateModal';
 import {
     SubmitButton,
@@ -59,12 +59,12 @@ function _ProjectEditModal({ onClose, updateProject, isLoading, projectId }) {
                             }}
                         />
                     </InputGroup>
-                    <SubmitButtonContainer>
+                    <SubmitButtonWrapper>
                         <SubmitButton
                             value="Create task"
                             loading={isLoading ? 1 : 0}
                         />
-                    </SubmitButtonContainer>
+                    </SubmitButtonWrapper>
                 </Form>
             </Modal>
         </ProjectEditModal>

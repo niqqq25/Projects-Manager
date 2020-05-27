@@ -10,6 +10,6 @@ const Title = styled.h2`
     display: inline-block;
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonWrapper = styled.div``;
 
-export { TasksTableHeader, Title, ButtonContainer };
+export { TasksTableHeader, Title, ButtonWrapper };

@@ -2,37 +2,39 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
     Navbar,
-    NavbarInner,
-    UserInfo,
     NavigationList,
-    LinkContainer,
+    LinkWrapper,
+    UserWrapper,
+    UserAvatar,
+    UserFullname,
 } from './styles/Navbar';
 import { Link } from '../../global';
 import ROUTES from '../../../constants/routes';
 
 const NavigationLink = ({ children, onClick }) => (
-    <LinkContainer>
-        <Link onClick={onClick}>{children}</Link>
-    </LinkContainer>
+    <LinkWrapper>
+        <Link onClick={onClick} styles={{ hoverColor: 'white' }}>
+            {children}
+        </Link>
+    </LinkWrapper>
 );
 
-function _Navbar({ history, username, logoutUser }) {
+function _Navbar({ history, fullName, logoutUser }) {
     return (
         <Navbar>
-            <NavbarInner>
-                <UserInfo>{username}</UserInfo>
-                <NavigationList>
-                    <NavigationLink onClick={() => history.push(ROUTES.HOME)}>
-                        Home
-                    </NavigationLink>
-                    <NavigationLink
-                        onClick={() => history.push(ROUTES.PROFILE)}
-                    >
-                        Profile
-                    </NavigationLink>
-                    <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
-                </NavigationList>
-            </NavbarInner>
+            <UserWrapper>
+                <UserAvatar src="https://homepages.cae.wisc.edu/~ece533/images/zelda.png" />
+                <UserFullname>{fullName}</UserFullname>
+            </UserWrapper>
+            <NavigationList>
+                <NavigationLink onClick={() => history.push(ROUTES.HOME)}>
+                    Home
+                </NavigationLink>
+                <NavigationLink onClick={() => history.push(ROUTES.PROFILE)}>
+                    Profile
+                </NavigationLink>
+                <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
+            </NavigationList>
         </Navbar>
     );
 }

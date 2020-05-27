@@ -2,7 +2,7 @@ import React from 'react';
 import useForm from '../../../helpers/useForm';
 import { userEditFormValidationSchema } from '../../../helpers/validationSchemas';
 import { InputField, SubmitButton } from '../../global';
-import { Form, ButtonContainer, FormTitle } from './styles/UserEditForm';
+import { Form, ButtonWrapper, FormTitle } from './styles/UserEditForm';
 import UserDeleteField from './UserDeleteField';
 
 import { connect } from 'react-redux';
@@ -57,12 +57,12 @@ function UserEditForm({ isUpdating, currentUser, updateUser }) {
                 type="password"
             />
 
-            <ButtonContainer>
+            <ButtonWrapper>
                 <SubmitButton
                     value="Update profile"
                     loading={isUpdating ? 1 : 0}
                 />
-            </ButtonContainer>
+            </ButtonWrapper>
             <UserDeleteField />
         </Form>
     );

@@ -3,7 +3,7 @@ import {
     ProjectCreateModal,
     Form,
     FormTitle,
-    SubmitButtonContainer,
+    SubmitButtonWrapper,
 } from './styles/ProjectCreateModal';
 import { SubmitButton, InputField, Modal } from '../../global';
 import useForm from '../../../helpers/useForm';
@@ -49,12 +49,12 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
                         onChange={setValue}
                         name="description"
                     />
-                    <SubmitButtonContainer>
+                    <SubmitButtonWrapper>
                         <SubmitButton
                             value="Create project"
                             loading={isLoading ? 1 : 0}
                         />
-                    </SubmitButtonContainer>
+                    </SubmitButtonWrapper>
                 </Form>
             </Modal>
         </ProjectCreateModal>

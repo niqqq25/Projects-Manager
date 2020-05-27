@@ -2,7 +2,7 @@ import React from 'react';
 import {
     TasksTableHeader,
     Title,
-    ButtonContainer,
+    ButtonWrapper,
 } from './styles/TasksTableHeader';
 import { Button } from '../../global';
 
@@ -15,12 +15,12 @@ function _TasksTableHeader() {
     return (
         <TasksTableHeader>
             <Title>Tasks</Title>
-            <ButtonContainer>
+            <ButtonWrapper>
                 <Button
                     value="Create +"
                     onClick={() => dispatch(taskCreateModalActions.open())}
                 />
-            </ButtonContainer>
+            </ButtonWrapper>
         </TasksTableHeader>
     );
 }

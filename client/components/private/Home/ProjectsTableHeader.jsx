@@ -2,7 +2,7 @@ import React from 'react';
 import {
     ProjectsTableHeader,
     Title,
-    ButtonContainer,
+    ButtonWrapper,
 } from './styles/ProjectsTableHeader';
 import { Button } from '../../global';
 
@@ -16,12 +16,12 @@ function _ProjectsTableHeader() {
     return (
         <ProjectsTableHeader>
             <Title>Projects</Title>
-            <ButtonContainer>
+            <ButtonWrapper>
                 <Button
                     value="Create +"
                     onClick={() => dispatch(openModal(MODALS.PROJECT_CREATE))}
                 />
-            </ButtonContainer>
+            </ButtonWrapper>
         </ProjectsTableHeader>
     );
 }

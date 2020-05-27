@@ -6,6 +6,9 @@ import ProjectDescription from './ProjectDescription';
 import TasksTable from './TasksTable';
 
 import { connect } from 'react-redux';
+import { getCurrentProject } from '../../../redux/private/actions/currentProject';
+import CURRENT_PROJECT from '../../../redux/private/constants/currentProject';
+
 import projectActions, {
     GET_PROJECT,
 } from '../../../redux/private/actions/project';
@@ -17,33 +20,31 @@ function Project({ isFetchingProject, project, getProject, match, history }) {
     }, []);
     const { notFound, project: _project } = project;
 
-    if (isFetchingProject || (!notFound && !_project)) {
+    if (notFound) {
+        <NotFound history={history} />;
+    }
+
+    if (isFetchingProject || !_project) {
         return <Spinner />;
     }
 
-    const { _id, description, tasks } = _project;
+    const { description, tasks } = _project;
     return (
         <>
-            {notFound ? (
-                <NotFound history={history} />
-            ) : (
-                <>
-                    <ProjectHeader project={_project} />
-                    <ProjectDescription description={description} />
-                    <TasksTable tasks={tasks} />
-                </>
-            )}
+            <ProjectHeader project={_project} />
+            <ProjectDescription description={description} />
+            <TasksTable tasks={tasks} />
         </>
     );
 }
 
 const ConnectedProject = connect(
-    ({ requesting, project }) => ({
-        isFetchingProject: requesting.includes(GET_PROJECT),
-        project: project,
+    ({ requests, project }) => ({
+        isFetchingProject: requests.includes(CURRENT_PROJECT.GET),
+        project,
     }),
     (dispatch) => ({
-        getProject: (id) => dispatch(projectActions.get(id)),
+        getProject: (id) => dispatch(getCurrentProject(id)),
     })
 )(Project);
 

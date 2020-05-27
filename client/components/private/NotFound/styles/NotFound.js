@@ -25,7 +25,7 @@ const Description = styled.p`
     }
 `;
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
     width: fit-content;
     font-size: 20px;
     margin: 0 auto;
@@ -34,4 +34,4 @@ const ButtonContainer = styled.div`
     }
 `;
 
-export { NotFound, Title, Description, ButtonContainer };
+export { NotFound, Title, Description, ButtonWrapper };

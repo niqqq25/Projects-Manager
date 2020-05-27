@@ -20,7 +20,7 @@ const Form = styled.form`
     }
 `;
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
     margin-top: 15px;
 `;
 
@@ -28,4 +28,4 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-export { Form, ButtonContainer, FormTitle };
+export { Form, ButtonWrapper, FormTitle };

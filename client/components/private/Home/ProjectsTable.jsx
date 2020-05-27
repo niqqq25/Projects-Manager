@@ -1,31 +1,35 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ROUTES from '../../../constants/routes';
-import { ProjectsTable, TableContainer } from './styles/ProjectsTable';
+import { TableWrapper } from './styles/ProjectsTable';
 import { Table } from '../../global';
-import ProjectsTableHeader from './ProjectTableHeader';
+import ProjectsTableHeader from './ProjectsTableHeader';
 
 import { connect } from 'react-redux';
 import { getProjects } from '../../../redux/private/actions/projects';
 import PROJECTS from '../../../redux/private/constants/projects';
 
-function _ProjectsTable({ isLoading, projects, getProjects, history }) {
+function _ProjectsTable({
+    isFetchingProjects,
+    projects,
+    getProjects,
+    history,
+}) {
     const projectsCount = projects.length;
 
     useEffect(() => {
-        getProjects(); //fix this mess (need to handle errors)
+        getProjects();
     }, []);
 
     return (
-        <ProjectsTable>
+        <>
             <ProjectsTableHeader />
-            <TableContainer>
+            <TableWrapper>
                 <Table
                     minWidth="800px"
-                    isLoading={isLoading}
-                    isEmpty={!projectsCount}
-                >
-                    <thead>
+                    isLoading={isFetchingProjects}
+                    isEmpty={projectsCount}
+                    thead={
                         <tr>
                             {['Title', 'Description', 'Task count'].map(
                                 (header, index) => (
@@ -33,37 +37,31 @@ function _ProjectsTable({ isLoading, projects, getProjects, history }) {
                                 )
                             )}
                         </tr>
-                    </thead>
-                    {projectsCount ? (
-                        <tbody>
-                            {projects.map(
-                                ({ title, description, tasks, _id }, index) => (
-                                    <tr
-                                        key={index}
-                                        onClick={() =>
-                                            history.push(
-                                                `${ROUTES.PROJECT}/${_id}`
-                                            )
-                                        }
-                                    >
-                                        <td>{title}</td>
-                                        <td>{description || '-'}</td>
-                                        <td>{(tasks || []).length}</td>
-                                    </tr>
-                                )
-                            )}
-                        </tbody>
-                    ) : null}
-                </Table>
-            </TableContainer>
-        </ProjectsTable>
+                    }
+                    tbody={projects.map(
+                        ({ title, description, tasks, _id }, index) => (
+                            <tr
+                                key={index}
+                                onClick={() =>
+                                    history.push(`${ROUTES.PROJECT}/${_id}`)
+                                }
+                            >
+                                <td>{title}</td>
+                                <td>{description || '-'}</td>
+                                <td>{(tasks || []).length}</td>
+                            </tr>
+                        )
+                    )}
+                ></Table>
+            </TableWrapper>
+        </>
     );
 }
 
 const ConnectedProjectsTable = withRouter(
     connect(
         ({ projects, requests }) => ({
-            isLoading: requests.includes(PROJECTS.GET),
+            isFetchingProjects: requests.includes(PROJECTS.GET),
             projects,
         }),
         (dispatch) => ({

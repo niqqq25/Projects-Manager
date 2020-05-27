@@ -16,7 +16,7 @@ const Label = styled.div`
     text-transform: capitalize;
 `;
 
-const InputContainer = styled.div`
+const InputWrapper = styled.div`
     &:after {
         content: '';
         display: block;
@@ -56,7 +56,7 @@ const InputRequiredSymbol = styled.p`
 export {
     InputGroup,
     Label,
-    InputContainer,
+    InputWrapper,
     ErrorText,
     InputRequiredSymbol,
 };

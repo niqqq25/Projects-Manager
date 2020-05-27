@@ -3,7 +3,7 @@ import { InputField, SubmitButton, Link } from '../../global';
 import {
     Form,
     LoginText,
-    ButtonContainer,
+    ButtonWrapper,
     FormTitle,
 } from './styles/SignupForm';
 import useForm from '../../../helpers/useForm';
@@ -100,9 +100,9 @@ function SignupForm({ history, isFetching, registerUser }) {
                 required
             />
 
-            <ButtonContainer>
+            <ButtonWrapper>
                 <SubmitButton value="Sign Up" loading={isFetching ? 1 : 0} />
-            </ButtonContainer>
+            </ButtonWrapper>
 
             <LoginText>
                 Already have an account?

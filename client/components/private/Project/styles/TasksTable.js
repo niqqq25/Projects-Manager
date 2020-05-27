@@ -4,7 +4,7 @@ const TasksTable = styled.div`
     padding: 20px;
 `;
 
-const TableContainer = styled.div`
+const TableWrapper = styled.div`
     overflow-x: auto;
     overflow-y: hidden;
 `;
@@ -13,4 +13,4 @@ const TaskStatus = styled.span`
     color: ${({ completed }) => (completed ? 'green' : 'blue')};
 `;
 
-export { TasksTable, TableContainer, TaskStatus };
+export { TasksTable, TableWrapper, TaskStatus };

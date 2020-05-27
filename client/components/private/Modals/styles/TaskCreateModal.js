@@ -25,8 +25,8 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-const SubmitButtonContainer = styled.div`
+const SubmitButtonWrapper = styled.div`
     margin-top: 20px;
 `;
 
-export { TaskCreateModal, Form, FormTitle, SubmitButtonContainer };
+export { TaskCreateModal, Form, FormTitle, SubmitButtonWrapper };

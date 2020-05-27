@@ -11,7 +11,7 @@ const Form = styled.form`
     grid-row-gap: 20px;
     margin: auto;
     background-color: white;
-    padding: 40px 60px;
+    padding: 40px 20px;
     border-radius: 10px;
     text-align: center;
     @media (max-width: 500px) {
@@ -25,8 +25,8 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-const SubmitButtonContainer = styled.div`
+const SubmitButtonWrapper = styled.div`
     margin-top: 20px;
 `;
 
-export { ProjectCreateModal, Form, FormTitle, SubmitButtonContainer };
+export { ProjectCreateModal, Form, FormTitle, SubmitButtonWrapper };

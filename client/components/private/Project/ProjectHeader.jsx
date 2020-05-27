@@ -3,7 +3,7 @@ import {
     ProjectHeader,
     ProjectTitle,
     ProjectDescriber,
-    ButtonContainer,
+    ButtonWrapper,
 } from './styles/ProjectHeader';
 import { Button } from '../../global';
 
@@ -22,9 +22,9 @@ function _ProjectHeader({ project, userId, openProjectEditModal }) {
                 <ProjectDescriber>(Project)</ProjectDescriber>
             </ProjectTitle>
             {isOwner && (
-                <ButtonContainer>
+                <ButtonWrapper>
                     <Button value="Edit" onClick={openProjectEditModal} />
-                </ButtonContainer>
+                </ButtonWrapper>
             )}
         </ProjectHeader>
     );

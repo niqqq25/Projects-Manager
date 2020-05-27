@@ -2,9 +2,9 @@ import React from 'react';
 import {
     ConfirmationModal,
     ConfirmationModalInner,
-    ButtonContainer,
-    ButtonsContainer,
-    SpinnerContainer,
+    ButtonWrapper,
+    ButtonsWrapper,
+    SpinnerWrapper,
 } from './styles/ConfirmationModal';
 
 import Modal from './Modal';
@@ -39,26 +39,26 @@ function _ConfirmationModal({ onClose, isOpen, isLoading, onConfirm }) {
                     >
                         <ConfirmationModalInner>
                             <p>Are you sure you want to do this?</p>
-                            <ButtonsContainer>
-                                <ButtonContainer>
+                            <ButtonsWrapper>
+                                <ButtonWrapper>
                                     <Button
                                         value="No"
                                         onClick={onClose}
                                         disabled={isLoading}
                                     />
-                                </ButtonContainer>
-                                <ButtonContainer>
+                                </ButtonWrapper>
+                                <ButtonWrapper>
                                     <Button
                                         value="Yes"
                                         onClick={() => dispatch(onConfirm())}
                                         disabled={isLoading}
                                     />
-                                </ButtonContainer>
-                            </ButtonsContainer>
+                                </ButtonWrapper>
+                            </ButtonsWrapper>
                             {isLoading && (
-                                <SpinnerContainer>
+                                <SpinnerWrapper>
                                     <Spinner />
-                                </SpinnerContainer>
+                                </SpinnerWrapper>
                             )}
                         </ConfirmationModalInner>
                     </Modal>

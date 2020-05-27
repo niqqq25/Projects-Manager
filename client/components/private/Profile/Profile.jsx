@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import UserEditForm from './UserEditForm';
 
-const Profile = () => <UserEditForm />;
+function Profile() {
+    return <UserEditForm />;
+}
 
 export default Profile;

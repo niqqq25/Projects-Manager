@@ -25,14 +25,12 @@ const Table = styled.table`
     }
 `;
 
-const SpinnerContainer = styled.div`
-    width: 40px;
-    height: 40px;
-    margin: 10px auto 0 auto;
+const TableFooter = styled.div`
+    margin-top: 15px;
 `;
 
 const EmptyTableText = styled.p`
     margin: 10px 0 0 20px;
 `;
 
-export { Table, EmptyTableText, SpinnerContainer };
+export { Table, EmptyTableText, TableFooter };

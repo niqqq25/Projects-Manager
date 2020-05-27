@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
     display: inline-block;
     width: 100%;
     background: ${props =>
@@ -28,4 +28,4 @@ const Button = styled.button`
     }
 `;
 
-export { ButtonContainer, Button };
+export { ButtonWrapper, Button };

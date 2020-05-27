@@ -21,16 +21,14 @@ const getProjectsSuccess = (projects) => ({
 const _getProjects = () => async (dispatch) => {
     dispatch(startRequest(PROJECTS.GET));
 
-    let error = null;
     try {
         const { projects } = await getProjects();
         dispatch(getProjectsSuccess(projects));
     } catch (err) {
-        error = err.message;
+        dispatch(addErrorNotification(NOTIFICATIONS.PROJECT.GET_ALL_ERROR))
     }
 
     dispatch(endRequest(PROJECTS.GET));
-    return error;
 };
 
 const createProjectSuccess = (project) => ({

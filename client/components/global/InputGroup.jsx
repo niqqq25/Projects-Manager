@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     InputGroup,
-    InputContainer,
+    InputWrapper,
     Label,
     InputRequiredSymbol,
     ErrorText,
@@ -9,7 +9,7 @@ import {
 
 const _InputGroup = ({ value, error, label, required, children }) => (
     <InputGroup>
-        <InputContainer borderSliding={!value}>{children}</InputContainer>
+        <InputWrapper borderSliding={!value}>{children}</InputWrapper>
         <Label error={error} labelSliding={!value}>
             {label}
             {required && <InputRequiredSymbol>*</InputRequiredSymbol>}

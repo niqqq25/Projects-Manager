@@ -7,9 +7,9 @@ const ProjectsTableHeader = styled.div`
 `;
 
 const Title = styled.h2`
-    display: inline-block;
+    font-size: 30px;
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonWrapper = styled.div``;
 
-export { ProjectsTableHeader, Title, ButtonContainer };
+export { ProjectsTableHeader, Title, ButtonWrapper };

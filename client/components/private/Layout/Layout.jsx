@@ -29,7 +29,7 @@ function Layout(props) {
             {!isCurrentUserFetching && currentUser ? (
                 <>
                     <Navbar
-                        username={currentUser.username}
+                        fullName={currentUser.fullName}
                         logoutUser={logoutUser}
                     />
                     {children}

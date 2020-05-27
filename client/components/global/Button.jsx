@@ -1,12 +1,12 @@
 import React from 'react';
-import { ButtonContainer, Button } from './styles/Button';
+import { ButtonWrapper, Button } from './styles/Button';
 
 const _Button = ({ value, disabled, onClick }) => (
-    <ButtonContainer disabled={disabled}>
+    <ButtonWrapper disabled={disabled}>
         <Button disabled={disabled} onClick={onClick}>
             {value}
         </Button>
-    </ButtonContainer>
+    </ButtonWrapper>
 );
 
 export default _Button;
