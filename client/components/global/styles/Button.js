@@ -1,31 +1,57 @@
-import styled from 'styled-components';
+import { css, keyframes } from 'styled-components';
 
-const ButtonWrapper = styled.div`
-    display: inline-block;
-    width: 100%;
-    background: ${props =>
-        props.disabled ? 'lightgrey' : 'linear-gradient(#f5af19, #f12711)'};
-    padding: 2px;
-    border-radius: 20px;
-`;
-
-const Button = styled.button`
-    width: 100%;
-    border: none;
-    text-transform: uppercase;
-    padding: 10px 10px;
-    font-weight: bold;
-    font-size: inherit;
-    border-radius: inherit;
-    background-color: white;
-    &:hover:enabled {
-        opacity: 0.9;
+const button = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    text-decoration: none;
+    &:hover {
         cursor: pointer;
-        outline: none;
-    }
-    &:focus:enabled {
-        outline: none;
     }
 `;
 
-export { ButtonWrapper, Button };
+const buttonShadow = css`
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+`;
+
+const disabledButton = css`
+    opacity: 0.65;
+    &:hover {
+        cursor: initial;
+    }
+`;
+
+const linearBackgroundWithTransition = css`
+    background-image: linear-gradient(
+        90deg,
+        #f12711 0%,
+        #f5af19 50%,
+        #f12711 100%
+    );
+    background-size: 200%;
+    background-position: right;
+    transition: background-position 0.5s;
+    &:hover {
+        background-position: left;
+    }
+`;
+
+const lbAnimation = keyframes`
+    0% {background-position: left}
+    50% {background-position: right}
+    100% {background-position: left}
+`;
+
+const linearBackgroundAnimation = css`
+    animation: ${lbAnimation} 2s infinite;
+`;
+
+export {
+    button,
+    buttonShadow,
+    disabledButton,
+    linearBackgroundWithTransition,
+    linearBackgroundAnimation,
+};

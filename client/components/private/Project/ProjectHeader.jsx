@@ -4,7 +4,7 @@ import {
     ProjectTitle,
     ProjectDescriber,
     ButtonWrapper,
-} from './styles/ProjectHeader';
+} from './styled/ProjectHeader';
 import { Button } from '../../global';
 
 import { connect } from 'react-redux';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from './styles/Input';
+import { Input } from './styled/Input';
 
 const _Input = ({ onChange, ...props }) => {
     function handleChange(event) {

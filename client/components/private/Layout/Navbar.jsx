@@ -3,37 +3,47 @@ import { withRouter } from 'react-router-dom';
 import {
     Navbar,
     NavigationList,
-    LinkWrapper,
-    UserWrapper,
-    UserAvatar,
+    ListItem,
+    NavigationLink,
+    UserInfoWrapper,
     UserFullname,
-} from './styles/Navbar';
-import { Link } from '../../global';
+} from './styled/Navbar';
+import Avatar from '../../global/Avatar';
 import ROUTES from '../../../constants/routes';
 
-const NavigationLink = ({ children, onClick }) => (
-    <LinkWrapper>
-        <Link onClick={onClick} styles={{ hoverColor: 'white' }}>
-            {children}
-        </Link>
-    </LinkWrapper>
-);
+import { useSelector } from 'react-redux';
 
-function _Navbar({ history, fullName, logoutUser }) {
+function _Navbar({ history, fullName, avatarUrl, logoutUser }) {
+    const { isProjectsPageActive, isProfilePageActive } = useSelector(
+        ({ navbar }) => navbar
+    );
+
     return (
         <Navbar>
-            <UserWrapper>
-                <UserAvatar src="https://homepages.cae.wisc.edu/~ece533/images/zelda.png" />
+            <UserInfoWrapper>
+                <Avatar size={40} src={avatarUrl} />
                 <UserFullname>{fullName}</UserFullname>
-            </UserWrapper>
+            </UserInfoWrapper>
             <NavigationList>
-                <NavigationLink onClick={() => history.push(ROUTES.HOME)}>
-                    Home
-                </NavigationLink>
-                <NavigationLink onClick={() => history.push(ROUTES.PROFILE)}>
-                    Profile
-                </NavigationLink>
-                <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
+                <ListItem>
+                    <NavigationLink
+                        isActive={isProjectsPageActive}
+                        onClick={() => history.push(ROUTES.PROJECTS)}
+                    >
+                        Projects
+                    </NavigationLink>
+                </ListItem>
+                <ListItem>
+                    <NavigationLink
+                        isActive={isProfilePageActive}
+                        onClick={() => history.push(ROUTES.PROFILE)}
+                    >
+                        Profile
+                    </NavigationLink>
+                </ListItem>
+                <ListItem>
+                    <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
+                </ListItem>
             </NavigationList>
         </Navbar>
     );

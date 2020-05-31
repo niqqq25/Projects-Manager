@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Spinner } from '../../global';
-import NotFound from '../NotFound';
+import NotFoundPage from '../NotFoundPage';
 import ProjectHeader from './ProjectHeader';
 import ProjectDescription from './ProjectDescription';
 import TasksTable from './TasksTable';
@@ -21,7 +21,7 @@ function Project({ isFetchingProject, project, getProject, match, history }) {
     const { notFound, project: _project } = project;
 
     if (notFound) {
-        <NotFound history={history} />;
+        <NotFoundPage history={history} />;
     }
 
     if (isFetchingProject || !_project) {

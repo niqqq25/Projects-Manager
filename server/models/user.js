@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatarUrl: {
+        type: String,
+        required: true,
+    },
     projects: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +32,7 @@ const userSchema = new mongoose.Schema({
     ],
 });
 
-userSchema.pre('deleteOne', async function(next) {
+userSchema.pre('deleteOne', async function (next) {
     const userId = this.getQuery()._id;
     const Project = require('./project').default;
     const Task = require('./task').default;

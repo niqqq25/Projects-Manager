@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from './styles/Select';
+import { Select } from './styled/Select';
 
 const _Select = ({ children, ...props }) => (
     <Select {...props}>{children}</Select>

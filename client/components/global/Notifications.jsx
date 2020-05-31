@@ -1,5 +1,5 @@
 import React from 'react';
-import { Notifications } from './styles/Notifications';
+import { Notifications } from './styled/Notifications';
 import Notification from './Notification';
 
 import { useSelector } from 'react-redux';

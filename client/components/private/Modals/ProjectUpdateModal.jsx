@@ -4,7 +4,7 @@ import {
     Form,
     FormTitle,
     SubmitButtonWrapper,
-} from './styles/ProjectUpdateModal';
+} from './styled/ProjectUpdateModal';
 import {
     SubmitButton,
     InputField,

@@ -4,7 +4,7 @@ import {
     Notification,
     NotificationText,
     CloseButton,
-} from './styles/Notification';
+} from './styled/Notification';
 
 import { useDispatch } from 'react-redux';
 import {

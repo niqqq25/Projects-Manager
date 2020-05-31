@@ -3,7 +3,7 @@ import {
     ProjectDescription,
     Description,
     DescriptionTitle,
-} from './styles/ProjectDescription';
+} from './styled/ProjectDescription';
 
 const _ProjectDescription = ({ description }) => (
     <ProjectDescription>

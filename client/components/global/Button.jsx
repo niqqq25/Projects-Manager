@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonWrapper, Button } from './styles/Button';
+import { ButtonWrapper, Button } from './styled/Button';
 
 const _Button = ({ value, disabled, onClick }) => (
     <ButtonWrapper disabled={disabled}>

@@ -3,7 +3,7 @@ import {
     TasksTableHeader,
     Title,
     ButtonWrapper,
-} from './styles/TasksTableHeader';
+} from './styled/TasksTableHeader';
 import { Button } from '../../global';
 
 import { useDispatch } from 'react-redux';

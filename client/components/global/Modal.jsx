@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal, ModalContent, CloseButton } from './styles/Modal';
+import { Modal, ModalContent, CloseButton } from './styled/Modal';
 
 const noop = () => {};
 

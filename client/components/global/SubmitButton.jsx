@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubmitButton } from './styles/SubmitButton';
+import { SubmitButton } from './styled/SubmitButton';
 
 const _SubmitButton = ({ value, loading, disabled }) => (
     <SubmitButton

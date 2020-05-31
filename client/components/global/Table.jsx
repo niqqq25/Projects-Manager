@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, EmptyTableText, TableFooter } from './styles/Table';
+import { Table, EmptyTableText, TableFooter } from './styled/Table';
 import Spinner from './Spinner';
 
 const _Table = ({ isLoading, isEmpty, children, minWidth, thead, tbody }) => (

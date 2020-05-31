@@ -5,7 +5,7 @@ import {
     Label,
     InputRequiredSymbol,
     ErrorText,
-} from './styles/InputGroup';
+} from './styled/InputGroup';
 
 const _InputGroup = ({ value, error, label, required, children }) => (
     <InputGroup>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TasksTable, TableWrapper, TaskStatus } from './styles/TasksTable';
+import { TasksTable, TableWrapper, TaskStatus } from './styled/TasksTable';
 import { Table } from '../../global';
 import TasksTableHeader from './TasksTableHeader';
 import ROUTES from '../../../constants/routes';

@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import gravatar from 'gravatar';
 import User from '../models/user';
 import { Project } from '../models';
 import { generateToken } from '../helpers/userToken';
@@ -9,7 +10,11 @@ const selectQuery = { password: 0 };
 export async function createUser(req, res, next) {
     try {
         const hash = await bcrypt.hash(req.body.password, 10);
-        const user = new User(Object.assign(req.body, { password: hash }));
+        const avatarUrl = gravatar.url(req.body.email, {default: "identicon"});
+
+        const user = new User(
+            Object.assign(req.body, { password: hash, avatarUrl })
+        );
 
         const validationError = await user.validate();
         if (validationError) {
@@ -134,7 +139,7 @@ export async function deleteMe(req, res, next) {
 export async function updateMe(req, res, next) {
     const { _id } = res.locals.user;
     const updatableKeys = ['fullName', 'password'];
-    const isUpdatable = Object.keys(req.body).every(key =>
+    const isUpdatable = Object.keys(req.body).every((key) =>
         updatableKeys.includes(key)
     );
 

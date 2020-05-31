@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { GlobalStyle } from './styles/Layout';
+import { GlobalStyle } from './styled/Layout';
 import Navbar from './Navbar';
-import { Spinner, Notifications, ConfirmationModal } from '../../global';
+import { Spinner, Notifications } from '../../global';
 import Modals from '../Modals';
 
 import { connect } from 'react-redux';
@@ -30,12 +30,12 @@ function Layout(props) {
                 <>
                     <Navbar
                         fullName={currentUser.fullName}
+                        avatarUrl={currentUser.avatarUrl}
                         logoutUser={logoutUser}
                     />
                     {children}
                     <GlobalStyle />
                     <Notifications />
-                    <ConfirmationModal />
                     <Modals />
                 </>
             ) : (

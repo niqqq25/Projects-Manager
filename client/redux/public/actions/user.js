@@ -14,7 +14,7 @@ const _loginUser = ({ username, password }) => async (dispatch) => {
 
     try {
         await loginUser({ username, password });
-        window.location = ROUTES.HOME;
+        window.location = ROUTES.PROJECTS;
     } catch {
         dispatch(addErrorNotification(NOTIFICATIONS.USER.LOGIN_ERROR));
     }

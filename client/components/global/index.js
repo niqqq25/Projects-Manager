@@ -11,6 +11,8 @@ import ConfirmationModal from './ConfirmationModal';
 import Link from './Link';
 import InputField from './InputField';
 import Notifications from './Notifications';
+import Avatar from './Avatar';
+import Tooltip from './Tooltip';
 
 export {
     InputGroup,
@@ -25,5 +27,7 @@ export {
     ConfirmationModal,
     Link,
     InputField,
-    Notifications
+    Notifications,
+    Avatar,
+    Tooltip,
 };

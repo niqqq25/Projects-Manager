@@ -4,7 +4,7 @@ import {
     FormTitle,
     SignUpText,
     ButtonWrapper,
-} from './styles/LoginForm';
+} from './styled/LoginForm';
 import { SubmitButton, InputField, Link } from '../../global';
 import useForm from '../../../helpers/useForm';
 import { loginFormValidationSchema } from '../../../helpers/validationSchemas';

@@ -1,8 +1,8 @@
 import CONFIRMATION from '../constants/confirmation';
 
-const openConfirmation = (type) => ({
+const openConfirmation = ({ type, callback }) => ({
     type: CONFIRMATION.OPEN,
-    payload: { type },
+    payload: { type, callback },
 });
 
 const closeConfirmation = () => ({

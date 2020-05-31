@@ -1,11 +1,16 @@
 import CONFIRMATION from '../constants/confirmation';
 
-function confirmation(state = null, { type, payload }) {
+const defaultState = {
+    type: null,
+    callback: null,
+};
+
+function confirmation(state = defaultState, { type, payload }) {
     switch (type) {
         case CONFIRMATION.OPEN:
-            return payload.type;
+            return { type: payload.type, callback: payload.callback };
         case CONFIRMATION.CLOSE:
-            return null;
+            return defaultState;
         default:
             return state;
     }

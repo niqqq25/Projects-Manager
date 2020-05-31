@@ -6,13 +6,21 @@ const taskPopulateQuery = {
     select: 'username',
 };
 
-const populateQuery = [
-    { path: 'members', select: 'username' },
+const projectPopulateQuery = [
+    { path: 'members', select: 'username avatarUrl' },
     { path: 'owner', select: 'username' },
     {
         path: 'tasks',
         select: 'title assignee isCompleted',
         populate: taskPopulateQuery,
+    },
+];
+
+const projectsPopulateQuery = [
+    { path: 'members', select: 'username avatarUrl' },
+    {
+        path: 'tasks',
+        select: 'isCompleted',
     },
 ];
 
@@ -30,7 +38,7 @@ export async function createProject(req, res, next) {
             throw new ErrorHandler(400, validationError);
         }
         await project.save();
-        await Project.populate(project, populateQuery);
+        await Project.populate(project, projectPopulateQuery);
 
         res.status(201).send({ project });
     } catch (err) {
@@ -41,7 +49,9 @@ export async function createProject(req, res, next) {
 export async function getProjects(req, res, next) {
     const { user } = res.locals;
     try {
-        const projects = await Project.find({ members: user._id });
+        const projects = await Project.find({ members: user._id }).populate(
+            projectsPopulateQuery
+        );
         res.status(200).send({ projects });
     } catch (err) {
         next(err);
@@ -52,7 +62,7 @@ export async function getProject(req, res, next) {
     try {
         const project = await Project.populate(
             res.locals.project,
-            populateQuery
+            projectPopulateQuery
         );
         res.status(200).send({ project });
     } catch (err) {
@@ -65,7 +75,7 @@ export async function updateProject(req, res, next) {
     const fieldsToUpdate = Object.keys(req.body);
 
     try {
-        const isUpdatable = fieldsToUpdate.every(key =>
+        const isUpdatable = fieldsToUpdate.every((key) =>
             updatableKeys.includes(key)
         );
         if (!isUpdatable) {
@@ -85,7 +95,7 @@ export async function updateProject(req, res, next) {
             project._id,
             { $set: req.body },
             { runValidators: true, new: true }
-        ).populate(populateQuery);
+        ).populate(projectPopulateQuery);
 
         res.status(200).send({ project: $project });
     } catch (err) {
@@ -123,7 +133,7 @@ export async function addMember(req, res, next) {
                 $addToSet: { members: _id },
             },
             { new: true }
-        ).populate(populateQuery);
+        ).populate(projectPopulateQuery);
 
         await User.updateOne(
             { _id },
@@ -164,7 +174,7 @@ export async function removeMember(req, res, next) {
                 $pull: { members: _id },
             },
             { new: true }
-        ).populate(populateQuery);
+        ).populate(projectPopulateQuery);
 
         await User.updateOne(
             { _id },

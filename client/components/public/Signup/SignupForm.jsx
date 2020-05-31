@@ -5,7 +5,7 @@ import {
     LoginText,
     ButtonWrapper,
     FormTitle,
-} from './styles/SignupForm';
+} from './styled/SignupForm';
 import useForm from '../../../helpers/useForm';
 import { signupFormValidationSchema } from '../../../helpers/validationSchemas';
 import ROUTES from '../../../constants/routes';

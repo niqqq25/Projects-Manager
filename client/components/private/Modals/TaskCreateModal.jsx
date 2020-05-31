@@ -4,7 +4,7 @@ import {
     Form,
     FormTitle,
     SubmitButtonWrapper,
-} from './styles/TaskCreateModal';
+} from './styled/TaskCreateModal';
 import { SubmitButton, InputField, Modal } from '../../global';
 import useForm from '../../../helpers/useForm';
 import { taskCreateModalValidationSchema } from '../../../helpers/validationSchemas';

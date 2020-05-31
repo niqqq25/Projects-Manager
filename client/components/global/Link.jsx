@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from './styles/Link';
+import { Link } from './styled/Link';
 
 const _Link = ({ children, ...props }) => <Link {...props}>{children}</Link>;
 
