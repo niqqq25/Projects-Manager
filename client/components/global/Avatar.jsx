@@ -1,6 +1,10 @@
 import React from 'react';
-import { Avatar } from './styled/Avatar';
+import { Avatar, AvatarWrapper } from './styled/Avatar';
 
-const _Avatar = (props) => <Avatar {...props} />;
+const _Avatar = ({ size, ...props }) => (
+    <AvatarWrapper size={size}>
+        <Avatar {...props} />
+    </AvatarWrapper>
+);
 
 export default _Avatar;

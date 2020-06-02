@@ -1,7 +1,7 @@
 //constants
 import NOTIFICATIONS from '../../../constants/notifications';
 import ROUTES from '../../../constants/routes';
-import CURRENT_USER from '../constants/currentUser';
+import { CURRENT_USER, MODALS } from '../constants';
 
 //actions
 import {
@@ -9,7 +9,7 @@ import {
     addErrorNotification,
 } from '../../shared/actions/notifications';
 import { startRequest, endRequest } from '../../shared/actions/requests';
-import { closeConfirmation } from '../actions/confirmation';
+import { closeModal } from '../actions/activeModals';
 
 //services
 import {
@@ -86,7 +86,7 @@ const _deleteCurrentUser = () => async (dispatch) => {
         dispatch(deleteCurrentUserSuccess());
         window.location = `${ROUTES.LOGIN}?userDelete=true`;
     } catch {
-        dispatch(closeConfirmation());
+        dispatch(closeModal(MODALS.USER_DELETE));
         dispatch(addErrorNotification(NOTIFICATIONS.USER.DELETE_ERROR));
     }
 

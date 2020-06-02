@@ -7,7 +7,6 @@ import Select from './Select';
 import SubmitButton from './SubmitButton';
 import Table from './Table';
 import Modal from './Modal';
-import ConfirmationModal from './ConfirmationModal';
 import Link from './Link';
 import InputField from './InputField';
 import Notifications from './Notifications';
@@ -24,7 +23,6 @@ export {
     SubmitButton,
     Table,
     Modal,
-    ConfirmationModal,
     Link,
     InputField,
     Notifications,

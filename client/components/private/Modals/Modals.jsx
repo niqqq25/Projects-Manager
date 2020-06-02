@@ -3,7 +3,7 @@ import React from 'react';
 import ProjectCreateModal from './ProjectCreateModal';
 import ProjectUpdateModal from './ProjectUpdateModal';
 import TaskCreateModal from './TaskCreateModal';
-import ConfirmationModal from '../../global/ConfirmationModal';
+import UserDeleteConfirmationModal from './UserDeleteConfirmationModal';
 
 import { connect } from 'react-redux';
 import MODALS from '../../../redux/private/constants/modals';
@@ -13,7 +13,7 @@ function Modals(props) {
         isProjectCreateModalOpen,
         isProjectUpdateModalOpen,
         isTaskCreateModalOpen,
-        isConfirmationModalOpen,
+        isUserDeleteConfirmationModalOpen,
     } = props;
 
     return (
@@ -21,7 +21,9 @@ function Modals(props) {
             {isProjectCreateModalOpen && <ProjectCreateModal />}
             {isProjectUpdateModalOpen && <ProjectUpdateModal />}
             {isTaskCreateModalOpen && <TaskCreateModal />}
-            {isConfirmationModalOpen && <ConfirmationModal />}
+            {isUserDeleteConfirmationModalOpen && (
+                <UserDeleteConfirmationModal />
+            )}
         </>
     );
 }
@@ -30,7 +32,9 @@ const ConnectedModals = connect(({ activeModals, confirmation }) => ({
     isProjectCreateModalOpen: activeModals.includes(MODALS.PROJECT_CREATE),
     isProjectUpdateModalOpen: activeModals.includes(MODALS.PROJECT_UPDATE),
     isTaskCreateModalOpen: activeModals.includes(MODALS.TASK_CREATE),
-    isConfirmationModalOpen: !!confirmation.type,
+    isUserDeleteConfirmationModalOpen: activeModals.includes(
+        MODALS.USER_DELETE
+    ),
 }))(Modals);
 
 export default ConnectedModals;

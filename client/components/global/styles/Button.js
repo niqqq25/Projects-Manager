@@ -6,6 +6,7 @@ const button = css`
     justify-content: center;
     font-family: inherit;
     text-decoration: none;
+    user-select: none;
     &:hover {
         cursor: pointer;
     }
@@ -18,9 +19,7 @@ const buttonShadow = css`
 
 const disabledButton = css`
     opacity: 0.65;
-    &:hover {
-        cursor: initial;
-    }
+    pointer-events: none;
 `;
 
 const linearBackgroundWithTransition = css`

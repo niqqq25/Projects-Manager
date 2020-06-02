@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 import currentUser from './currentUser';
-import confirmation from './confirmation';
 import projects from './projects';
 import currentProject from './currentProject';
 import tasks from './tasks';
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
     notifications,
     requests,
     currentUser,
-    confirmation,
     projects,
     currentProject,
     tasks,

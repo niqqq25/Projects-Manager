@@ -28,7 +28,7 @@ const Spinner = styled.div`
     height: ${({ size }) => getSpinnerSizeInPx(size)}px;
     width: ${({ size }) => getSpinnerSizeInPx(size)}px;
     border: 3px solid #ffd6bd;
-    border-top-color: white;
+    border-top-color: transparent;
     border-radius: 50%;
     animation: ${css`
             ${spinning}`} linear infinite 1s;
