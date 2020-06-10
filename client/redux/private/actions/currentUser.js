@@ -1,7 +1,7 @@
 //constants
 import NOTIFICATIONS from '../../../constants/notifications';
 import ROUTES from '../../../constants/routes';
-import { CURRENT_USER, MODALS } from '../constants';
+import CURRENT_USER from '../constants/currentUser';
 
 //actions
 import {
@@ -9,7 +9,6 @@ import {
     addErrorNotification,
 } from '../../shared/actions/notifications';
 import { startRequest, endRequest } from '../../shared/actions/requests';
-import { closeModal } from '../actions/activeModals';
 
 //services
 import {
@@ -17,7 +16,7 @@ import {
     logoutCurrentUser,
     updateCurrentUser,
     deleteCurrentUser,
-} from '../services/currentUser';
+} from '../services/users';
 
 const getCurrentUserSuccess = (user) => ({
     type: CURRENT_USER.GET_SUCCESS,
@@ -81,16 +80,17 @@ const deleteCurrentUserSuccess = () => ({
 const _deleteCurrentUser = () => async (dispatch) => {
     dispatch(startRequest(CURRENT_USER.DELETE));
 
+    let error = null;
     try {
         await deleteCurrentUser();
         dispatch(deleteCurrentUserSuccess());
-        window.location = `${ROUTES.LOGIN}?userDelete=true`;
-    } catch {
-        dispatch(closeModal(MODALS.USER_DELETE));
+    } catch (err) {
+        error = err;
         dispatch(addErrorNotification(NOTIFICATIONS.USER.DELETE_ERROR));
     }
 
     dispatch(endRequest(CURRENT_USER.DELETE));
+    return error;
 };
 
 export {

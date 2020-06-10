@@ -12,21 +12,36 @@ const createProject = async ({ title, description }) =>
         body: { title, description },
     });
 
-const updateProject = async ({ id, title, description, owner }) =>
-    await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`, {
+const updateProject = async ({ projectId, title, description, owner }) =>
+    await _fetch(`${API_ROUTES.PROJECT.ROOT}/${projectId}`, {
         method: 'PATCH',
         body: { title, description, owner },
     });
 
-const deleteProject = async ({ id }) =>
+const deleteProject = async (id) =>
     await _fetch(`${API_ROUTES.PROJECT.ROOT}/${id}`, {
         method: 'DELETE',
     });
 
-const createTask = async ({ title, description, project_id }) =>
+const createTask = async ({ title, description, projectId }) =>
     await _fetch(
-        `${API_ROUTES.PROJECT.ROOT}/${project_id}${API_ROUTES.PROJECT.TASKS}`,
+        `${API_ROUTES.PROJECT.ROOT}/${projectId}${API_ROUTES.PROJECT.TASKS}`,
         { method: 'POST', body: { title, description } }
+    );
+
+const addMember = async ({ projectId, userId }) =>
+    await _fetch(
+        `${API_ROUTES.PROJECT.ROOT}/${projectId}${API_ROUTES.PROJECT.MEMBERS}`,
+        {
+            method: 'POST',
+            body: { _id: userId },
+        }
+    );
+
+const removeMember = async ({ projectId, memberId }) =>
+    await _fetch(
+        `${API_ROUTES.PROJECT.ROOT}/${projectId}${API_ROUTES.PROJECT.MEMBERS}`,
+        { method: 'DELETE', body: { _id: memberId } }
     );
 
 export {
@@ -36,4 +51,6 @@ export {
     updateProject,
     deleteProject,
     createTask,
+    addMember,
+    removeMember,
 };

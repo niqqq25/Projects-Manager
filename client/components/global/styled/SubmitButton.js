@@ -14,7 +14,6 @@ const SubmitButton = styled.input`
     text-transform: uppercase;
     border: none;
     font-weight: bolder;
-    color: white;
     padding: 15px 0;
     &:hover {outline: none;}
     &:focus {outline: none;}

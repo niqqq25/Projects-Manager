@@ -7,11 +7,11 @@ const taskPopulateQuery = {
 };
 
 const projectPopulateQuery = [
-    { path: 'members', select: 'username avatarUrl' },
+    { path: 'members', select: 'username avatarUrl fullName' },
     { path: 'owner', select: 'username' },
     {
         path: 'tasks',
-        select: 'title assignee isCompleted',
+        select: 'title description assignee isCompleted',
         populate: taskPopulateQuery,
     },
 ];

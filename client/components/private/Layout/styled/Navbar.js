@@ -11,7 +11,7 @@ const Navbar = styled.nav`
         hsl(41, 91.7%, 70.9%),
         hsl(6, 88.9%, 70.6%)
     );
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    box-shadow: 0 8px 6px -6px #999;
     padding: 10px 30px;
     align-items: center;
     justify-content: space-between;

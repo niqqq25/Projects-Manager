@@ -1,5 +1,6 @@
 import React from 'react';
-import DeleteConfirmationModal from '../../global/DeleteConfirmationModal';
+import ConfirmationModal from '../../global/ConfirmationModal';
+import ROUTES from '../../../constants/routes';
 
 import { connect } from 'react-redux';
 import { closeModal } from '../../../redux/private/actions/activeModals';
@@ -8,22 +9,34 @@ import { MODALS, CURRENT_USER } from '../../../redux/private/constants';
 
 const USER_DELETE_CONTENT = 'Do you really want to delete this account?';
 
-const UserDeleteConfirmationModal = ({ isLoading, onClose, onDelete }) => (
-    <DeleteConfirmationModal
-        content={USER_DELETE_CONTENT}
-        onClose={onClose}
-        onDelete={onDelete}
-        isLoading={isLoading}
-    />
-);
+function UserDeleteConfirmationModal({ isLoading, closeModal, deleteUser }) {
+    async function handleUserDelete() {
+        const error = await deleteUser();
+        closeModal();
+
+        if (!error) {
+            window.location = `${ROUTES.LOGIN}?userDelete=true`;
+        }
+    }
+
+    return (
+        <ConfirmationModal
+            content={USER_DELETE_CONTENT}
+            onClose={closeModal}
+            onConfirm={handleUserDelete}
+            isLoading={isLoading}
+            confirmButtonText="Delete"
+        />
+    );
+}
 
 const ConnectedUserDeleteConfirmationModal = connect(
     ({ requests }) => ({
         isLoading: requests.includes(CURRENT_USER.DELETE),
     }),
     (dispatch) => ({
-        onClose: () => dispatch(closeModal(MODALS.USER_DELETE)),
-        onDelete: () => dispatch(deleteCurrentUser()),
+        closeModal: () => dispatch(closeModal(MODALS.USER_DELETE_CON)),
+        deleteUser: () => dispatch(deleteCurrentUser()),
     })
 )(UserDeleteConfirmationModal);
 

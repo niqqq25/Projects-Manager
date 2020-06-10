@@ -9,29 +9,20 @@ const NotFoundPage = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 160px;
+    font-size: 10rem;
     @media (max-width: 1000px) {
-        font-size: 80px;
+        font-size: 5rem;
     }
 `;
 
 const Description = styled.p`
     color: grey;
-    font-size: 30px;
-    margin-bottom: 20px;
+    font-size: 1.875rem;
+    margin-bottom: 1.25rem;
     @media (max-width: 1000px) {
         font-size: initial;
-        margin-bottom: 15px;
+        margin-bottom: 0.9375rem;
     }
 `;
 
-const ButtonWrapper = styled.div`
-    width: fit-content;
-    font-size: 20px;
-    margin: 0 auto;
-    @media (max-width: 1000px) {
-        font-size: initial;
-    }
-`;
-
-export { NotFoundPage, Title, Description, ButtonWrapper };
+export { NotFoundPage, Title, Description };

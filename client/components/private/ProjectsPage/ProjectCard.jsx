@@ -1,46 +1,47 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {
     ProjectCard,
-    ProjectName,
+    ProjectCardContent,
+    ProjectTitle,
     ProjectDescription,
-    ProjectInfoWrapper,
-    ProjectTeam,
-    ProjectTeamTitle,
-    ProjectTeamAvatars,
-    AvatarWrapper,
 } from './styled/ProjectCard';
-import Avatar from '../../global/Avatar';
-import ProjectProgressBar from './ProjectProgressBar';
+import ProjectCardProgressBar from './ProjectCardProgressBar';
+import ProjectCardTeam from './ProjectCardTeam';
+import ProjectCardComplTasksCounter from './ProjectCardComplTasksCounter';
 
+import ellipseText from '../../../helpers/ellipseText';
+
+import ROUTES from '../../../constants/routes';
 const MAX_DESCRIPTION_LENGTH = 60;
 
-const formatDescription = (description) =>
-    description.substring(0, MAX_DESCRIPTION_LENGTH) +
-    (description.length > MAX_DESCRIPTION_LENGTH ? '...' : '');
+function _ProjectCard({ project, history }) {
+    const { title, description, members, tasks = [], _id } = project;
+    const tasksCount = tasks.length;
+    const completedTasksCount = tasks.reduce(
+        (acc, { isCompleted }) => acc + (isCompleted ? 1 : 0),
+        0
+    );
 
-function _ProjectCard({ project }) {
-    const { title, description, members, tasks } = project;
     return (
-        <ProjectCard>
-            <ProjectInfoWrapper>
-                <ProjectName>{title}</ProjectName>
+        <ProjectCard onClick={() => history.push(`${ROUTES.PROJECT}/${_id}`)}>
+            <ProjectCardContent>
+                <ProjectTitle>{title}</ProjectTitle>
                 <ProjectDescription>
-                    {formatDescription(description)}
+                    {ellipseText(description, MAX_DESCRIPTION_LENGTH)}
                 </ProjectDescription>
-                <ProjectTeam>
-                    <ProjectTeamTitle>Team:</ProjectTeamTitle>
-                    <ProjectTeamAvatars>
-                        {members.map(({ avatarUrl, username }, index) => (
-                            <AvatarWrapper key={index}>
-                                <Avatar src={avatarUrl} title={username} />
-                            </AvatarWrapper>
-                        ))}
-                    </ProjectTeamAvatars>
-                </ProjectTeam>
-            </ProjectInfoWrapper>
-            <ProjectProgressBar tasks={tasks} />
+                <ProjectCardTeam members={members} />
+                <ProjectCardComplTasksCounter
+                    tasksCount={tasksCount}
+                    completedTasksCount={completedTasksCount}
+                />
+            </ProjectCardContent>
+            <ProjectCardProgressBar
+                tasksCount={tasksCount}
+                completedTasksCount={completedTasksCount}
+            />
         </ProjectCard>
     );
 }
 
-export default _ProjectCard;
+export default withRouter(_ProjectCard);

@@ -6,6 +6,7 @@ import currentProject from './currentProject';
 import tasks from './tasks';
 import activeModals from './activeModals';
 import navbar from './navbar';
+import users from './users';
 
 //shared
 import notifications from '../../shared/reducers/notifications';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     tasks,
     activeModals,
     navbar,
+    users,
 });
 
 export default rootReducer;

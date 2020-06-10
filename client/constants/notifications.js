@@ -1,7 +1,7 @@
 export default {
     USER: {
         REGISTER_SUCCESS: 'You have successfully registered.',
-        DELETE_SUCCESS: 'User has been successfully deleted.', //rename it
+        DELETE_SUCCESS: 'User has been successfully deleted.',
         DELETE_ERROR:
             'Failed to delete user, make sure you dont own any projects.',
         LOGIN_ERROR:
@@ -16,6 +16,15 @@ export default {
         UPDATE_ERROR: 'Failed to update new project.',
         DELETE_SUCCESS: 'Project has been successfully deleted.',
         DELETE_ERROR: 'Failed to delete project.',
+        MEMBER_REMOVE_SUCCESS:
+            'Member has been successfully removed from the project.',
+        MEMBER_REMOVE_ERROR: 'Failed to remove member from the project.',
+        MEMBER_ADD_SUCCESS: 'User has been successfully added to the project.',
+        MEMBER_ADD_ERROR: 'Failed to add user to the project.',
+        OWNER_CHANGE_SUCCESS: 'Projects owner has been successfully changed.',
+        OWNER_CHANGE_ERROR: 'Failed to change projects owner.',
+        LEAVE_SUCCESS: 'You successfully left the project.',
+        LEAVE_ERROR: 'Failed to leave the project.',
     },
     TASK: {
         CREATE_SUCCESS: 'Task has been successfully created.',

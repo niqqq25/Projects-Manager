@@ -12,7 +12,7 @@ function _UserDeleteField() {
     return (
         <UserDeleteField>
             Suck at life?
-            <Link onClick={() => dispatch(openModal(MODALS.USER_DELETE))}>
+            <Link onClick={() => dispatch(openModal(MODALS.USER_DELETE_CON))}>
                 Delete me
             </Link>
         </UserDeleteField>

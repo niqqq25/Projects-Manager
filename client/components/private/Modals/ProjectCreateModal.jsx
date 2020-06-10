@@ -34,7 +34,7 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
         <ProjectCreateModal onSubmit={handleFormSubmit}>
             <Modal onClose={onClose} closingDisabled={isLoading}>
                 <Form>
-                    <FormTitle>Create project</FormTitle>
+                    <FormTitle>Create a project</FormTitle>
                     <InputField
                         value={title.value}
                         label="Title"

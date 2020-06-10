@@ -6,7 +6,7 @@ import Layout from '../components/private/Layout';
 import ProjectsPage from '../components/private/ProjectsPage';
 import NotFoundPage from '../components/private/NotFoundPage';
 import ProfilePage from '../components/private/ProfilePage';
-// import Project from '../components/private/Project';
+import ProjectPage from '../components/private/ProjectPage';
 
 const router = () => (
     <BrowserRouter>
@@ -14,11 +14,11 @@ const router = () => (
             <Switch>
                 <Route exact path={ROUTES.PROJECTS} component={ProjectsPage} />
                 <Route exact path={ROUTES.PROFILE} component={ProfilePage} />
-                {/* <Route
+                <Route
                     exact
                     path={`${ROUTES.PROJECT}/:id`}
-                    component={Project}
-                /> */}
+                    component={ProjectPage}
+                />
                 <Route component={NotFoundPage} />
             </Switch>
         </Layout>

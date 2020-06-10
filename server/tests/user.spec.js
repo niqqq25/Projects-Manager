@@ -274,17 +274,17 @@ describe('user API', () => {
             await login(username, password);
         });
 
-        it('should return all users when there is no quary params', async () => {
+        it('should return all users when there is no query params', async () => {
             const res = await request.get(ROUTES.USER.ROOT);
             expect(res.body.users.length).be.equal(data.users.length);
         });
 
-        it('should return selected users when regex is provided', async () => {
-            const regex = data.users[0].username.slice(0, 3);
-            const res = await request.get(`${ROUTES.USER.ROOT}?regex=${regex}`);
+        it('should return selected users when query is provided', async () => {
+            const query = data.users[0].username.slice(0, 3);
+            const res = await request.get(`${ROUTES.USER.ROOT}?q=${query}`);
 
             const usernames = res.body.users.map(user => user.username);
-            const reg = new RegExp(regex, 'ig');
+            const reg = new RegExp(query, 'ig');
 
             expect(usernames.every(username => reg.test(username))).to.equal(
                 true

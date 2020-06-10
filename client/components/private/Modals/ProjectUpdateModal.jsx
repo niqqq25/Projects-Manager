@@ -18,11 +18,23 @@ import { projectEditModalValidationSchema } from '../../../helpers/validationSch
 import { connect } from 'react-redux';
 import { closeModal } from '../../../redux/private/actions/activeModals';
 import { updateCurrentProject } from '../../../redux/private/actions/currentProject';
+import {
+    addErrorNotification,
+    addSuccessNotification,
+} from '../../../redux/shared/actions/notifications';
 import { MODALS, CURRENT_PROJECT } from '../../../redux/private/constants';
+import NOTIFICATIONS from '../../../constants/notifications';
 
-function _ProjectEditModal({ onClose, updateProject, isLoading, projectId }) {
+function _ProjectEditModal({
+    closeModal,
+    updateProject,
+    isLoading,
+    project,
+    addErrorNotification,
+    addSuccessNotification,
+}) {
     const [inputs, { setValue, validateInputs }] = useForm(
-        { title: '', description: '' },
+        { title: project.title, description: project.description },
         projectEditModalValidationSchema
     );
     const { title, description } = inputs;
@@ -32,13 +44,28 @@ function _ProjectEditModal({ onClose, updateProject, isLoading, projectId }) {
 
         const isValid = await validateInputs();
         if (isValid) {
-            updateProject(title.value, description.value, null, projectId);
+            handleProjectUpdate();
         }
+    }
+
+    async function handleProjectUpdate() {
+        const error = await updateProject(
+            title.value,
+            description.value,
+            project._id
+        );
+
+        if (error) {
+            addErrorNotification(NOTIFICATIONS.PROJECT.UPDATE_ERROR);
+        } else {
+            addSuccessNotification(NOTIFICATIONS.PROJECT.UPDATE_SUCCESS);
+        }
+        closeModal();
     }
 
     return (
         <ProjectEditModal onSubmit={handleFormSubmit}>
-            <Modal onClose={onClose} closingDisabled={isLoading}>
+            <Modal onClose={closeModal} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Update project</FormTitle>
                     <InputField
@@ -61,7 +88,7 @@ function _ProjectEditModal({ onClose, updateProject, isLoading, projectId }) {
                     </InputGroup>
                     <SubmitButtonWrapper>
                         <SubmitButton
-                            value="Create task"
+                            value="Update project"
                             loading={isLoading ? 1 : 0}
                         />
                     </SubmitButtonWrapper>
@@ -72,13 +99,18 @@ function _ProjectEditModal({ onClose, updateProject, isLoading, projectId }) {
 }
 
 const ConnectedProjectEditModal = connect(
-    ({ requests }) => ({
+    ({ requests, currentProject }) => ({
         isLoading: requests.includes(CURRENT_PROJECT.UPDATE),
+        project: currentProject.project,
     }),
     (dispatch) => ({
-        onClose: () => dispatch(closeModal(MODALS.PROJECT_UPDATE)),
-        updateProject: (title, description, owner, project_id) =>
-            dispatch(updateCurrentProject({ title, description, project_id })),
+        closeModal: () => dispatch(closeModal(MODALS.PROJECT_UPDATE)),
+        updateProject: (title, description, projectId) =>
+            dispatch(updateCurrentProject({ title, description, projectId })),
+        addErrorNotification: (message) =>
+            dispatch(addErrorNotification(message)),
+        addSuccessNotification: (message) =>
+            dispatch(addSuccessNotification(message)),
     })
 )(_ProjectEditModal);
 

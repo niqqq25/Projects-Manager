@@ -10,7 +10,9 @@ const selectQuery = { password: 0 };
 export async function createUser(req, res, next) {
     try {
         const hash = await bcrypt.hash(req.body.password, 10);
-        const avatarUrl = gravatar.url(req.body.email, {default: "identicon"});
+        const avatarUrl = gravatar.url(req.body.email, {
+            default: 'identicon',
+        });
 
         const user = new User(
             Object.assign(req.body, { password: hash, avatarUrl })
@@ -84,9 +86,9 @@ export async function getUsers(req, res, next) {
     const { user } = res.locals;
 
     try {
-        if (queryParams.regex) {
-            const regex = new RegExp('^' + queryParams.regex, 'i');
-            query.username = regex;
+        if (queryParams.q) {
+            const usernameQuery = new RegExp('^' + queryParams.q, 'i');
+            query.username = usernameQuery;
         }
 
         if (queryParams.project) {
@@ -102,8 +104,9 @@ export async function getUsers(req, res, next) {
                       $ne: queryParams.project,
                   };
         }
+        const limit = parseInt(queryParams.limit || 0);
 
-        const users = await User.find(query, selectQuery);
+        const users = await User.find(query, selectQuery).limit(limit);
         res.status(200).send({ users });
     } catch (err) {
         next(err);

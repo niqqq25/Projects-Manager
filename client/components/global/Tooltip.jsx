@@ -1,10 +1,10 @@
 import React from 'react';
 import { Tooltip, TooltipContent } from './styled/Tooltip';
 
-const _Tooltip = ({ children, content }) => (
+const _Tooltip = ({ children, content, top }) => (
     <Tooltip>
         {children}
-        <TooltipContent>{content}</TooltipContent>
+        <TooltipContent top={top}>{content}</TooltipContent>
     </Tooltip>
 );
 

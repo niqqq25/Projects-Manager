@@ -1,7 +1,9 @@
 import { css, keyframes } from 'styled-components';
 
 const button = css`
+    position: relative;
     display: flex;
+    color: black;
     align-items: center;
     justify-content: center;
     font-family: inherit;
@@ -29,6 +31,7 @@ const linearBackgroundWithTransition = css`
         #f5af19 50%,
         #f12711 100%
     );
+    color: white;
     background-size: 200%;
     background-position: right;
     transition: background-position 0.5s;
@@ -47,10 +50,36 @@ const linearBackgroundAnimation = css`
     animation: ${lbAnimation} 2s infinite;
 `;
 
+const linearBackgroundBorder = css`
+    content: '';
+    z-index: -1;
+    border-radius: inherit;
+    padding: 2px;
+    position: absolute;
+    background: linear-gradient(90deg, #f5af19, #f12711);
+    height: 100%;
+    width: 100%;
+`;
+
+const greyRoundButton = css`
+    ${button}
+    background: lightgrey;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    transition: 0.2s background linear;
+    &:hover {
+        background: hsl(0, 0%, 75%);
+    }
+`;
+
 export {
     button,
     buttonShadow,
     disabledButton,
     linearBackgroundWithTransition,
     linearBackgroundAnimation,
+    linearBackgroundBorder,
+    greyRoundButton,
 };
