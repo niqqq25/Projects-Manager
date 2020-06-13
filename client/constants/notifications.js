@@ -13,7 +13,7 @@ export default {
         CREATE_SUCCESS: 'Project has been successfully created.',
         CREATE_ERROR: 'Failed to create new project.',
         UPDATE_SUCCESS: 'Project has been successfully updated.',
-        UPDATE_ERROR: 'Failed to update new project.',
+        UPDATE_ERROR: 'Failed to update project.',
         DELETE_SUCCESS: 'Project has been successfully deleted.',
         DELETE_ERROR: 'Failed to delete project.',
         MEMBER_REMOVE_SUCCESS:
@@ -29,5 +29,9 @@ export default {
     TASK: {
         CREATE_SUCCESS: 'Task has been successfully created.',
         CREATE_ERROR: 'Failed to create new task.',
+        DELETE_SUCCESS: 'Task has been successfully deleted.',
+        DELETE_ERROR: 'Failed to delete task.',
+        UPDATE_SUCCESS: 'Task has been successfully updated.',
+        UPDATE_ERROR: 'Failed to update task.',
     },
 };

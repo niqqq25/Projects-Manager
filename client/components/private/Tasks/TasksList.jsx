@@ -4,7 +4,7 @@ import TaskCard from './TaskCard';
 
 function _TasksList({ tasks = [] }) {
     if (!tasks.length) {
-        return <NoTasks>There are no tasks for this project</NoTasks>;
+        return <NoTasks>No tasks found.</NoTasks>;
     }
 
     return (

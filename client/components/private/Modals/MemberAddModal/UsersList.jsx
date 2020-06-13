@@ -4,13 +4,13 @@ import User from './User';
 import Spinner from '../../../global/Spinner';
 
 import { connect } from 'react-redux';
-import { getNonMemberUsers } from '../../../../redux/private/actions/users';
-import USERS from '../../../../redux/private/constants/users';
+import { getUsers } from '../../../../redux/private/actions/memberAddModal';
+import MEMBER_ADD_MODAL from '../../../../redux/private/constants/memberAddModal';
 
 const SEARCH_TIMEOUT = 1000;
 const USERS_LIMIT = 20;
 
-function _UsersList({ users, getUsers, isLoading, search, projectId }) {
+function _UsersList({ users = [], getUsers, isLoading, search, projectId }) {
     const [searchTimeout, setSearchTimeout] = useState(null);
     const firstUpdate = useRef(true);
 
@@ -32,7 +32,7 @@ function _UsersList({ users, getUsers, isLoading, search, projectId }) {
         };
     }, []);
 
-    if (isLoading) {
+    if (isLoading || !users) {
         return <Spinner size="small" />;
     }
     if (!users.length) {
@@ -49,14 +49,14 @@ function _UsersList({ users, getUsers, isLoading, search, projectId }) {
 }
 
 const ConnectedUsersList = connect(
-    ({ users, requests, currentProject }) => ({
-        users,
-        isLoading: requests.includes(USERS.GET),
+    ({ memberAddModal, requests, currentProject }) => ({
+        users: memberAddModal.users,
+        isLoading: requests.includes(MEMBER_ADD_MODAL.GET_USERS),
         projectId: currentProject.project._id,
     }),
     (dispatch) => ({
         getUsers: (query, projectId, limit) =>
-            dispatch(getNonMemberUsers({ query, projectId, limit })),
+            dispatch(getUsers({ query, projectId, limit })),
     })
 )(_UsersList);
 

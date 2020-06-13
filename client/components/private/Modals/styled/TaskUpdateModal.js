@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ProjectUpdateModal = styled.div`
+const TaskUpdateModal = styled.div`
     position: relative;
     z-index: 10;
 `;
@@ -29,4 +29,4 @@ const SubmitButtonWrapper = styled.div`
     margin-top: 20px;
 `;
 
-export { ProjectUpdateModal, Form, FormTitle, SubmitButtonWrapper };
+export { TaskUpdateModal, Form, FormTitle, SubmitButtonWrapper };

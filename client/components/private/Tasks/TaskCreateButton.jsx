@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { openModal } from '../../../redux/private/actions/activeModals';
 import MODALS from '../../../redux/private/constants/modals';
 
-function _TaskCreateButton({ projectId, parentTaskId }) {
+function _TaskCreateButton({ projectId, parentTask }) {
     const dispatch = useDispatch();
 
     return (
@@ -15,7 +15,7 @@ function _TaskCreateButton({ projectId, parentTaskId }) {
                 dispatch(
                     openModal({
                         type: MODALS.TASK_CREATE,
-                        payload: { projectId, parentTaskId },
+                        payload: { projectId, parentTask },
                     })
                 )
             }

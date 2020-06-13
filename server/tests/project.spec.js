@@ -98,9 +98,13 @@ describe('project API', () => {
 
         it('should get all user projects when valid token is presented', async () => {
             const res = await request.get(ROUTES.PROJECT.ROOT);
-            const resProjectIds = res.body.projects.map(project => project._id);
-            const userProjectIds = projects.map(project => project.toString());
-            const isAllProject = userProjectIds.every(projectId =>
+            const resProjectIds = res.body.projects.map(
+                (project) => project._id
+            );
+            const userProjectIds = projects.map((project) =>
+                project.toString()
+            );
+            const isAllProject = userProjectIds.every((projectId) =>
                 resProjectIds.includes(projectId)
             );
             expect(isAllProject).to.equal(true);
@@ -369,7 +373,7 @@ describe('project API', () => {
                 .send({ _id: user._id });
 
             const memberIds = res.body.project.members.map(
-                member => member._id
+                (member) => member._id
             );
             const isMember = memberIds.includes(user._id);
             expect(isMember).to.equal(true);
@@ -466,14 +470,14 @@ describe('project API', () => {
                 .send({ _id: user._id });
 
             const memberIds = res.body.project.members.map(
-                member => member._id
+                (member) => member._id
             );
             const isMember = memberIds.includes(user._id);
             expect(isMember).to.equal(false);
         });
     });
 
-    describe('POST /api/projects/:project_id/tasks?parent', () => {
+    describe('POST /api/projects/:project_id/tasks', () => {
         const project = data.projects[0];
         const task = data.tasks[0];
 
@@ -565,12 +569,12 @@ describe('project API', () => {
                     .send(task);
             });
 
-            it('should create task when parent task exists and user is a member', async () => {
+            it('should create task when parent task is provided and user is a member', async () => {
                 await request
                     .post(
-                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}?parent=${task._id}`
+                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}`
                     )
-                    .send(task1);
+                    .send({ ...task1, parentTask: task._id });
                 const $task = await Task.findById(task1._id);
                 expect($task).to.be.ok;
             });
@@ -581,9 +585,9 @@ describe('project API', () => {
                 });
                 await request
                     .post(
-                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}?parent=${task._id}`
+                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}`
                     )
-                    .send(task1);
+                    .send({ ...task1, parentTask: task._id });
                 const $task = await Task.findById(task._id);
 
                 const isTaskIncluded = $task.tasks.includes(task1._id);
@@ -593,9 +597,9 @@ describe('project API', () => {
             it('should return task when its created', async () => {
                 const res = await request
                     .post(
-                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}?parent=${task._id}`
+                        `${ROUTES.PROJECT.ROOT}/${project._id}${ROUTES.PROJECT.TASKS}`
                     )
-                    .send(task1);
+                    .send({ ...task1, parentTask: task._id });
                 expect(res.body.task.title).to.equal(task1.title);
             });
         });

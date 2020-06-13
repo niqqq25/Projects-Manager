@@ -12,9 +12,7 @@ const signupFormValidationSchema = Yup.object().shape({
         6,
         'Password must be at least 6 characters long'
     ),
-    email: Yup.string()
-        .required('Email is required')
-        .email('Email is invalid'),
+    email: Yup.string().required('Email is required').email('Email is invalid'),
 });
 
 const userEditFormValidationSchema = Yup.object().shape({
@@ -22,7 +20,7 @@ const userEditFormValidationSchema = Yup.object().shape({
     password: Yup.string().test(
         'check password length',
         'New password must be at least 6 characters long',
-        value => {
+        (value) => {
             if (value) {
                 return value.length > 5;
             }
@@ -39,7 +37,11 @@ const taskCreateModalValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
 });
 
-const projectEditModalValidationSchema = Yup.object().shape({
+const projectUpdateModalValidationSchema = Yup.object().shape({
+    title: Yup.string().required('Title cannot be empty'),
+});
+
+const taskUpdateModalValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title cannot be empty'),
 });
 
@@ -49,5 +51,6 @@ export {
     userEditFormValidationSchema,
     projectCreateModalValidationSchema,
     taskCreateModalValidationSchema,
-    projectEditModalValidationSchema,
+    projectUpdateModalValidationSchema,
+    taskUpdateModalValidationSchema,
 };

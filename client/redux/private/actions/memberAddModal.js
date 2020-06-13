@@ -1,5 +1,5 @@
 //constants
-import USERS from '../constants/users';
+import MEMBER_ADD_MODAL from '../constants/memberAddModal';
 
 //actions
 import { startRequest, endRequest } from '../../shared/actions/requests';
@@ -8,14 +8,12 @@ import { startRequest, endRequest } from '../../shared/actions/requests';
 import { getNonMemberUsers } from '../services/users';
 
 const getUsersSuccess = (users) => ({
-    type: USERS.GET_SUCCESS,
+    type: MEMBER_ADD_MODAL.GET_USERS_SUCCESS,
     payload: { users },
 });
 
-const _getNonMemberUsers = ({ query, limit, projectId }) => async (
-    dispatch
-) => {
-    dispatch(startRequest(USERS.GET));
+const getUsers = ({ query, limit, projectId }) => async (dispatch) => {
+    dispatch(startRequest(MEMBER_ADD_MODAL.GET_USERS));
 
     try {
         const { users } = await getNonMemberUsers({ query, limit, projectId });
@@ -24,11 +22,11 @@ const _getNonMemberUsers = ({ query, limit, projectId }) => async (
         console.error(err);
     }
 
-    dispatch(endRequest(USERS.GET));
+    dispatch(endRequest(MEMBER_ADD_MODAL.GET_USERS));
 };
 
 const clearUsers = () => ({
-    type: USERS.CLEAR,
+    type: MEMBER_ADD_MODAL.CLEAR,
 });
 
-export { _getNonMemberUsers as getNonMemberUsers, clearUsers };
+export { getUsers, clearUsers };

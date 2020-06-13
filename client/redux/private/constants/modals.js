@@ -10,4 +10,7 @@ export default {
     OWNER_CHANGE_CON: 'activeModals/OWNER_CHANGE_CON',
     TASK_CREATE: 'activeModals/TASK_CREATE',
     USER_DELETE_CON: 'activeModals/USER_DELETE_CON',
+    TASK_DELETE_CON: 'activeModals/TASK_DELETE_CON',
+    TASK_UPDATE: 'activeModals/TASK_UPDATE',
+    ASSIGNEE_MANAGE: 'activeModals/ASSIGNEE_MANAGE',
 };

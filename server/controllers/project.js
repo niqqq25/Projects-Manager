@@ -192,12 +192,11 @@ export async function removeMember(req, res, next) {
 }
 
 export async function addTask(req, res, next) {
-    const { parent: parentTask } = req.query;
     const { project_id: project } = req.params;
 
     try {
-        if (parentTask) {
-            const pTask = await Task.findById(parentTask);
+        if (req.body.parentTask) {
+            const pTask = await Task.findById(req.body.parentTask);
 
             if (!pTask) {
                 throw new ErrorHandler(404, 'Parent task not found');
@@ -214,7 +213,6 @@ export async function addTask(req, res, next) {
         const task = new Task({
             ...req.body,
             project,
-            parentTask,
         });
 
         const validationError = await task.validate();

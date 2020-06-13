@@ -5,12 +5,15 @@ import ProjectUpdateModal from './ProjectUpdateModal';
 import TaskCreateModal from './TaskCreateModal';
 import MembersManageModal from './MembersManageModal';
 import MemberAddModal from './MemberAddModal';
+import TaskUpdateModal from './TaskUpdateModal';
+import AssigneeManageModal from './AssigneeManageModal';
 import UserDeleteConfirmationModal from './UserDeleteConfirmationModal';
 import ProjectDeleteConfirmationModal from './ProjectDeleteConfirmationModal';
 import MemberRemoveConfirmationModal from './MemberRemoveConfirmationModal';
 import OwnerChangeConfirmationModal from './OwnerChangeConfirmationModal';
 import ProjectLeaveConfirmationModal from './ProjectLeaveConfirmationModal';
 import MemberAddConfirmationModal from './MemberAddConfirmationModal';
+import TaskDeleteConfirmationModal from './TaskDeleteConfirmationModal';
 
 import { connect } from 'react-redux';
 import MODALS from '../../../redux/private/constants/modals';
@@ -22,12 +25,15 @@ function Modals(props) {
         isTaskCreateModalOpen,
         isMembersManageModalOpen,
         isMemberAddModalOpen,
+        isTaskUpdateModalOpen,
+        isAssigneeManageModalOpen,
         isUserDeleteConfirmationModalOpen,
         isProjectDeleteConfirmationModalOpen,
         isMemberRemoveConfirmationModalOpen,
         isOwnerChangeConfirmationModalOpen,
         isProjectLeaveConfirmationModalOpen,
         isMemberAddConfirmationModalOpen,
+        isTaskDeleteConfirmationModalOpen,
     } = props;
 
     return (
@@ -37,6 +43,8 @@ function Modals(props) {
             {isTaskCreateModalOpen && <TaskCreateModal />}
             {isMembersManageModalOpen && <MembersManageModal />}
             {isMemberAddModalOpen && <MemberAddModal />}
+            {isTaskUpdateModalOpen && <TaskUpdateModal />}
+            {isAssigneeManageModalOpen && <AssigneeManageModal />}
             {isUserDeleteConfirmationModalOpen && (
                 <UserDeleteConfirmationModal />
             )}
@@ -53,6 +61,9 @@ function Modals(props) {
                 <ProjectLeaveConfirmationModal />
             )}
             {isMemberAddConfirmationModalOpen && <MemberAddConfirmationModal />}
+            {isTaskDeleteConfirmationModalOpen && (
+                <TaskDeleteConfirmationModal />
+            )}
         </>
     );
 }
@@ -77,6 +88,10 @@ const ConnectedModals = connect(({ activeModals }) => {
             MODALS.MEMBERS_MANAGE
         ),
         isMemberAddModalOpen: activeModalsTypes.includes(MODALS.MEMBER_ADD),
+        isTaskUpdateModalOpen: activeModalsTypes.includes(MODALS.TASK_UPDATE),
+        isAssigneeManageModalOpen: activeModalsTypes.includes(
+            MODALS.ASSIGNEE_MANAGE
+        ),
         isMemberRemoveConfirmationModalOpen: activeModalsTypes.includes(
             MODALS.MEMBER_REMOVE_CON
         ),
@@ -88,6 +103,9 @@ const ConnectedModals = connect(({ activeModals }) => {
         ),
         isMemberAddConfirmationModalOpen: activeModalsTypes.includes(
             MODALS.MEMBER_ADD_CON
+        ),
+        isTaskDeleteConfirmationModalOpen: activeModalsTypes.includes(
+            MODALS.TASK_DELETE_CON
         ),
     };
 })(Modals);

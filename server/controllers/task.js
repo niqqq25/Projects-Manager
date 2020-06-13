@@ -4,14 +4,14 @@ import { ErrorHandler } from '../middleware/errorMiddleware';
 const populateQuery = [
     {
         path: 'assignee',
-        select: 'username',
+        select: 'username avatarUrl',
     },
     {
         path: 'tasks',
-        select: 'title assignee isCompleted',
+        select: 'title description assignee isCompleted',
         populate: {
             path: 'assignee',
-            select: 'username',
+            select: 'username avatarUrl',
         },
     },
     {
@@ -39,7 +39,7 @@ export async function updateTask(req, res, next) {
     const updatableKeys = ['description', 'isCompleted', 'title', 'assignee'];
 
     try {
-        const isUpdatable = Object.keys(req.body).every(key =>
+        const isUpdatable = Object.keys(req.body).every((key) =>
             updatableKeys.includes(key)
         );
         if (!isUpdatable) {

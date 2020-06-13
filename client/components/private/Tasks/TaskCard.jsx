@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {
     TaskCard,
     TaskCardContent,
@@ -12,10 +13,11 @@ import TaskCardAssignee from './TaskCardAssignee';
 import TaskCardComplTasksCounter from './TaskCardComplTasksCounter';
 
 import ellipseText from '../../../helpers/ellipseText';
+import ROUTES from '../../../constants/routes';
 const MAX_DESCRIPTION_LENGTH = 120;
 
-function _TaskCard({ task }) {
-    const { title, description, tasks = [], assignee } = task;
+function _TaskCard({ task, history }) {
+    const { title, description, tasks = [], assignee, _id } = task;
     const tasksCount = tasks.length;
     const completedTasksCount = tasks.reduce(
         (acc, { isCompleted }) => acc + (isCompleted ? 1 : 0),
@@ -23,7 +25,7 @@ function _TaskCard({ task }) {
     );
 
     return (
-        <TaskCard>
+        <TaskCard onClick={() => history.push(`${ROUTES.TASK}/${_id}`)}>
             <TaskCardContent>
                 <TaskCardContentLeft>
                     <TaskTitle>{title}</TaskTitle>
@@ -47,4 +49,4 @@ function _TaskCard({ task }) {
     );
 }
 
-export default _TaskCard;
+export default withRouter(_TaskCard);

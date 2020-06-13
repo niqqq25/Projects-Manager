@@ -23,10 +23,10 @@ const deleteProject = async (id) =>
         method: 'DELETE',
     });
 
-const createTask = async ({ title, description, projectId }) =>
+const createTask = async ({ title, description, projectId, parentTask }) =>
     await _fetch(
         `${API_ROUTES.PROJECT.ROOT}/${projectId}${API_ROUTES.PROJECT.TASKS}`,
-        { method: 'POST', body: { title, description } }
+        { method: 'POST', body: { title, description, parentTask } }
     );
 
 const addMember = async ({ projectId, userId }) =>

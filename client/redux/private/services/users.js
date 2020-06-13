@@ -29,10 +29,22 @@ const getNonMemberUsers = async ({ query, limit, projectId }) => {
     return await _fetch(`${API_ROUTES.USER.ROOT}?${searchParams}`);
 };
 
+const getMembers = async ({ query, limit, projectId }) => {
+    const searchParams = new URLSearchParams({
+        q: query || '',
+        limit: limit || '',
+        isMembers: true,
+        project: projectId,
+    });
+
+    return await _fetch(`${API_ROUTES.USER.ROOT}?${searchParams}`);
+};
+
 export {
     logoutCurrentUser,
     getCurrentUser,
     updateCurrentUser,
     deleteCurrentUser,
     getNonMemberUsers,
+    getMembers,
 };

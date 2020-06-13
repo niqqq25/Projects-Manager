@@ -7,6 +7,7 @@ import ProjectsPage from '../components/private/ProjectsPage';
 import NotFoundPage from '../components/private/NotFoundPage';
 import ProfilePage from '../components/private/ProfilePage';
 import ProjectPage from '../components/private/ProjectPage';
+import TaskPage from '../components/private/TaskPage';
 
 const router = () => (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const router = () => (
                     path={`${ROUTES.PROJECT}/:id`}
                     component={ProjectPage}
                 />
+                <Route exact path={`${ROUTES.TASK}/:id`} component={TaskPage} />
                 <Route component={NotFoundPage} />
             </Switch>
         </Layout>

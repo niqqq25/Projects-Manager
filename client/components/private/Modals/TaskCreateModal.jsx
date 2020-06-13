@@ -11,10 +11,21 @@ import { taskCreateModalValidationSchema } from '../../../helpers/validationSche
 
 import { connect } from 'react-redux';
 import { closeModal } from '../../../redux/private/actions/activeModals';
-import { createTask } from '../../../redux/private/actions/currentProject';
-import { MODALS, CURRENT_PROJECT } from '../../../redux/private/constants';
+import { createTask as createProjectTask } from '../../../redux/private/actions/currentProject';
+import { createTask as createTaskTask } from '../../../redux/private/actions/currentTask';
+import {
+    MODALS,
+    CURRENT_PROJECT,
+    CURRENT_TASK,
+} from '../../../redux/private/constants';
 
-function _TaskCreateModel({ onClose, isLoading, createTask, payload }) {
+function _TaskCreateModel({
+    onClose,
+    isLoading,
+    createTaskTask,
+    createProjectTask,
+    payload,
+}) {
     const [inputs, { setValue, validateInputs }] = useForm(
         { title: '', description: '' },
         taskCreateModalValidationSchema
@@ -31,11 +42,16 @@ function _TaskCreateModel({ onClose, isLoading, createTask, payload }) {
     }
 
     function handleTaskCreate() {
-        const { projectId, parentTaskId } = payload;
-        if (projectId) {
-            createTask(title.value, description.value, projectId);
+        const { projectId, parentTask } = payload;
+        if (parentTask) {
+            createTaskTask(
+                title.value,
+                description.value,
+                projectId,
+                parentTask
+            );
         } else {
-            //create task with parentTask
+            createProjectTask(title.value, description.value, projectId);
         }
     }
 
@@ -72,14 +88,20 @@ function _TaskCreateModel({ onClose, isLoading, createTask, payload }) {
 
 const ConnectedTaskCreateModal = connect(
     ({ requests, activeModals }) => ({
-        isLoading: requests.includes(CURRENT_PROJECT.CREATE_TASK),
+        isLoading:
+            requests.includes(CURRENT_PROJECT.CREATE_TASK) ||
+            requests.includes(CURRENT_TASK.CREATE_TASK),
         payload: activeModals.find(({ type }) => type === MODALS.TASK_CREATE)
             .payload,
     }),
     (dispatch) => ({
         onClose: () => dispatch(closeModal(MODALS.TASK_CREATE)),
-        createTask: (title, description, projectId) =>
-            dispatch(createTask({ title, description, projectId })),
+        createProjectTask: (title, description, projectId) =>
+            dispatch(createProjectTask({ title, description, projectId })),
+        createTaskTask: (title, description, projectId, parentTask) =>
+            dispatch(
+                createTaskTask({ title, description, projectId, parentTask })
+            ),
     })
 )(_TaskCreateModel);
 

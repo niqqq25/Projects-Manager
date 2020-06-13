@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    ProjectEditModal,
+    ProjectUpdateModal,
     Form,
     FormTitle,
     SubmitButtonWrapper,
@@ -13,7 +13,7 @@ import {
     Textarea,
 } from '../../global';
 import useForm from '../../../helpers/useForm';
-import { projectEditModalValidationSchema } from '../../../helpers/validationSchemas';
+import { ProjectUpdateModalValidationSchema } from '../../../helpers/validationSchemas';
 
 import { connect } from 'react-redux';
 import { closeModal } from '../../../redux/private/actions/activeModals';
@@ -25,7 +25,7 @@ import {
 import { MODALS, CURRENT_PROJECT } from '../../../redux/private/constants';
 import NOTIFICATIONS from '../../../constants/notifications';
 
-function _ProjectEditModal({
+function _ProjectUpdateModal({
     closeModal,
     updateProject,
     isLoading,
@@ -35,7 +35,7 @@ function _ProjectEditModal({
 }) {
     const [inputs, { setValue, validateInputs }] = useForm(
         { title: project.title, description: project.description },
-        projectEditModalValidationSchema
+        ProjectUpdateModalValidationSchema
     );
     const { title, description } = inputs;
 
@@ -64,7 +64,7 @@ function _ProjectEditModal({
     }
 
     return (
-        <ProjectEditModal onSubmit={handleFormSubmit}>
+        <ProjectUpdateModal onSubmit={handleFormSubmit}>
             <Modal onClose={closeModal} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Update project</FormTitle>
@@ -94,11 +94,11 @@ function _ProjectEditModal({
                     </SubmitButtonWrapper>
                 </Form>
             </Modal>
-        </ProjectEditModal>
+        </ProjectUpdateModal>
     );
 }
 
-const ConnectedProjectEditModal = connect(
+const ConnectedProjectUpdateModal = connect(
     ({ requests, currentProject }) => ({
         isLoading: requests.includes(CURRENT_PROJECT.UPDATE),
         project: currentProject.project,
@@ -112,6 +112,6 @@ const ConnectedProjectEditModal = connect(
         addSuccessNotification: (message) =>
             dispatch(addSuccessNotification(message)),
     })
-)(_ProjectEditModal);
+)(_ProjectUpdateModal);
 
-export default ConnectedProjectEditModal;
+export default ConnectedProjectUpdateModal;
