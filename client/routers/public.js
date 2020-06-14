@@ -3,15 +3,15 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import ROUTES from '../constants/routes';
 
 import Layout from '../components/public/Layout';
-import Login from '../components/public/Login';
-import Signup from '../components/public/Signup';
+import LoginPage from '../components/public/LoginPage';
+import SignupPage from '../components/public/SignupPage';
 
 const router = () => (
     <BrowserRouter>
         <Layout>
             <Switch>
-                <Route exact path={ROUTES.LOGIN} component={Login} />
-                <Route exact path={ROUTES.SIGNUP} component={Signup} />
+                <Route exact path={ROUTES.LOGIN} component={LoginPage} />
+                <Route exact path={ROUTES.SIGNUP} component={SignupPage} />
                 <Redirect to={ROUTES.LOGIN} />
             </Switch>
         </Layout>

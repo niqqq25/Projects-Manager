@@ -13,6 +13,9 @@ const GlobalStyle = createGlobalStyle`
     html, body, #root {
         height: 100%;
     }
+    input, textarea, button {
+        font-family: inherit
+    }
 `;
 
 export { GlobalStyle };

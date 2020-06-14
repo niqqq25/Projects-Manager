@@ -7,7 +7,7 @@ import {
 } from './styled/TaskUpdateModal';
 import {
     SubmitButton,
-    InputField,
+    Input,
     Modal,
     InputGroup,
     Textarea,
@@ -52,7 +52,7 @@ function _TaskUpdateModal({ closeModal, updateTask, isLoading, task }) {
             <Modal onClose={closeModal} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Update task</FormTitle>
-                    <InputField
+                    <Input
                         value={title.value}
                         label="Title"
                         error={title.error}

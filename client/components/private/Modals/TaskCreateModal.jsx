@@ -5,7 +5,7 @@ import {
     FormTitle,
     SubmitButtonWrapper,
 } from './styled/TaskCreateModal';
-import { SubmitButton, InputField, Modal } from '../../global';
+import { SubmitButton, Input, Modal } from '../../global';
 import useForm from '../../../helpers/useForm';
 import { taskCreateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -60,7 +60,7 @@ function _TaskCreateModel({
             <Modal onClose={onClose} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Create task</FormTitle>
-                    <InputField
+                    <Input
                         value={title.value}
                         label="Title"
                         error={title.error}
@@ -68,7 +68,7 @@ function _TaskCreateModel({
                         name="title"
                         required
                     />
-                    <InputField
+                    <Input
                         value={description.value}
                         label="Description"
                         onChange={setValue}

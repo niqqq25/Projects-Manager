@@ -5,7 +5,7 @@ import {
     FormTitle,
     SubmitButtonWrapper,
 } from './styled/ProjectCreateModal';
-import { SubmitButton, InputField, Modal } from '../../global';
+import { SubmitButton, Input, Modal } from '../../global';
 import useForm from '../../../helpers/useForm';
 import { projectCreateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -35,7 +35,7 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
             <Modal onClose={onClose} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Create a project</FormTitle>
-                    <InputField
+                    <input
                         value={title.value}
                         label="Title"
                         error={title.error}
@@ -43,7 +43,7 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
                         name="title"
                         required
                     />
-                    <InputField
+                    <Input
                         value={description.value}
                         label="Description"
                         onChange={setValue}

@@ -1,7 +1,7 @@
 import React from 'react';
 import useForm from '../../../helpers/useForm';
 import { userEditFormValidationSchema } from '../../../helpers/validationSchemas';
-import { InputField, SubmitButton } from '../../global';
+import { Input, SubmitButton } from '../../global';
 import { Form, ButtonWrapper } from './styled/UserEditForm';
 import UserDeleteField from './UserDeleteField';
 
@@ -32,21 +32,16 @@ function UserEditForm({ isUpdating, currentUser, updateUser }) {
 
     return (
         <Form onSubmit={handleFormSubmit}>
-            <InputField
+            <Input
                 value={fullName.value}
                 label="Full Name"
                 error={fullName.error}
                 onChange={setValue}
                 name="fullName"
             />
-            <InputField
-                value={email.value}
-                label="Email"
-                type="email"
-                disabled
-            />
-            <InputField value={username.value} label="Username" disabled />
-            <InputField
+            <Input value={email.value} label="Email" type="email" disabled />
+            <Input value={username.value} label="Username" disabled />
+            <Input
                 value={password.value}
                 label="New Password"
                 error={password.error}

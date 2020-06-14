@@ -7,7 +7,7 @@ import {
 } from './styled/ProjectUpdateModal';
 import {
     SubmitButton,
-    InputField,
+    Input,
     Modal,
     InputGroup,
     Textarea,
@@ -68,7 +68,7 @@ function _ProjectUpdateModal({
             <Modal onClose={closeModal} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Update project</FormTitle>
-                    <InputField
+                    <Input
                         value={title.value}
                         label="Title"
                         error={title.error}

@@ -1,29 +1,23 @@
-import InputGroup from './InputGroup';
-import Input from './Input';
-import Textarea from './Textarea';
+import { Input, Textarea, InputGroup } from './formElements';
+import { SubmitButton } from './buttons';
 import Spinner from './Spinner';
-import Select from './Select';
-import SubmitButton from './SubmitButton';
 import Modal from './Modal';
-import Link from './Link';
-import InputField from './InputField';
 import Notifications from './Notifications';
 import Avatar from './Avatar';
 import Tooltip from './Tooltip';
 import Dropdown from './Dropdown';
+import Link from './Link';
 
 export {
-    InputGroup,
     Input,
+    InputGroup,
     Textarea,
     Spinner,
-    Select,
-    SubmitButton,
     Modal,
-    Link,
-    InputField,
     Notifications,
     Avatar,
     Tooltip,
     Dropdown,
+    Link,
+    SubmitButton,
 };
