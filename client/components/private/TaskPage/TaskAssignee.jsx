@@ -4,7 +4,7 @@ import {
     TaskAssignee,
     TaskAssigneeTitle,
     TaskAssigneeContent,
-} from './styled/TaskAssignee';
+} from './styles/TaskAssignee';
 import { Avatar, Tooltip } from '../../global';
 import AssigneeManageButton from './AssigneeManageButton';
 

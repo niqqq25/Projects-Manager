@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ProjectsList, EmptyCard, NoProjects } from './styled/ProjectsList';
+import { ProjectsList, FillerCard } from './styles/ProjectsList';
 import ProjectCard from './ProjectCard';
 import Spinner from '../../global/Spinner';
+import { EmptyCard } from '../../global/cards';
 
 import { connect } from 'react-redux';
 import { getProjects } from '../../../redux/private/actions/projects';
 import PROJECTS from '../../../redux/private/constants/projects';
 
-const EmptyCards = new Array(5).fill(null).map((v, i) => <EmptyCard key={i} />);
+const EmptyCards = new Array(5)
+    .fill(null)
+    .map((v, i) => <FillerCard key={i} />);
 
 function _ProjectsList({ isLoading, projects, getProjects }) {
     useEffect(() => {
@@ -20,7 +23,7 @@ function _ProjectsList({ isLoading, projects, getProjects }) {
     }
 
     if (!projects?.length) {
-        return <NoProjects>You dont participate in any projects</NoProjects>;
+        return <EmptyCard>You dont participate in any projects</EmptyCard>;
     }
 
     return (

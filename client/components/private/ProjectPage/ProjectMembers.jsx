@@ -4,8 +4,8 @@ import {
     Members,
     MembersTitle,
     MembersAvatars,
-    AvatarWrapper,
-} from './styled/ProjectMembers';
+    memberAvatar,
+} from './styles/ProjectMembers';
 import { Avatar, Tooltip } from '../../global';
 import MemberAddButton from './MemberAddButton';
 
@@ -21,9 +21,7 @@ function ProjectMemebers({ members, owner }) {
             <MembersAvatars>
                 {members.map(({ avatarUrl, username }, index) => (
                     <Tooltip content={username} key={index}>
-                        <AvatarWrapper>
-                            <Avatar src={avatarUrl} size={40} />
-                        </AvatarWrapper>
+                        <Avatar _css={memberAvatar} src={avatarUrl} size={40} />
                     </Tooltip>
                 ))}
                 {isOwner && <MemberAddButton />}

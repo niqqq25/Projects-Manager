@@ -3,7 +3,7 @@ import { MdPlaylistAddCheck } from 'react-icons/md';
 import {
     ComplProjectsCounter,
     ComplProjectCounterText,
-} from './styled/ProjectCardComplTasksCounter';
+} from './styles/ProjectCardComplTasksCounter';
 
 function ProjectCardComplTasksCounter({ tasksCount, completedTasksCount }) {
     return (

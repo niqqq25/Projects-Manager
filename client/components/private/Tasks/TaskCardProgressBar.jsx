@@ -1,16 +1,13 @@
 import React from 'react';
-import { ProgressBar, ProgressBarInner } from './styled/TaskCardProgressBar';
+import ProgressBar from '../../global/ProgressBar';
+import { progressBar } from './styles/TaskCardProgressBar';
 
 function TaskCardProgressBar({ tasksCount, completedTasksCount }) {
     const completedTasksRatio = tasksCount
         ? (completedTasksCount / tasksCount) * 100
         : 0;
 
-    return (
-        <ProgressBar>
-            <ProgressBarInner percentage={completedTasksRatio} />
-        </ProgressBar>
-    );
+    return <ProgressBar _css={progressBar} percentage={completedTasksRatio} />;
 }
 
 export default TaskCardProgressBar;

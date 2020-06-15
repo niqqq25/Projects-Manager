@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { ProjectPage, ProjectContent } from './styled/ProjectPage';
+import { ProjectPage, ProjectContent } from './styles/ProjectPage';
 import Spinner from '../../global/Spinner';
 import NotFoundPage from '../NotFoundPage';
 import ProjectPageHeader from './ProjectPageHeader';

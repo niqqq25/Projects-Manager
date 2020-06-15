@@ -1,5 +1,5 @@
 import React from 'react';
-import { TasksHeader, Title } from './styled/TasksHeader';
+import { TasksHeader, Title } from './styles/TasksHeader';
 import TaskCreateButton from './TaskCreateButton';
 
 const _TasksHeader = ({ projectId, parentTask }) => (

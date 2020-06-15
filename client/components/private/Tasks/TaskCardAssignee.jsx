@@ -1,5 +1,5 @@
 import React from 'react';
-import { TaskCardAssignee } from './styled/TaskCardAssignee';
+import { TaskCardAssignee } from './styles/TaskCardAssignee';
 import { Avatar, Tooltip } from '../../global';
 
 const _TaskCardAssignee = ({ assignee }) => (

@@ -1,22 +1,23 @@
 import React from 'react';
 
 import {
-    UserInfoCard,
     AvatarBorder,
     CardTitle,
     CardText,
-} from './styled/UserInfoCard';
+    userInfoCard,
+} from './styles/UserInfoCard';
 import Avatar from '../../global/Avatar';
+import { Card } from '../../global/cards';
 
 function _UserInfoCard({ avatarUrl, fullName, projects }) {
     return (
-        <UserInfoCard>
+        <Card _css={userInfoCard}>
             <AvatarBorder>
                 <Avatar size={160} src={avatarUrl} />
             </AvatarBorder>
             <CardTitle>{fullName}</CardTitle>
             <CardText>Projects count: {projects.length}</CardText>
-        </UserInfoCard>
+        </Card>
     );
 }
 

@@ -9,7 +9,7 @@ const AvatarWrapper = styled.div`
     width: ${({ size }) => size || 32}px;
     height: ${({ size }) => size || 32}px;
     border-radius: 50%;
-    background: white;
+    background: ${({ theme }) => theme.bg.white};
 `;
 
 export { Avatar, AvatarWrapper };

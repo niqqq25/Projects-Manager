@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import UserEditForm from './UserEditForm';
 import UserInfoCard from './UserInfoCard';
-import { ProfilePage } from './styled/ProfilePage';
+import { ProfilePage } from './styles/ProfilePage';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfilePageActive } from '../../../redux/private/actions/navbar';

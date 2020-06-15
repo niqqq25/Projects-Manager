@@ -1,7 +1,8 @@
 import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { TiPencil } from 'react-icons/ti';
-import { AssigneeManageButton } from './styled/AssigneeManageButton';
+import { GreyRoundButton } from '../../global/buttons';
+import { assigneeManageButton } from './styles/AssigneeManageButton';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../redux/private/actions/activeModals';
@@ -11,11 +12,12 @@ function _AssigneeManageButton({ assignee }) {
     const dispatch = useDispatch();
 
     return (
-        <AssigneeManageButton
+        <GreyRoundButton
+            _css={assigneeManageButton}
             onClick={() => dispatch(openModal(MODALS.ASSIGNEE_MANAGE))}
         >
             {assignee ? <TiPencil /> : <FiPlus />}
-        </AssigneeManageButton>
+        </GreyRoundButton>
     );
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserDeleteField } from './styled/UserDeleteField';
+import { UserDeleteField, userDeleteLink } from './styles/UserDeleteField';
 import { Link } from '../../global';
 
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,10 @@ function _UserDeleteField() {
     return (
         <UserDeleteField>
             Suck at life?
-            <Link onClick={() => dispatch(openModal(MODALS.USER_DELETE_CON))}>
+            <Link
+                _css={userDeleteLink}
+                onClick={() => dispatch(openModal(MODALS.USER_DELETE_CON))}
+            >
                 Delete me
             </Link>
         </UserDeleteField>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NotFoundPage, Title, Description } from './styled/NotFoundPage';
+import { NotFoundPage, Title, Description } from './styles/NotFoundPage';
 
 const _NotFoundPage = () => (
     <NotFoundPage>

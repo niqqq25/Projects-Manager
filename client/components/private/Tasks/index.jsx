@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tasks } from './styled/Tasks';
+import { Tasks } from './styles/Tasks';
 import TasksHeader from './TasksHeader';
 import TasksList from './TasksList';
 

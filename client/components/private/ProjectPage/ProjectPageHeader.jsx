@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ProjectPageHeader } from './styled/ProjectPageHeader';
+import { ProjectPageHeader } from './styles/ProjectPageHeader';
 import ProjectPageBreadcrumb from './ProjectPageBreadcrumb';
 import ProjectSettingsDropdown from './ProjectSettingsDropdown';
 

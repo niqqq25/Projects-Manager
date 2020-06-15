@@ -4,7 +4,7 @@ import {
     ProjectInfo,
     ProjectTitle,
     ProjectDescription,
-} from './styled/ProjectInfo';
+} from './styles/ProjectInfo';
 import ProjectMembers from './ProjectMembers';
 
 const _ProjectInfo = ({ title, description, members, owner }) => (

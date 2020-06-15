@@ -1,13 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-    TaskCard,
     TaskCardContent,
     TaskCardContentLeft,
     TaskCardContentRight,
     TaskTitle,
     TaskDescription,
-} from './styled/TaskCard';
+    taskCard,
+} from './styles/TaskCard';
+import { Card } from '../../global/cards';
 import TaskCardProgressBar from './TaskCardProgressBar';
 import TaskCardAssignee from './TaskCardAssignee';
 import TaskCardComplTasksCounter from './TaskCardComplTasksCounter';
@@ -25,7 +26,10 @@ function _TaskCard({ task, history }) {
     );
 
     return (
-        <TaskCard onClick={() => history.push(`${ROUTES.TASK}/${_id}`)}>
+        <Card
+            _css={taskCard}
+            onClick={() => history.push(`${ROUTES.TASK}/${_id}`)}
+        >
             <TaskCardContent>
                 <TaskCardContentLeft>
                     <TaskTitle>{title}</TaskTitle>
@@ -45,7 +49,7 @@ function _TaskCard({ task, history }) {
                 tasksCount={tasksCount}
                 completedTasksCount={completedTasksCount}
             />
-        </TaskCard>
+        </Card>
     );
 }
 

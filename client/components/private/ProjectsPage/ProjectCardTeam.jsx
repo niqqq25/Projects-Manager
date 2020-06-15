@@ -4,8 +4,8 @@ import {
     Team,
     TeamTitle,
     TeamAvatars,
-    AvatarWrapper,
-} from './styled/ProjectCardTeam';
+    memberAvatar,
+} from './styles/ProjectCardTeam';
 import { Avatar, Tooltip } from '../../global';
 
 const ProjectCardTeam = ({ members }) => (
@@ -14,9 +14,7 @@ const ProjectCardTeam = ({ members }) => (
         <TeamAvatars>
             {members.map(({ avatarUrl, username }, index) => (
                 <Tooltip content={username} key={index}>
-                    <AvatarWrapper>
-                        <Avatar src={avatarUrl} />
-                    </AvatarWrapper>
+                    <Avatar src={avatarUrl} _css={memberAvatar} />
                 </Tooltip>
             ))}
         </TeamAvatars>

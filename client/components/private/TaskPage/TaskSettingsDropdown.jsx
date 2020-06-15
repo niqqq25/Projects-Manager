@@ -1,9 +1,7 @@
 import React from 'react';
 import { FiSettings } from 'react-icons/fi';
-import {
-    TaskSettingsButton,
-    DropdownItem,
-} from './styled/TaskSettingsDropdown';
+import { DropdownItem } from './styles/TaskSettingsDropdown';
+import { GreyRoundButton } from '../../global/buttons';
 import Dropdown from '../../global/Dropdown';
 
 import { useDispatch } from 'react-redux';
@@ -16,9 +14,9 @@ function _TaskSettingsDropdown() {
     return (
         <Dropdown
             toggle={
-                <TaskSettingsButton>
+                <GreyRoundButton>
                     <FiSettings size="20px" />
-                </TaskSettingsButton>
+                </GreyRoundButton>
             }
             content={
                 <>

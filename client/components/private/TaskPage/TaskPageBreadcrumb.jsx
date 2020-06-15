@@ -2,33 +2,22 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ROUTES from '../../../constants/routes';
 
-import { Breadcrumb, BreadcrumbItem } from '../../global/styled/Breadcrumb';
-import Link from '../../global/Link';
+import { Link, Breadcrumb } from '../../global';
 
 const _TaskPageBreadcrumb = ({ history, parentTask, project }) => (
     <Breadcrumb>
-        <BreadcrumbItem>
-            <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-            <Link
-                onClick={() => history.push(`${ROUTES.PROJECT}/${project._id}`)}
-            >
-                {`${project.title} (Project)`}
-            </Link>
-        </BreadcrumbItem>
+        <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>
+        <Link onClick={() => history.push(`${ROUTES.PROJECT}/${project._id}`)}>
+            {`${project.title} (Project)`}
+        </Link>
         {parentTask && (
-            <BreadcrumbItem>
-                <Link
-                    onClick={() =>
-                        history.push(`${ROUTES.TASK}/${parentTask._id}`)
-                    }
-                >
-                    {`${parentTask.title} (Task)`}
-                </Link>
-            </BreadcrumbItem>
+            <Link
+                onClick={() => history.push(`${ROUTES.TASK}/${parentTask._id}`)}
+            >
+                {`${parentTask.title} (Task)`}
+            </Link>
         )}
-        <BreadcrumbItem>Task</BreadcrumbItem>
+        <>Task</>
     </Breadcrumb>
 );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TaskInfo, TaskTitle, TaskDescription } from './styled/TaskInfo';
+import { TaskInfo, TaskTitle, TaskDescription } from './styles/TaskInfo';
 import TaskAssignee from './TaskAssignee';
 
 const _TaskInfo = ({ title, description, assignee }) => (

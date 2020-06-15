@@ -4,11 +4,11 @@ import {
     Navbar,
     NavigationList,
     ListItem,
-    NavigationLink,
     UserInfoWrapper,
     UserFullname,
-} from './styled/Navbar';
-import Avatar from '../../global/Avatar';
+    navigationLink,
+} from './styles/Navbar';
+import { Avatar, Link } from '../../global';
 import ROUTES from '../../../constants/routes';
 
 import { useSelector } from 'react-redux';
@@ -26,23 +26,27 @@ function _Navbar({ history, fullName, avatarUrl, logoutUser }) {
             </UserInfoWrapper>
             <NavigationList>
                 <ListItem>
-                    <NavigationLink
+                    <Link
                         isActive={isProjectsPageActive}
+                        _css={navigationLink}
                         onClick={() => history.push(ROUTES.PROJECTS)}
                     >
                         Projects
-                    </NavigationLink>
+                    </Link>
                 </ListItem>
                 <ListItem>
-                    <NavigationLink
+                    <Link
                         isActive={isProfilePageActive}
+                        _css={navigationLink}
                         onClick={() => history.push(ROUTES.PROFILE)}
                     >
                         Profile
-                    </NavigationLink>
+                    </Link>
                 </ListItem>
                 <ListItem>
-                    <NavigationLink onClick={logoutUser}>Logout</NavigationLink>
+                    <Link _css={navigationLink} onClick={logoutUser}>
+                        Logout
+                    </Link>
                 </ListItem>
             </NavigationList>
         </Navbar>

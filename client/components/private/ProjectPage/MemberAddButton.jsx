@@ -1,6 +1,7 @@
 import React from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { MemberAddButton } from './styled/MemberAddButton';
+import { memberAddButton } from './styles/MemberAddButton';
+import { GreyRoundButton } from '../../global/buttons';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../redux/private/actions/activeModals';
@@ -10,9 +11,12 @@ function _MemberAddButton() {
     const dispatch = useDispatch();
 
     return (
-        <MemberAddButton onClick={() => dispatch(openModal(MODALS.MEMBER_ADD))}>
+        <GreyRoundButton
+            _css={memberAddButton}
+            onClick={() => dispatch(openModal(MODALS.MEMBER_ADD))}
+        >
             <FiPlus />
-        </MemberAddButton>
+        </GreyRoundButton>
     );
 }
 

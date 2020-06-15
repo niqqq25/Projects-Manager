@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TaskPage, TaskContent } from './styled/TaskPage';
+import { TaskPage, TaskContent } from './styles/TaskPage';
 import Spinner from '../../global/Spinner';
 import NotFoundPage from '../NotFoundPage';
 import TaskPageHeader from './TaskPageHeader';

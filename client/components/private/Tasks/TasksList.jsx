@@ -1,10 +1,11 @@
 import React from 'react';
-import { TasksList, NoTasks } from './styled/TasksList';
+import { TasksList } from './styles/TasksList';
+import { EmptyCard } from '../../global/cards';
 import TaskCard from './TaskCard';
 
 function _TasksList({ tasks = [] }) {
     if (!tasks.length) {
-        return <NoTasks>No tasks found.</NoTasks>;
+        return <EmptyCard>No tasks found.</EmptyCard>;
     }
 
     return (

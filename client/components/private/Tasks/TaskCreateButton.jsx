@@ -1,6 +1,7 @@
 import React from 'react';
 import { TiPlus } from 'react-icons/ti';
-import { TaskCreateButton } from './styled/TaskCreateButton';
+import { taskCreateButton } from './styles/TaskCreateButton';
+import { CreateButton } from '../../global/buttons';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../redux/private/actions/activeModals';
@@ -10,7 +11,8 @@ function _TaskCreateButton({ projectId, parentTask }) {
     const dispatch = useDispatch();
 
     return (
-        <TaskCreateButton
+        <CreateButton
+            _css={taskCreateButton}
             onClick={() =>
                 dispatch(
                     openModal({
@@ -22,7 +24,7 @@ function _TaskCreateButton({ projectId, parentTask }) {
         >
             <TiPlus size="1.2em" />
             New Task
-        </TaskCreateButton>
+        </CreateButton>
     );
 }
 

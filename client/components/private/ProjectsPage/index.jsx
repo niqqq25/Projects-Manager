@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ProjectsPage } from './styled/ProjectsPage';
+import { ProjectsPage } from './styles/ProjectsPage';
 import ProjectsList from './ProjectsList';
 import ProjectsPageHeader from './ProjectsPageHeader';
 

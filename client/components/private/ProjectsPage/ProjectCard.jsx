@@ -1,11 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-    ProjectCard,
     ProjectCardContent,
     ProjectTitle,
     ProjectDescription,
-} from './styled/ProjectCard';
+    projectCard,
+} from './styles/ProjectCard';
+import { Card } from '../../global/cards';
 import ProjectCardProgressBar from './ProjectCardProgressBar';
 import ProjectCardTeam from './ProjectCardTeam';
 import ProjectCardComplTasksCounter from './ProjectCardComplTasksCounter';
@@ -24,7 +25,10 @@ function _ProjectCard({ project, history }) {
     );
 
     return (
-        <ProjectCard onClick={() => history.push(`${ROUTES.PROJECT}/${_id}`)}>
+        <Card
+            _css={projectCard}
+            onClick={() => history.push(`${ROUTES.PROJECT}/${_id}`)}
+        >
             <ProjectCardContent>
                 <ProjectTitle>{title}</ProjectTitle>
                 <ProjectDescription>
@@ -40,7 +44,7 @@ function _ProjectCard({ project, history }) {
                 tasksCount={tasksCount}
                 completedTasksCount={completedTasksCount}
             />
-        </ProjectCard>
+        </Card>
     );
 }
 

@@ -6,6 +6,7 @@ const Link = styled.a`
     text-decoration: none;
     &:hover {
         color: ${({ theme }) => theme.text.primary};
+        cursor: pointer;
     }
 `;
 

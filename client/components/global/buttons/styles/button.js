@@ -54,19 +54,6 @@ const linearBackgroundBorder = css`
     width: 100%;
 `;
 
-const greyRoundButton = css`
-    ${button}
-    background: ${({ theme }) => theme.color.lightGrey};
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    transition: 0.2s background linear;
-    &:hover {
-        background: hsl(0, 0%, 75%);
-    }
-`;
-
 export {
     button,
     buttonShadow,
@@ -74,5 +61,4 @@ export {
     linearBackgroundWithTransition,
     linearBackgroundAnimation,
     linearBackgroundBorder,
-    greyRoundButton,
 };

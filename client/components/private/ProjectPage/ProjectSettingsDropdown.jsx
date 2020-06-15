@@ -1,10 +1,8 @@
 import React from 'react';
 import { FiSettings } from 'react-icons/fi';
 
-import {
-    ProjectSettingsButton,
-    DropdownItem,
-} from './styled/ProjectSettingsDropdown';
+import { DropdownItem } from './styles/ProjectSettingsDropdown';
+import { GreyRoundButton } from '../../global/buttons';
 import Dropdown from '../../global/Dropdown';
 
 import { connect } from 'react-redux';
@@ -24,9 +22,9 @@ function _ProjectSettingsDropdown({
     return (
         <Dropdown
             toggle={
-                <ProjectSettingsButton>
+                <GreyRoundButton borderOnFocus>
                     <FiSettings size="20px" />
-                </ProjectSettingsButton>
+                </GreyRoundButton>
             }
             content={
                 isOwner ? (

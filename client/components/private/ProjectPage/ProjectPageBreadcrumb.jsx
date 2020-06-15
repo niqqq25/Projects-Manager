@@ -2,15 +2,12 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ROUTES from '../../../constants/routes';
 
-import { Breadcrumb, BreadcrumbItem } from '../../global/styled/Breadcrumb';
-import Link from '../../global/Link';
+import { Link, Breadcrumb } from '../../global';
 
 const _ProjectPageBreadcrumb = ({ history }) => (
     <Breadcrumb>
-        <BreadcrumbItem>
-            <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem>Project</BreadcrumbItem>
+        <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>,
+        <>Project</>,
     </Breadcrumb>
 );
 

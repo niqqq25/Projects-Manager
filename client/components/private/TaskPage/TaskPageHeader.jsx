@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TaskPageHeader } from './styled/TaskPageHeader';
+import { TaskPageHeader } from './styles/TaskPageHeader';
 import TaskPageBreadcrumb from './TaskPageBreadcrumb';
 import TaskSettingsDropdown from './TaskSettingsDropdown';
 

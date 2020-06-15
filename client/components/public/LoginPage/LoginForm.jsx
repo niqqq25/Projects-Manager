@@ -61,7 +61,7 @@ function LoginForm({ history, isFetching, loginUser }) {
             <SignUpText>
                 Don't have an account?
                 <Link
-                    _css={signUpLink}
+                    css={signUpLink}
                     onClick={() => history.push(ROUTES.SIGNUP)}
                 >
                     Sign up
