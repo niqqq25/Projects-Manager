@@ -4,7 +4,7 @@ const Member = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 `;
 
 const RightSide = styled.div``;
@@ -14,14 +14,14 @@ const LeftSide = styled.div`
 `;
 
 const MemberInfo = styled.div`
-    margin-left: 1rem;
+    margin-left: 16px;
 `;
 const MemberUsername = styled.h1`
-    font-size: 1rem;
+    font-size: 16px;
 `;
 const MemberFullName = styled.p`
-    color: #6c757d;
-    font-size: 0.8rem;
+    color: ${({ theme }) => theme.text.second};
+    font-size: 13px;
 `;
 
 export {

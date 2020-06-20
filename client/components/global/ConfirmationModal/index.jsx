@@ -8,10 +8,10 @@ import {
     ModalTitle,
     ModalDescription,
     ModalButtonsWrapper,
-    CancelButton,
-    ConfirmButton,
     SpinnerWrapper,
 } from './style';
+
+import { ConfirmButton, CancelButton } from '../buttons';
 
 const _ConfirmationModal = ({
     isLoading,

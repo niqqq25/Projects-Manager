@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { MemberAddButton } from './styled/MemberAddButton';
+import { MemberAddButton } from './styles/MemberAddButton';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../../redux/private/actions/activeModals';

@@ -3,9 +3,11 @@ import {
     ProjectCreateModal,
     Form,
     FormTitle,
-    SubmitButtonWrapper,
-} from './styled/ProjectCreateModal';
-import { SubmitButton, Input, Modal } from '../../global';
+    submitButton,
+} from './styles/ProjectCreateModal';
+import { SubmitButton } from '../../global/buttons';
+import { Input, InputGroup, Textarea } from '../../global/formElements';
+import Modal from '../../global/Modal';
 import useForm from '../../../helpers/useForm';
 import { projectCreateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -35,7 +37,7 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
             <Modal onClose={onClose} closingDisabled={isLoading}>
                 <Form>
                     <FormTitle>Create a project</FormTitle>
-                    <input
+                    <Input
                         value={title.value}
                         label="Title"
                         error={title.error}
@@ -43,18 +45,21 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
                         name="title"
                         required
                     />
-                    <Input
-                        value={description.value}
-                        label="Description"
-                        onChange={setValue}
-                        name="description"
-                    />
-                    <SubmitButtonWrapper>
-                        <SubmitButton
-                            value="Create project"
-                            loading={isLoading ? 1 : 0}
+                    <InputGroup value={description.value} label="Description">
+                        <Textarea
+                            defaultValue={description.value}
+                            name="description"
+                            onChange={({ target }) => {
+                                const { name, value } = target;
+                                setValue({ name, value });
+                            }}
                         />
-                    </SubmitButtonWrapper>
+                    </InputGroup>
+                    <SubmitButton
+                        _css={submitButton}
+                        value="Create project"
+                        isLoading={isLoading}
+                    />
                 </Form>
             </Modal>
         </ProjectCreateModal>

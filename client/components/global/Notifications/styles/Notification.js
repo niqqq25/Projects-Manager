@@ -27,7 +27,7 @@ const handleBackgroundColor = (type, theme) => {
         case 'success':
             return theme.bg.success;
         case 'error':
-            return theme.bg.warning;
+            return theme.warning.light;
         default:
             return theme.bg.white;
     }

@@ -8,7 +8,8 @@ const bottomTooltip = css`
         bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
-        border-color: transparent transparent #555 transparent;
+        border-color: transparent transparent
+            ${({ theme }) => theme.text.tooltip} transparent;
     }
 `;
 
@@ -20,7 +21,8 @@ const topTooltip = css`
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        border-color: #555 transparent transparent transparent;
+        border-color: ${({ theme }) => theme.text.tooltip} transparent
+            transparent transparent;
     }
 `;
 
@@ -34,10 +36,10 @@ const TooltipContent = styled.div`
         }
     }}
     display: none;
-    background-color: #555;
-    color: #fff;
+    background-color: ${({ theme }) => theme.text.tooltip};
+    color: ${({ theme }) => theme.text.white};
     text-align: center;
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 6px;
     position: absolute;
     z-index: 1;

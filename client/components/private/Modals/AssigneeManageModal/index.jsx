@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../../../global/Modal';
-import { ModalContent, ModalTitle } from './styled/AssigneeManageModal';
-import SearchBar from './SearchBar';
+import { Modal, SearchBar } from '../../../global';
+import {
+    ModalContent,
+    ModalTitle,
+    searchBar,
+} from './styles/AssigneeManageModal';
 import MembersList from './MembersList';
 
 import { useDispatch } from 'react-redux';
@@ -21,7 +24,11 @@ function MembersManageModal() {
         <Modal onClose={() => dispatch(closeModal(MODALS.ASSIGNEE_MANAGE))}>
             <ModalContent>
                 <ModalTitle>Manage Members</ModalTitle>
-                <SearchBar value={search} onChange={setSearch} />
+                <SearchBar
+                    _css={searchBar}
+                    value={search}
+                    onChange={setSearch}
+                />
                 <MembersList filter={search} />
             </ModalContent>
         </Modal>

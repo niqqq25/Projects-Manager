@@ -6,7 +6,7 @@ import {
     MemberInfo,
     MemberUsername,
     MemberFullName,
-} from './styled/Member';
+} from './styles/Member';
 import Avatar from '../../../global/Avatar';
 import MemberRemoveButton from './MemberRemoveButton';
 import OwnerChangeButton from './OwnerChangeButton';

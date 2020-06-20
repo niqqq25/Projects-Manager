@@ -14,7 +14,7 @@ const ModalContent = styled.div`
     position: relative;
     display: inline-block;
     max-width: 100%;
-    background-color: #ffffff;
+    background-color: ${({ theme }) => theme.bg.white};
     margin: auto;
     border-radius: 15px;
     padding: 30px;
@@ -26,7 +26,7 @@ const CloseButton = styled.a`
     font-size: 24px;
     margin: -20px -10px 0 0;
     &:hover {
-        color: #f36a15;
+        color: ${({ theme }) => theme.text.primary};
         cursor: pointer;
     }
 `;

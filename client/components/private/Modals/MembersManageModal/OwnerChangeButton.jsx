@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineCrown } from 'react-icons/ai';
-import { OwnerChangeButton } from './styled/OwnerChangeButton';
+import { OwnerChangeButton } from './styles/OwnerChangeButton';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../../redux/private/actions/activeModals';

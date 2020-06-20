@@ -1,5 +1,6 @@
 import React from 'react';
-import { MembersList, NoMatchingResults } from './styled/MembersList';
+import { MembersList, noMatchingResults } from './styles/MembersList';
+import { EmptyCard } from '../../../global/cards';
 import Member from './Member';
 
 import { connect } from 'react-redux';
@@ -16,7 +17,9 @@ function _MembersList({ filter, project }) {
     const filteredMembers = filterMembers(members, owner, filter);
 
     if (!filteredMembers.length) {
-        return <NoMatchingResults>No matching results</NoMatchingResults>;
+        return (
+            <EmptyCard _css={noMatchingResults}>No matching results</EmptyCard>
+        );
     }
 
     return (

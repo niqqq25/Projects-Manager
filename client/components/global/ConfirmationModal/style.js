@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { button, disabledButton } from '../styles/button';
 
 const ConfirmationModal = styled.div`
     position: relative;
@@ -32,32 +31,6 @@ const ModalButtonsWrapper = styled.div`
     margin-top: 20px;
 `;
 
-const CancelButton = styled.a`
-    ${button}
-    border-radius: 0.25rem;
-    padding: 10px 15px;
-    color: darkgrey;
-    border: 2px solid darkgrey;
-    &:hover {
-        background-color: #e4e4e4;
-    }
-    ${({ disabled }) => disabled && disabledButton}
-`;
-
-const ConfirmButton = styled.a`
-    ${button}
-    min-width: 90px;
-    color: white;
-    background-color: ${({ success }) =>
-        success ? 'rgb(99,191,120)' : 'rgb(241, 94, 94)'};
-    border-radius: 0.25rem;
-    padding: 10px 15px;
-    &:hover {
-        filter: brightness(90%);
-    }
-    ${({ disabled }) => disabled && disabledButton}
-`;
-
 const SpinnerWrapper = styled.div`
     position: absolute;
     top: 50%;
@@ -71,7 +44,5 @@ export {
     ModalTitle,
     ModalDescription,
     ModalButtonsWrapper,
-    CancelButton,
-    ConfirmButton,
     SpinnerWrapper,
 };

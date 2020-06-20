@@ -3,15 +3,11 @@ import {
     TaskUpdateModal,
     Form,
     FormTitle,
-    SubmitButtonWrapper,
-} from './styled/TaskUpdateModal';
-import {
-    SubmitButton,
-    Input,
-    Modal,
-    InputGroup,
-    Textarea,
-} from '../../global';
+    submitButton,
+} from './styles/TaskUpdateModal';
+import { SubmitButton } from '../../global/buttons';
+import { Input, InputGroup, Textarea } from '../../global/formElements';
+import Modal from '../../global/Modal';
 import useForm from '../../../helpers/useForm';
 import { taskUpdateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -70,12 +66,11 @@ function _TaskUpdateModal({ closeModal, updateTask, isLoading, task }) {
                             }}
                         />
                     </InputGroup>
-                    <SubmitButtonWrapper>
-                        <SubmitButton
-                            value="Update task"
-                            loading={isLoading ? 1 : 0}
-                        />
-                    </SubmitButtonWrapper>
+                    <SubmitButton
+                        _css={submitButton}
+                        value="Update task"
+                        isLoading={isLoading}
+                    />
                 </Form>
             </Modal>
         </TaskUpdateModal>

@@ -1,9 +1,10 @@
 import React from 'react';
-import { SearchBar } from './styled/SearchBar';
+import { SearchBar } from './style';
 
-const _SearchBar = ({ value, onChange }) => (
+const _SearchBar = ({ value, onChange, _css }) => (
     <SearchBar
-        type="text"
+        css={_css}
+        type="search"
         placeholder="Search..."
         spellCheck="false"
         value={value}

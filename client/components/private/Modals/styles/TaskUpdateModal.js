@@ -10,7 +10,7 @@ const Form = styled.form`
     display: grid;
     grid-row-gap: 20px;
     margin: auto;
-    background-color: white;
+    background-color: ${({ theme }) => theme.bg.white};
     padding: 40px 60px;
     border-radius: 10px;
     text-align: center;
@@ -25,8 +25,8 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-const SubmitButtonWrapper = styled.div`
+const submitButton = styled.div`
     margin-top: 20px;
 `;
 
-export { TaskUpdateModal, Form, FormTitle, SubmitButtonWrapper };
+export { TaskUpdateModal, Form, FormTitle, submitButton };

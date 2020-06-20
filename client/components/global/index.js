@@ -1,5 +1,3 @@
-import { Input, Textarea, InputGroup } from './formElements';
-import { SubmitButton, CreateButton } from './buttons';
 import Spinner from './Spinner';
 import Modal from './Modal';
 import Notifications from './Notifications';
@@ -9,11 +7,9 @@ import Dropdown from './Dropdown';
 import Link from './Link';
 import ProgressBar from './ProgressBar';
 import Breadcrumb from './Breadcrumb';
+import SearchBar from './SearchBar';
 
 export {
-    Input,
-    InputGroup,
-    Textarea,
     Spinner,
     Modal,
     Notifications,
@@ -21,8 +17,7 @@ export {
     Tooltip,
     Dropdown,
     Link,
-    SubmitButton,
-    CreateButton,
     ProgressBar,
     Breadcrumb,
+    SearchBar,
 };

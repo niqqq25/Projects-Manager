@@ -1,5 +1,7 @@
 import React from 'react';
-import { Input, SubmitButton, Link } from '../../global';
+import { SubmitButton } from '../../global/buttons';
+import { Input } from '../../global/formElements';
+import Link from '../../global/Link';
 import {
     Form,
     LoginText,

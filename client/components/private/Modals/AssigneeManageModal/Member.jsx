@@ -4,7 +4,7 @@ import {
     MemberInfo,
     MemberUsername,
     MemberFullName,
-} from './styled/Member';
+} from './styles/Member';
 import Avatar from '../../../global/Avatar';
 
 import { connect } from 'react-redux';

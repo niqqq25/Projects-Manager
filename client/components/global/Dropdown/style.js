@@ -11,13 +11,13 @@ const DropdownContent = styled.div`
     display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
     position: absolute;
     right: 0;
-    box-shadow: 0 0.1875rem 0.375rem rgba(33, 37, 41, 0.1);
-    font-size: 0.875rem;
-    padding: 0.5rem;
-    margin-top: 0.25rem;
-    border: 1px solid #dee2e6;
-    border-radius: 0.5rem;
-    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(33, 37, 41, 0.1);
+    font-size: 14px;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid ${({ theme }) => theme.bg.searchBorder};
+    border-radius: 8px;
+    background-color: ${({ theme }) => theme.bg.white};
 `;
 
 export { Dropdown, DropdownContent };

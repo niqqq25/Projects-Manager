@@ -1,6 +1,6 @@
 import React from 'react';
 import { TiPlus } from 'react-icons/ti';
-import { CreateButton } from '../../global';
+import { CreateButton } from '../../global/buttons';
 import { projectCreateButton } from './styles/ProjectCreateButton';
 
 import { useDispatch } from 'react-redux';

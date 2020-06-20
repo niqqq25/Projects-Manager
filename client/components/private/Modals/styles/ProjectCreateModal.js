@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ProjectUpdateModal = styled.div`
+const ProjectCreateModal = styled.div`
     position: relative;
     z-index: 10;
 `;
@@ -10,8 +10,8 @@ const Form = styled.form`
     display: grid;
     grid-row-gap: 20px;
     margin: auto;
-    background-color: white;
-    padding: 40px 60px;
+    background-color: ${({ theme }) => theme.bg.white};
+    padding: 40px 20px;
     border-radius: 10px;
     text-align: center;
     @media (max-width: 500px) {
@@ -25,8 +25,8 @@ const FormTitle = styled.h1`
     margin-bottom: 10px;
 `;
 
-const SubmitButtonWrapper = styled.div`
+const submitButton = styled.div`
     margin-top: 20px;
 `;
 
-export { ProjectUpdateModal, Form, FormTitle, SubmitButtonWrapper };
+export { ProjectCreateModal, Form, FormTitle, submitButton };

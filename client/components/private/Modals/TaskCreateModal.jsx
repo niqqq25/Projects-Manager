@@ -3,9 +3,11 @@ import {
     TaskCreateModal,
     Form,
     FormTitle,
-    SubmitButtonWrapper,
-} from './styled/TaskCreateModal';
-import { SubmitButton, Input, Modal } from '../../global';
+    submitButton,
+} from './styles/TaskCreateModal';
+import { SubmitButton } from '../../global/buttons';
+import { Input, InputGroup, Textarea } from '../../global/formElements';
+import Modal from '../../global/Modal';
 import useForm from '../../../helpers/useForm';
 import { taskCreateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -68,18 +70,21 @@ function _TaskCreateModel({
                         name="title"
                         required
                     />
-                    <Input
-                        value={description.value}
-                        label="Description"
-                        onChange={setValue}
-                        name="description"
-                    />
-                    <SubmitButtonWrapper>
-                        <SubmitButton
-                            value="Create task"
-                            loading={isLoading ? 1 : 0}
+                    <InputGroup value={description.value} label="Description">
+                        <Textarea
+                            defaultValue={description.value}
+                            name="description"
+                            onChange={({ target }) => {
+                                const { name, value } = target;
+                                setValue({ name, value });
+                            }}
                         />
-                    </SubmitButtonWrapper>
+                    </InputGroup>
+                    <SubmitButton
+                        _css={submitButton}
+                        value="Create task"
+                        isLoading={isLoading}
+                    />
                 </Form>
             </Modal>
         </TaskCreateModal>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoIosRemoveCircleOutline } from 'react-icons/io';
-import { MemberRemoveButton } from './styled/MemberRemoveButton';
+import { MemberRemoveButton } from './styles/MemberRemoveButton';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../../redux/private/actions/activeModals';

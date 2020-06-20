@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const OwnerChangeButton = styled.a`
-    color: lightgrey;
+    color: ${({ theme }) => theme.text.lightgrey};
     &:hover {
         color: rgb(206, 170, 87);
         cursor: pointer;

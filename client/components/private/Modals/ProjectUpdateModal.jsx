@@ -3,15 +3,11 @@ import {
     ProjectUpdateModal,
     Form,
     FormTitle,
-    SubmitButtonWrapper,
-} from './styled/ProjectUpdateModal';
-import {
-    SubmitButton,
-    Input,
-    Modal,
-    InputGroup,
-    Textarea,
-} from '../../global';
+    submitButton,
+} from './styles/ProjectUpdateModal';
+import { SubmitButton } from '../../global/buttons';
+import { Input, InputGroup, Textarea } from '../../global/formElements';
+import Modal from '../../global/Modal';
 import useForm from '../../../helpers/useForm';
 import { ProjectUpdateModalValidationSchema } from '../../../helpers/validationSchemas';
 
@@ -86,12 +82,11 @@ function _ProjectUpdateModal({
                             }}
                         />
                     </InputGroup>
-                    <SubmitButtonWrapper>
-                        <SubmitButton
-                            value="Update project"
-                            loading={isLoading ? 1 : 0}
-                        />
-                    </SubmitButtonWrapper>
+                    <SubmitButton
+                        _css={submitButton}
+                        value="Update project"
+                        isLoading={isLoading}
+                    />
                 </Form>
             </Modal>
         </ProjectUpdateModal>

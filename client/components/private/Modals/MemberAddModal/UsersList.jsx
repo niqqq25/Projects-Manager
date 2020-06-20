@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { UsersList, NoMatchingResults } from './styled/UsersList';
+import { UsersList, noMatchingResults } from './styles/UsersList';
 import User from './User';
 import Spinner from '../../../global/Spinner';
+import { EmptyCard } from '../../../global/cards';
 
 import { connect } from 'react-redux';
 import { getUsers } from '../../../../redux/private/actions/memberAddModal';
@@ -36,7 +37,9 @@ function _UsersList({ users = [], getUsers, isLoading, search, projectId }) {
         return <Spinner size="small" />;
     }
     if (!users.length) {
-        return <NoMatchingResults>No matching results</NoMatchingResults>;
+        return (
+            <EmptyCard _css={noMatchingResults}>No matching results</EmptyCard>
+        );
     }
 
     return (

@@ -6,7 +6,9 @@ import {
     submitButton,
     signUpLink,
 } from './styles/LoginForm';
-import { SubmitButton, Input, Link } from '../../global';
+import { SubmitButton } from '../../global/buttons';
+import { Input } from '../../global/formElements';
+import Link from '../../global/Link';
 import useForm from '../../../helpers/useForm';
 import { loginFormValidationSchema } from '../../../helpers/validationSchemas';
 import ROUTES from '../../../constants/routes';

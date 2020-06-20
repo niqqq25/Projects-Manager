@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchBar } from './styled/SearchBar';
+import { SearchBar } from './styles/SearchBar';
 
 const _SearchBar = ({ value, onChange }) => (
     <SearchBar
