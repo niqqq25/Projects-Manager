@@ -28,6 +28,7 @@ function _ProjectCard({ project, history }) {
         <Card
             _css={projectCard}
             onClick={() => history.push(`${ROUTES.PROJECT}/${_id}`)}
+            hoverable
         >
             <ProjectCardContent>
                 <ProjectTitle>{title}</ProjectTitle>

@@ -30,7 +30,7 @@ const TaskTitle = styled.h1`
 
 const TaskDescription = styled.p`
     font-size: 13px;
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
     padding-top: 5px;
     text-overflow: ellipsis;
 `;

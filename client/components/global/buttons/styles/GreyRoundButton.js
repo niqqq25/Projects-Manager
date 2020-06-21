@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { button, linearBackgroundBorder } from './button';
 
 const GreyRoundButton = styled.a`
     ${button}
-    background: ${({ theme }) => theme.color.lightGrey};
+    background: ${({ theme }) => theme.bg.light};
     width: 40px;
     height: 40px;
     border-radius: 50%;

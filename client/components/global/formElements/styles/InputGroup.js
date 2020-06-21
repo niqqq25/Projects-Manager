@@ -11,7 +11,7 @@ const Label = styled.div`
     transition: all 0.2s ease-in;
     transform: translateY(${(props) => (props.labelSliding ? 25 : 0)}px);
     color: ${({ error, theme }) =>
-        error ? theme.warning.default : theme.text.label};
+        error ? theme.warning.default : theme.text.light};
     font-size: 14px;
     padding-left: 5px;
     text-transform: capitalize;
@@ -26,8 +26,8 @@ const InputWrapper = styled.div`
             90deg,
             ${({ theme }) => theme.color.neonPink} 0%,
             ${({ theme }) => theme.color.purple} 50%,
-            ${({ theme }) => theme.text.label} 50%,
-            ${({ theme }) => theme.text.label} 100%
+            ${({ theme }) => theme.text.light} 50%,
+            ${({ theme }) => theme.text.light} 100%
         );
         background-size: 200%;
         background-position: right;

@@ -15,7 +15,7 @@ const DropdownContent = styled.div`
     font-size: 14px;
     padding: 8px;
     margin-top: 4px;
-    border: 1px solid ${({ theme }) => theme.bg.searchBorder};
+    border: 1px solid ${({ theme }) => theme.border.default};
     border-radius: 8px;
     background-color: ${({ theme }) => theme.bg.white};
 `;

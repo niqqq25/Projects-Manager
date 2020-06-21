@@ -24,7 +24,7 @@ const disabledButton = css`
 
 const linearBackgroundWithTransition = css`
     background-image: ${({ theme }) => theme.bg.doubleHorizontalGradient};
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.text.white};
     background-size: 200%;
     background-position: right;
     transition: background-position 0.5s;

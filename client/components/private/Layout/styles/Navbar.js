@@ -52,7 +52,7 @@ const ListItem = styled.li`
 
 const navigationLink = css`
     color: ${({ isActive, theme }) =>
-        isActive ? theme.text.white : theme.text.black};
+        isActive ? theme.text.white : theme.text.primary};
     &:hover {
         color: ${({ theme }) => theme.text.white};
     }

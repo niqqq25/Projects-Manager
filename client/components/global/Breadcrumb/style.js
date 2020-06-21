@@ -8,12 +8,12 @@ const Breadcrumb = styled.ol`
 `;
 
 const BreadcrumbItem = styled.li`
-    color: ${({ theme }) => theme.text.breadcrumb};
+    color: ${({ theme }) => theme.text.alt};
     &:not(:last-child):after {
         content: '›';
         font-size: 21px;
         padding: 0 8px;
-        // color: ${({ theme }) => theme.text.breadcrumb};
+        color: ${({ theme }) => theme.text.alt};
     }
 `;
 

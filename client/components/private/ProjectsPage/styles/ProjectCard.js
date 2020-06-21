@@ -11,7 +11,7 @@ const ProjectTitle = styled.h1`
 const ProjectDescription = styled.p`
     padding-top: 5px;
     font-size: 13px;
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
 `;
 
 const projectCard = css`

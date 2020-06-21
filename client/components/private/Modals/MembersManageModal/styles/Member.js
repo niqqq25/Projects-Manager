@@ -20,7 +20,7 @@ const MemberUsername = styled.h1`
     font-size: 16px;
 `;
 const MemberFullName = styled.p`
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
     font-size: 13px;
 `;
 

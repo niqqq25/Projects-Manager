@@ -11,7 +11,7 @@ const EmptyCard = styled.div`
     align-items: center;
     font-size: 14px;
     font-weight: bold;
-    color: ${({ theme }) => theme.text.label};
+    color: ${({ theme }) => theme.text.light};
 `;
 
 export { EmptyCard };

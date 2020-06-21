@@ -13,7 +13,7 @@ const ProjectTitle = styled.h1`
 
 const ProjectDescription = styled.p`
     font-size: 20px;
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
     margin-bottom: 32px;
     white-space: pre-wrap;
 `;

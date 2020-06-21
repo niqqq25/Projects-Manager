@@ -26,7 +26,7 @@ const CloseButton = styled.a`
     font-size: 24px;
     margin: -20px -10px 0 0;
     &:hover {
-        color: ${({ theme }) => theme.text.primary};
+        color: ${({ theme }) => theme.text.main};
         cursor: pointer;
     }
 `;

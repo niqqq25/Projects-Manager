@@ -16,7 +16,7 @@ const Title = styled.h1`
 `;
 
 const Description = styled.p`
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
     font-size: 30px;
     margin-bottom: 20px;
     @media (max-width: 1000px) {

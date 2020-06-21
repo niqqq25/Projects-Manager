@@ -25,7 +25,7 @@ const NotificationWrapper = styled.div`
 const handleBackgroundColor = (type, theme) => {
     switch (type) {
         case 'success':
-            return theme.bg.success;
+            return theme.success.light;
         case 'error':
             return theme.warning.light;
         default:
@@ -44,18 +44,18 @@ const Notification = styled.div`
 
 const NotificationText = styled.p`
     text-align: center;
-    color: ${({ theme }) => theme.text.default};
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const CloseButton = styled.a`
     position: absolute;
     font-size: 24px;
-    color: ${({ theme }) => theme.text.default};
+    color: ${({ theme }) => theme.text.primary};
     top: 0;
     right: 0;
     padding-right: 7px;
     &:hover {
-        color: ${({ theme }) => theme.text.primary};
+        color: ${({ theme }) => theme.text.main};
         cursor: pointer;
     }
 `;

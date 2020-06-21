@@ -1,7 +1,8 @@
 import React from 'react';
 import useForm from '../../../helpers/useForm';
 import { userEditFormValidationSchema } from '../../../helpers/validationSchemas';
-import { Input, SubmitButton } from '../../global';
+import { Input } from '../../global/formElements';
+import { SubmitButton } from '../../global/buttons';
 import { Form, submitButton } from './styles/UserEditForm';
 import UserDeleteField from './UserDeleteField';
 

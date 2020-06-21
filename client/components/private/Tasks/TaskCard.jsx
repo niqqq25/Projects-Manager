@@ -29,6 +29,7 @@ function _TaskCard({ task, history }) {
         <Card
             _css={taskCard}
             onClick={() => history.push(`${ROUTES.TASK}/${_id}`)}
+            hoverable
         >
             <TaskCardContent>
                 <TaskCardContentLeft>

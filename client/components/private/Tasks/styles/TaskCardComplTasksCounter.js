@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const ComplTasksCounter = styled.div`
     display: flex;
     align-items: center;
-    color: ${({ theme }) => theme.text.second};
+    color: ${({ theme }) => theme.text.alt};
 `;
 
 const ComplTasksCounterText = styled.p`

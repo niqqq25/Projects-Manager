@@ -6,7 +6,7 @@ const Form = styled.form`
     grid-row-gap: 20px;
     margin: auto;
     margin-top: 100px;
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.bg.white};
     padding: 40px 60px;
     border-radius: 10px;
     text-align: center;
@@ -27,7 +27,7 @@ const FormTitle = styled.h1`
 const SignUpText = styled.p`
     text-align: center;
     font-size: 14px;
-    color: ${({ theme }) => theme.text.default};
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const submitButton = css`

@@ -7,10 +7,6 @@ const userInfoCard = css`
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    &:hover {
-        box-shadow: none;
-        cursor: initial;
-    }
     @media (max-width: 700px) {
         margin: 40px 0;
     }
