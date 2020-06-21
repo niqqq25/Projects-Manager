@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal, ModalContent, CloseButton } from './style';
+import { Modal, ModalContent, ModalTitle, CloseButton } from './style';
 
 const noop = () => {};
 
@@ -8,6 +8,10 @@ function _Modal({
     children,
     closingDisabled,
     outsideClosingDisabled,
+    title,
+    _cssOuter,
+    _cssInner,
+    responsive = true,
 }) {
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
@@ -23,8 +27,14 @@ function _Modal({
     return (
         <Modal
             onClick={closingDisabled || outsideClosingDisabled ? noop : onClose}
+            css={_cssOuter}
         >
-            <ModalContent onClick={(event) => event.stopPropagation()}>
+            <ModalContent
+                onClick={(event) => event.stopPropagation()}
+                css={_cssInner}
+                responsive={responsive}
+            >
+                {title && <ModalTitle>{title}</ModalTitle>}
                 <CloseButton onClick={closingDisabled ? noop : onClose}>
                     &times;
                 </CloseButton>

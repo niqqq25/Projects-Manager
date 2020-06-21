@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { UsersList, noMatchingResults } from './styles/UsersList';
+import { UsersList, noMatchingResults, spinner } from './styles/UsersList';
 import User from './User';
 import Spinner from '../../../global/Spinner';
 import { EmptyCard } from '../../../global/cards';
@@ -34,7 +34,7 @@ function _UsersList({ users = [], getUsers, isLoading, search, projectId }) {
     }, []);
 
     if (isLoading || !users) {
-        return <Spinner size="small" />;
+        return <Spinner _css={spinner} size="small" />;
     }
     if (!users.length) {
         return (

@@ -22,10 +22,12 @@ const CardTitle = styled.p`
     margin: 10px 0;
     font-weight: bold;
     font-size: 19px;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const CardText = styled.p`
     font-size: 13px;
+    color: ${({ theme }) => theme.text.alt};
 `;
 
 export { userInfoCard, AvatarBorder, CardTitle, CardText };

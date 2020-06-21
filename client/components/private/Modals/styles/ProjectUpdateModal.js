@@ -1,32 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const ProjectUpdateModal = styled.div`
-    position: relative;
+const modalOuter = css`
     z-index: 10;
 `;
 
 const Form = styled.form`
-    width: 500px;
+    width: 400px;
     display: grid;
     grid-row-gap: 20px;
     margin: auto;
     background-color: ${({ theme }) => theme.bg.white};
-    padding: 40px 60px;
+    padding: 0 10px 20px 10px;
     border-radius: 10px;
     text-align: center;
     @media (max-width: 500px) {
         width: 100%;
-        padding: 40px 20px;
         border-radius: 0px;
     }
 `;
 
-const FormTitle = styled.h1`
-    margin-bottom: 10px;
-`;
-
-const submitButton = styled.div`
+const submitButton = css`
     margin-top: 20px;
 `;
 
-export { ProjectUpdateModal, Form, FormTitle, submitButton };
+export { Form, submitButton, modalOuter };

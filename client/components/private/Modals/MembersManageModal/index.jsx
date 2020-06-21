@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, SearchBar } from '../../../global/Modal';
-import {
-    ModalContent,
-    ModalTitle,
-    searchBar,
-} from './styles/MembersManageModal';
+import { Modal, SearchBar } from '../../../global';
+import { searchBar, modalOuter, modalInner } from './styles/MembersManageModal';
 import MembersList from './MembersList';
 
 import { useDispatch } from 'react-redux';
@@ -16,16 +12,14 @@ function MembersManageModal() {
     const dispatch = useDispatch();
 
     return (
-        <Modal onClose={() => dispatch(closeModal(MODALS.MEMBERS_MANAGE))}>
-            <ModalContent>
-                <ModalTitle>Manage Members</ModalTitle>
-                <SearchBar
-                    _css={searchBar}
-                    value={search}
-                    onChange={setSearch}
-                />
-                <MembersList filter={search} />
-            </ModalContent>
+        <Modal
+            onClose={() => dispatch(closeModal(MODALS.MEMBERS_MANAGE))}
+            title="Manage Members"
+            _cssInner={modalInner}
+            _cssOuter={modalOuter}
+        >
+            <SearchBar _css={searchBar} value={search} onChange={setSearch} />
+            <MembersList filter={search} />
         </Modal>
     );
 }

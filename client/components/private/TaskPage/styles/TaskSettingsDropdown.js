@@ -11,8 +11,16 @@ const DropdownItem = styled.a`
         background-color: ${({ theme }) => theme.bg.hover};
         cursor: pointer;
     }
-    color: ${({ danger, theme }) =>
-        danger ? theme.warning.default : 'default'};
+    color: ${({ danger, success, theme }) => {
+        switch (true) {
+            case danger:
+                return theme.warning.default;
+            case success:
+                return theme.success.default;
+            default:
+                return 'default';
+        }
+    }};
 `;
 
 export { DropdownItem };

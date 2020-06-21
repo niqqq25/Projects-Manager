@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    TaskCreateModal,
-    Form,
-    FormTitle,
-    submitButton,
-} from './styles/TaskCreateModal';
+import { Form, submitButton, modalOuter } from './styles/TaskCreateModal';
 import { SubmitButton } from '../../global/buttons';
 import { Input, InputGroup, Textarea } from '../../global/formElements';
 import Modal from '../../global/Modal';
@@ -58,10 +53,13 @@ function _TaskCreateModel({
     }
 
     return (
-        <TaskCreateModal onSubmit={handleFormSubmit}>
-            <Modal onClose={onClose} closingDisabled={isLoading}>
-                <Form>
-                    <FormTitle>Create task</FormTitle>
+            <Modal
+                onClose={onClose}
+                closingDisabled={isLoading}
+                title="Create a task"
+                _cssOuter={modalOuter}
+            >
+                <Form onSubmit={handleFormSubmit}>
                     <Input
                         value={title.value}
                         label="Title"
@@ -87,7 +85,6 @@ function _TaskCreateModel({
                     />
                 </Form>
             </Modal>
-        </TaskCreateModal>
     );
 }
 

@@ -5,7 +5,10 @@ import UserInfoCard from './UserInfoCard';
 import { ProfilePage } from './styles/ProfilePage';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setProfilePageActive } from '../../../redux/private/actions/navbar';
+import {
+    setProfilePageActive,
+    removeActive,
+} from '../../../redux/private/actions/navbar';
 
 function _ProfilePage() {
     const dispatch = useDispatch();
@@ -13,6 +16,7 @@ function _ProfilePage() {
 
     useEffect(() => {
         dispatch(setProfilePageActive());
+        return () => dispatch(removeActive());
     }, []);
 
     const { avatarUrl, fullName, projects } = currentUser;

@@ -3,9 +3,9 @@ import React from 'react';
 import { TaskInfo, TaskTitle, TaskDescription } from './styles/TaskInfo';
 import TaskAssignee from './TaskAssignee';
 
-const _TaskInfo = ({ title, description, assignee }) => (
+const _TaskInfo = ({ title, description, assignee, isCompleted }) => (
     <TaskInfo>
-        <TaskTitle>{title}</TaskTitle>
+        <TaskTitle completed={isCompleted}>{title}</TaskTitle>
         <TaskDescription>{description}</TaskDescription>
         <TaskAssignee assignee={assignee} />
     </TaskInfo>

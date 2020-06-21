@@ -9,6 +9,9 @@ const TaskTitle = styled.h1`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: ${({ theme }) => theme.text.primary};
+    text-decoration: ${({ completed }) =>
+        completed ? 'line-through' : 'none'};
 `;
 
 const TaskDescription = styled.p`

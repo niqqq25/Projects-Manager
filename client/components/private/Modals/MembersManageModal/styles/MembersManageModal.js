@@ -1,12 +1,10 @@
-import styled, {css} from 'styled-components';
+import { css } from 'styled-components';
 
-const ModalTitle = styled.h1`
-    font-size: 24px;
-    margin-bottom: 24px;
-    text-align: center;
+const modalOuter = css`
+    z-index: 5;
 `;
 
-const ModalContent = styled.div`
+const modalInner = css`
     width: 400px;
 `;
 
@@ -14,4 +12,4 @@ const searchBar = css`
     margin-bottom: 24px;
 `;
 
-export { ModalContent, ModalTitle, searchBar };
+export { searchBar, modalOuter, modalInner };

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MembersList, noMatchingResults } from './styles/MembersList';
+import { MembersList, noMatchingResults, spinner } from './styles/MembersList';
 import Spinner from '../../../global/Spinner';
 import { EmptyCard } from '../../../global/cards';
 import Member from './Member';
@@ -34,7 +34,7 @@ function _MembersList({
     }, []);
 
     if (isLoading || !members) {
-        return <Spinner size="small" />;
+        return <Spinner size="small" _css={spinner} />;
     }
 
     const filteredMembers = filterMembers(members, filter, assignee);

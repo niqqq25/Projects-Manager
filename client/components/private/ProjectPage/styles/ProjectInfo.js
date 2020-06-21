@@ -9,6 +9,7 @@ const ProjectTitle = styled.h1`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const ProjectDescription = styled.p`

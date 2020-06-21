@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, SearchBar } from '../../../global';
 import {
-    ModalContent,
-    ModalTitle,
     searchBar,
+    modalOuter,
+    modalInner,
 } from './styles/AssigneeManageModal';
 import MembersList from './MembersList';
 
@@ -21,16 +21,14 @@ function MembersManageModal() {
     }, []);
 
     return (
-        <Modal onClose={() => dispatch(closeModal(MODALS.ASSIGNEE_MANAGE))}>
-            <ModalContent>
-                <ModalTitle>Manage Members</ModalTitle>
-                <SearchBar
-                    _css={searchBar}
-                    value={search}
-                    onChange={setSearch}
-                />
-                <MembersList filter={search} />
-            </ModalContent>
+        <Modal
+            onClose={() => dispatch(closeModal(MODALS.ASSIGNEE_MANAGE))}
+            title="Manage Assignee"
+            _cssOuter={modalOuter}
+            _cssInner={modalInner}
+        >
+            <SearchBar _css={searchBar} value={search} onChange={setSearch} />
+            <MembersList filter={search} />
         </Modal>
     );
 }

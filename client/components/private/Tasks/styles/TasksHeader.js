@@ -6,6 +6,8 @@ const TasksHeader = styled.div`
     margin-bottom: 30px;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+    color: ${({ theme }) => theme.text.primary};
+`;
 
 export { TasksHeader, Title };

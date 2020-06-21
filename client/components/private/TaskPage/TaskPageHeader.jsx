@@ -4,10 +4,10 @@ import { TaskPageHeader } from './styles/TaskPageHeader';
 import TaskPageBreadcrumb from './TaskPageBreadcrumb';
 import TaskSettingsDropdown from './TaskSettingsDropdown';
 
-const _TaskPageHeader = ({ project, parentTask }) => (
+const _TaskPageHeader = ({ project, parentTask, isCompleted, taskId }) => (
     <TaskPageHeader>
         <TaskPageBreadcrumb project={project} parentTask={parentTask} />
-        <TaskSettingsDropdown />
+        <TaskSettingsDropdown isCompleted={isCompleted} taskId={taskId} />
     </TaskPageHeader>
 );
 

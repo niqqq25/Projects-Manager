@@ -9,6 +9,7 @@ const TeamTitle = styled.h2`
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const TeamAvatars = styled.div`

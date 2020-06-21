@@ -12,6 +12,7 @@ import {
     getCurrentProject,
     clearCurrentProject,
 } from '../../../redux/private/actions/currentProject';
+import { removeActive } from '../../../redux/private/actions/navbar';
 import CURRENT_PROJECT from '../../../redux/private/constants/currentProject';
 
 function _ProjectPage({

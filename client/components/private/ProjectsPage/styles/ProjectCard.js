@@ -6,6 +6,7 @@ const ProjectCardContent = styled.div`
 
 const ProjectTitle = styled.h1`
     font-size: 15px;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const ProjectDescription = styled.p`

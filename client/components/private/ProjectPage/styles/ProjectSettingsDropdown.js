@@ -11,7 +11,8 @@ const DropdownItem = styled.a`
         background-color: ${({ theme }) => theme.bg.hover};
         cursor: pointer;
     }
-    color: ${({ danger, theme }) => (danger ? theme.warning.default : 'default')};
+    color: ${({ danger, theme }) =>
+        danger ? theme.warning.default : theme.text.primary};
 `;
 
 export { DropdownItem };

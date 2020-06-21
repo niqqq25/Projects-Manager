@@ -16,4 +16,8 @@ const noMatchingResults = css`
     background: ${({ theme }) => theme.bg.hover};
 `;
 
-export { UsersList, noMatchingResults };
+const spinner = css`
+    height: 100px;
+`;
+
+export { UsersList, noMatchingResults, spinner };

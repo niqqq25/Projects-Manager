@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    ProjectCreateModal,
-    Form,
-    FormTitle,
-    submitButton,
-} from './styles/ProjectCreateModal';
+import { Form, submitButton, modalOuter } from './styles/ProjectCreateModal';
 import { SubmitButton } from '../../global/buttons';
 import { Input, InputGroup, Textarea } from '../../global/formElements';
 import Modal from '../../global/Modal';
@@ -33,36 +28,38 @@ function _ProjectCreateModel({ onClose, isLoading, createProject }) {
     }
 
     return (
-        <ProjectCreateModal onSubmit={handleFormSubmit}>
-            <Modal onClose={onClose} closingDisabled={isLoading}>
-                <Form>
-                    <FormTitle>Create a project</FormTitle>
-                    <Input
-                        value={title.value}
-                        label="Title"
-                        error={title.error}
-                        onChange={setValue}
-                        name="title"
-                        required
+        <Modal
+            onClose={onClose}
+            closingDisabled={isLoading}
+            title="Create a project"
+            _cssOuter={modalOuter}
+        >
+            <Form onSubmit={handleFormSubmit}>
+                <Input
+                    value={title.value}
+                    label="Title"
+                    error={title.error}
+                    onChange={setValue}
+                    name="title"
+                    required
+                />
+                <InputGroup value={description.value} label="Description">
+                    <Textarea
+                        defaultValue={description.value}
+                        name="description"
+                        onChange={({ target }) => {
+                            const { name, value } = target;
+                            setValue({ name, value });
+                        }}
                     />
-                    <InputGroup value={description.value} label="Description">
-                        <Textarea
-                            defaultValue={description.value}
-                            name="description"
-                            onChange={({ target }) => {
-                                const { name, value } = target;
-                                setValue({ name, value });
-                            }}
-                        />
-                    </InputGroup>
-                    <SubmitButton
-                        _css={submitButton}
-                        value="Create project"
-                        isLoading={isLoading}
-                    />
-                </Form>
-            </Modal>
-        </ProjectCreateModal>
+                </InputGroup>
+                <SubmitButton
+                    _css={submitButton}
+                    value="Create project"
+                    isLoading={isLoading}
+                />
+            </Form>
+        </Modal>
     );
 }
 

@@ -28,6 +28,7 @@ function Layout(props) {
 
     return (
         <ThemeProvider theme={theme}>
+            <GlobalStyle />
             {!isCurrentUserFetching && currentUser ? (
                 <>
                     <Navbar
@@ -36,7 +37,6 @@ function Layout(props) {
                         logoutUser={logoutUser}
                     />
                     {children}
-                    <GlobalStyle />
                     <Notifications />
                     <Modals />
                 </>

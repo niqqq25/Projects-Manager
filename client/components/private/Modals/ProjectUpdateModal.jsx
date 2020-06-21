@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-    ProjectUpdateModal,
-    Form,
-    FormTitle,
-    submitButton,
-} from './styles/ProjectUpdateModal';
+import { Form, submitButton, modalOuter } from './styles/ProjectUpdateModal';
 import { SubmitButton } from '../../global/buttons';
 import { Input, InputGroup, Textarea } from '../../global/formElements';
 import Modal from '../../global/Modal';
 import useForm from '../../../helpers/useForm';
-import { ProjectUpdateModalValidationSchema } from '../../../helpers/validationSchemas';
+import { projectUpdateModalValidationSchema } from '../../../helpers/validationSchemas';
 
 import { connect } from 'react-redux';
 import { closeModal } from '../../../redux/private/actions/activeModals';
@@ -31,7 +26,7 @@ function _ProjectUpdateModal({
 }) {
     const [inputs, { setValue, validateInputs }] = useForm(
         { title: project.title, description: project.description },
-        ProjectUpdateModalValidationSchema
+        projectUpdateModalValidationSchema
     );
     const { title, description } = inputs;
 
@@ -60,36 +55,38 @@ function _ProjectUpdateModal({
     }
 
     return (
-        <ProjectUpdateModal onSubmit={handleFormSubmit}>
-            <Modal onClose={closeModal} closingDisabled={isLoading}>
-                <Form>
-                    <FormTitle>Update project</FormTitle>
-                    <Input
-                        value={title.value}
-                        label="Title"
-                        error={title.error}
-                        onChange={setValue}
-                        name="title"
-                        required
+        <Modal
+            onClose={closeModal}
+            closingDisabled={isLoading}
+            title="Update the project"
+            _cssOuter={modalOuter}
+        >
+            <Form onSubmit={handleFormSubmit}>
+                <Input
+                    value={title.value}
+                    label="Title"
+                    error={title.error}
+                    onChange={setValue}
+                    name="title"
+                    required
+                />
+                <InputGroup value={description.value} label="Description">
+                    <Textarea
+                        defaultValue={description.value}
+                        name="description"
+                        onChange={({ target }) => {
+                            const { name, value } = target;
+                            setValue({ name, value });
+                        }}
                     />
-                    <InputGroup value={description.value} label="Description">
-                        <Textarea
-                            defaultValue={description.value}
-                            name="description"
-                            onChange={({ target }) => {
-                                const { name, value } = target;
-                                setValue({ name, value });
-                            }}
-                        />
-                    </InputGroup>
-                    <SubmitButton
-                        _css={submitButton}
-                        value="Update project"
-                        isLoading={isLoading}
-                    />
-                </Form>
-            </Modal>
-        </ProjectUpdateModal>
+                </InputGroup>
+                <SubmitButton
+                    _css={submitButton}
+                    value="Update project"
+                    isLoading={isLoading}
+                />
+            </Form>
+        </Modal>
     );
 }
 

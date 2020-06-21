@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    TaskUpdateModal,
-    Form,
-    FormTitle,
-    submitButton,
-} from './styles/TaskUpdateModal';
+import { Form, submitButton, modalOuter } from './styles/TaskUpdateModal';
 import { SubmitButton } from '../../global/buttons';
 import { Input, InputGroup, Textarea } from '../../global/formElements';
 import Modal from '../../global/Modal';
@@ -44,36 +39,38 @@ function _TaskUpdateModal({ closeModal, updateTask, isLoading, task }) {
     }
 
     return (
-        <TaskUpdateModal onSubmit={handleFormSubmit}>
-            <Modal onClose={closeModal} closingDisabled={isLoading}>
-                <Form>
-                    <FormTitle>Update task</FormTitle>
-                    <Input
-                        value={title.value}
-                        label="Title"
-                        error={title.error}
-                        onChange={setValue}
-                        name="title"
-                        required
+        <Modal
+            onClose={closeModal}
+            closingDisabled={isLoading}
+            title="Update the task"
+            _cssOuter={modalOuter}
+        >
+            <Form onSubmit={handleFormSubmit}>
+                <Input
+                    value={title.value}
+                    label="Title"
+                    error={title.error}
+                    onChange={setValue}
+                    name="title"
+                    required
+                />
+                <InputGroup value={description.value} label="Description">
+                    <Textarea
+                        defaultValue={description.value}
+                        name="description"
+                        onChange={({ target }) => {
+                            const { name, value } = target;
+                            setValue({ name, value });
+                        }}
                     />
-                    <InputGroup value={description.value} label="Description">
-                        <Textarea
-                            defaultValue={description.value}
-                            name="description"
-                            onChange={({ target }) => {
-                                const { name, value } = target;
-                                setValue({ name, value });
-                            }}
-                        />
-                    </InputGroup>
-                    <SubmitButton
-                        _css={submitButton}
-                        value="Update task"
-                        isLoading={isLoading}
-                    />
-                </Form>
-            </Modal>
-        </TaskUpdateModal>
+                </InputGroup>
+                <SubmitButton
+                    _css={submitButton}
+                    value="Update task"
+                    isLoading={isLoading}
+                />
+            </Form>
+        </Modal>
     );
 }
 

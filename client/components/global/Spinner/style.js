@@ -8,7 +8,7 @@ const spinning = keyframes`
 
 const SpinnerWrapper = styled.div`
     display: flex;
-    height: 100%;
+    height: -webkit-fill-available;
     justify-content: center;
     align-items: center;
 `;
@@ -19,7 +19,7 @@ const getSpinnerSizeInPx = (size) => {
             return 30;
         case 'normal':
         default:
-            return 50;
+            return 40;
     }
 };
 
@@ -30,6 +30,7 @@ const Spinner = styled.div`
     border: 3px solid ${({ theme }) => theme.text.main};
     border-top-color: transparent;
     border-radius: 50%;
+    opacity: 0.7;
     animation: ${css`
             ${spinning}`} linear infinite 1s;
 `;

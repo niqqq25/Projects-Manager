@@ -18,7 +18,7 @@ import ROUTES from '../../../constants/routes';
 const MAX_DESCRIPTION_LENGTH = 120;
 
 function _TaskCard({ task, history }) {
-    const { title, description, tasks = [], assignee, _id } = task;
+    const { title, description, tasks = [], assignee, _id, isCompleted } = task;
     const tasksCount = tasks.length;
     const completedTasksCount = tasks.reduce(
         (acc, { isCompleted }) => acc + (isCompleted ? 1 : 0),
@@ -33,7 +33,7 @@ function _TaskCard({ task, history }) {
         >
             <TaskCardContent>
                 <TaskCardContentLeft>
-                    <TaskTitle>{title}</TaskTitle>
+                    <TaskTitle completed={isCompleted}>{title}</TaskTitle>
                     <TaskDescription>
                         {ellipseText(description, MAX_DESCRIPTION_LENGTH)}
                     </TaskDescription>

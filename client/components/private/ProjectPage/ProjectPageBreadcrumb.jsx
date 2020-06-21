@@ -6,8 +6,8 @@ import { Link, Breadcrumb } from '../../global';
 
 const _ProjectPageBreadcrumb = ({ history }) => (
     <Breadcrumb>
-        <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>,
-        <>Project</>,
+        <Link onClick={() => history.push(ROUTES.PROJECTS)}>Home</Link>
+        <>Project</>
     </Breadcrumb>
 );
 

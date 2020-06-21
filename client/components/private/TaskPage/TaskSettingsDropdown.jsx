@@ -6,11 +6,11 @@ import Dropdown from '../../global/Dropdown';
 
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../redux/private/actions/activeModals';
+import { updateCurrentTask } from '../../../redux/private/actions/currentTask';
 import MODALS from '../../../redux/private/constants/modals';
 
-function _TaskSettingsDropdown() {
+function _TaskSettingsDropdown({ isCompleted, taskId }) {
     const dispatch = useDispatch();
-
     return (
         <Dropdown
             toggle={
@@ -26,6 +26,20 @@ function _TaskSettingsDropdown() {
                         }
                     >
                         Update Task
+                    </DropdownItem>
+                    <DropdownItem
+                        success={!isCompleted}
+                        danger={isCompleted}
+                        onMouseDown={() =>
+                            dispatch(
+                                updateCurrentTask({
+                                    taskId,
+                                    updates: { isCompleted: !isCompleted },
+                                })
+                            )
+                        }
+                    >
+                        {isCompleted ? 'Undo task' : 'Complete task'}
                     </DropdownItem>
                     <DropdownItem
                         danger

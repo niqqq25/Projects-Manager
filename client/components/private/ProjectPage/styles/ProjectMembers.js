@@ -6,6 +6,7 @@ const Members = styled.div`
 
 const MembersTitle = styled.h2`
     margin-bottom: 8px;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 const MembersAvatars = styled.div`

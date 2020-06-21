@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const ConfirmationModal = styled.div`
-    position: relative;
+const modalOuter = css`
     z-index: 999;
 `;
 
-const ModalInner = styled.div`
+const modalInner = css`
     text-align: center;
-    width: 300px;
+    margin: auto;
+    width: 350px;
 `;
 
 const ModalTitle = styled.h1`
@@ -39,10 +39,10 @@ const SpinnerWrapper = styled.div`
 `;
 
 export {
-    ConfirmationModal,
-    ModalInner,
     ModalTitle,
     ModalDescription,
     ModalButtonsWrapper,
     SpinnerWrapper,
+    modalOuter,
+    modalInner,
 };

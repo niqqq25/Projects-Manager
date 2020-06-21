@@ -37,16 +37,23 @@ function _TaskPage({ isLoading, currentTask, getTask, clearTask, match }) {
         description,
         assignee,
         parentTask,
+        isCompleted,
     } = task;
 
     return (
         <TaskPage>
-            <TaskPageHeader parentTask={parentTask} project={project} />
+            <TaskPageHeader
+                parentTask={parentTask}
+                project={project}
+                isCompleted={isCompleted}
+                taskId={_id}
+            />
             <TaskContent>
                 <TaskInfo
                     title={title}
                     description={description}
                     assignee={assignee}
+                    isCompleted={isCompleted}
                 />
                 <Tasks tasks={tasks} parentTask={_id} projectId={project._id} />
             </TaskContent>

@@ -9,6 +9,7 @@ const ProjectsPageHeader = styled.div`
 
 const Title = styled.h2`
     font-size: 30px;
+    color: ${({ theme }) => theme.text.primary};
 `;
 
 export { ProjectsPageHeader, Title };
