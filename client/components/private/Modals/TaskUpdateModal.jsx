@@ -21,6 +21,13 @@ function _TaskUpdateModal({ closeModal, updateTask, isLoading, task }) {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
+        if (
+            title.value === task.title &&
+            description.value === task.description
+        ) {
+            return;
+        }
+
         const isValid = await validateInputs();
         if (isValid) {
             handleTaskUpdate();

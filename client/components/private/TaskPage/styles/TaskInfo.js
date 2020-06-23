@@ -6,9 +6,7 @@ const TaskInfo = styled.div`
 
 const TaskTitle = styled.h1`
     margin-bottom: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: pre-wrap;
     color: ${({ theme }) => theme.text.primary};
     text-decoration: ${({ completed }) =>
         completed ? 'line-through' : 'none'};

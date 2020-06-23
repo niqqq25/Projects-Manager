@@ -33,6 +33,13 @@ function _ProjectUpdateModal({
     async function handleFormSubmit(e) {
         e.preventDefault();
 
+        if (
+            title.value === project.title &&
+            description.value === project.description
+        ) {
+            return;
+        }
+
         const isValid = await validateInputs();
         if (isValid) {
             handleProjectUpdate();

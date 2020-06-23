@@ -9,10 +9,13 @@ const populateQuery = [
     {
         path: 'tasks',
         select: 'title description assignee isCompleted',
-        populate: {
-            path: 'assignee',
-            select: 'username avatarUrl',
-        },
+        populate: [
+            {
+                path: 'assignee',
+                select: 'username avatarUrl',
+            },
+            { path: 'tasks', select: 'isCompleted' },
+        ],
     },
     {
         path: 'parentTask',

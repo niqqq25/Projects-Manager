@@ -1,10 +1,10 @@
 import { User, Project, Task } from '../models';
 import { ErrorHandler } from '../middleware/errorMiddleware';
 
-const taskPopulateQuery = {
-    path: 'assignee',
-    select: 'username',
-};
+const taskPopulateQuery = [
+    { path: 'assignee', select: 'username avatarUrl' },
+    { path: 'tasks', select: 'isCompleted' },
+];
 
 const projectPopulateQuery = [
     { path: 'members', select: 'username avatarUrl fullName' },

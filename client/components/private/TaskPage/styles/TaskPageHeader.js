@@ -5,7 +5,6 @@ const TaskPageHeader = styled.div`
     width: 100%;
     padding: 10px 0;
     justify-content: space-between;
-    align-items: center;
 `;
 
 export { TaskPageHeader };

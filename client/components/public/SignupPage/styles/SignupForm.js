@@ -2,9 +2,11 @@ import styled, { css } from 'styled-components';
 
 const Form = styled.form`
     width: 500px;
-    display: grid;
+    display: inline-grid;
+    position: absolute;
+    right: 50%;
+    transform: translate(50%);
     grid-row-gap: 20px;
-    margin: auto;
     margin-top: 100px;
     background-color: ${({ theme }) => theme.bg.white};
     padding: 40px 60px;

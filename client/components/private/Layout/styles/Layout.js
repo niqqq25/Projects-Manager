@@ -10,9 +10,14 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
-    #root, body, html {
+    body, html {
         width: 100%;
         height: 100%;
+    }
+
+    #root {
+        width: 100%;
+        min-height: 100%;
     }
 
     input, textarea, button {

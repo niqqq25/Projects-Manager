@@ -25,6 +25,10 @@ function UserEditForm({ isUpdating, currentUser, updateUser }) {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
+        if (fullName.value === currentUser.fullName) {
+            return;
+        }
+
         const isValid = await validateInputs();
         if (isValid) {
             updateUser(password.value, fullName.value);
